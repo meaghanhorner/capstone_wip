@@ -26,7 +26,7 @@ async function loadSections(mdPath) {
 }
 
 async function renderSteps() {
-  const sections = await loadSections("/media/text/content.md");
+  const sections = await loadSections("media/text/content.md");
 
   document.querySelectorAll(".step[data-section]").forEach((el) => {
     const key = el.dataset.section;
