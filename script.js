@@ -511,9 +511,9 @@ function createLegend({ container, title, colors, thresholds, unit = "ft" }) {
 }
 
 Promise.all([
-  fetch("/data/manhattan_ntas.geojson").then((r) => r.json()), // shapes — swap in your real filename
-  fetch("/data/block_stats.json").then((r) => r.json()),             // the array you just showed — swap in your real filename
-  fetch("/data/manhattan_segments.geojson").then((r) => r.json()),      // streets
+  fetch("data/manhattan_ntas.geojson").then((r) => r.json()), // shapes — swap in your real filename
+  fetch("data/block_stats.json").then((r) => r.json()),             // the array you just showed — swap in your real filename
+  fetch("data/manhattan_segments.geojson").then((r) => r.json()),      // streets
 ]).then(([neighborhoods, medianData, segments]) => {
 
   // build a lookup: neighborhood name -> stats object
@@ -637,10 +637,6 @@ Promise.all([
     thresholds: thresholds,
   });
 });
-
-// CHART A NEEDS A LEGEND
-
-
 
   // END CHART A
 
