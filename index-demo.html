@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Death and Life of Greenwich Village — Charts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Libre+Franklin:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<style>
+  :root{
+    --cream:#f3f3e7; --pale-green:#d4dfa8; --bright-green:#a8c169;
+    --coral:#f27966; --mustard:#e0a638; --ink:#33302a;
+  }
+  * { box-sizing: border-box; }
+  body{
+    margin:0; background:var(--cream); color:var(--ink);
+    font-family:'Libre Franklin', sans-serif; padding:28px 20px 60px;
+  }
+  .wrap{ max-width:900px; margin:0 auto 60px; }
+  .hdc-title{ font-family:'Libre Baskerville', serif; font-weight:700; font-size:1.4rem; margin:0 0 2px; }
+  .hdc-subtitle{ font-family:'Special Elite', monospace; font-size:0.85rem; opacity:0.75; margin:0 0 16px; }
+  .hdc-legend{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:6px; }
+  .hdc-legend-btn{
+    font-family:'Special Elite', monospace; font-size:0.8rem;
+    border:1.5px solid var(--ink); background:var(--cream);
+    padding:6px 12px; border-radius:3px; cursor:pointer;
+    display:flex; align-items:center; gap:6px; transition:opacity .15s ease;
+  }
+  .hdc-legend-btn.off{ opacity:0.35; }
+  .hdc-swatch{ width:12px; height:12px; border-radius:50%; display:inline-block; }
+  .hdc-hint{ font-family:'Special Elite', monospace; font-size:0.75rem; opacity:0.6; margin:6px 0 12px; }
+  .hdc-main, .hdc-brush{ overflow: visible; display:block; }
+  .hdc-axis text{ font-family:'Special Elite', monospace; font-size:11px; fill:var(--ink); }
+  .hdc-axis path, .hdc-axis line{ stroke:var(--ink); stroke-opacity:0.4; }
+  .hdc-brush-g .selection{ fill:var(--mustard); fill-opacity:0.15; stroke:var(--ink); stroke-dasharray:2,2; }
+  .hdc-tile-label{ font-family:'Special Elite', monospace; font-size:11px; fill:var(--cream); pointer-events:none; }
+  .hdc-grid{ margin: 0 auto 60px; max-width:900px; }
+  .hdc-grid-panel .hdc-title{ font-size:0.95rem; }
+  hr{ border:none; border-top:1px dashed var(--ink); opacity:0.3; margin:40px auto; max-width:900px; }
+</style>
+</head>
+<body>
+
+<!--
+  index.html only ever needs to know one thing: the empty container to
+  hand off to the JS. No per-chart ids, data, or types written by hand.
+-->
+<div id="charts-container"></div>
+
+<!-- 1. D3                                                     -->
+<!-- 2. the shared "hand-drawn" toolkit                        -->
+<script src="ink.js"></script>
+<!-- 3. one factory per chart TYPE — add more files here as needed -->
+<script src="chart-line.js"></script>
+<script src="chart-treemap.js"></script>
+<script src="chart-map.js"></script>
+<script src="chart-small-multiples.js"></script>
+<!-- 4. every chart's data + which factory draws it            -->
+<script src="charts-data.js"></script>
+<!-- 5. the loop that actually builds each chart                -->
+<script>
+  const root = d3.select("#charts-container");
+
+  CHART_CONFIGS.forEach((config, i) => {
+    const containerId = config.container.replace("#", "");
+    root.append("div").attr("id", containerId).attr("class", "wrap");
+
+    // Dispatch: whatever factory this config names is what draws it.
+    // index.html never branches on "type" — the config just IS the call.
+    config.factory(config);
+
+    if (i < CHART_CONFIGS.length - 1) root.append("hr");
+  });
+</script>
+
+</body>
+</html>

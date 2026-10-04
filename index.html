@@ -1,0 +1,121 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Death and Life of Greenwich Village</title>
+
+<!--css-->
+<link rel="stylesheet" href="style.css" />
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Special+Elite&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Libre+Franklin:ital,wght@0,100..900;1,100..900&family=Reenie+Beanie&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<section class="narration-no-image">
+        <!-- Narrative step cards driving the scroll animations -->
+        <div class="narrative-steps">
+            <article class="step" data-section="Section 1">
+                <p>First narrative step details...</p>
+            </article>
+            </div>
+                <div class = "svg-stage">
+                <img id = "frame-1" class = "frame active" src = "/media/images/logo-v01.png"></img></div>
+                </div>
+        </section>
+        <section class = "writing-left-image-right">
+            <article class="step" data-section="Section 3">
+                <p>Third narrative step details...</p>
+                </article>
+                <div class = "svg-stage">
+                    <img id ="frame-1" class="frame active" src="/media/images/placeholder1.svg"></img>
+                </div>
+            
+            </section>
+            <section class = "narration-no-image">
+            <article class="step" data-section="Section 4">
+                <p>Third narrative step details...</p>
+            </article>
+            <article class="step" data-section="Section 5">
+                <p>Third narrative step details...</p>
+            </article>
+            </section>
+            <section class = "writing-left-image-right-largeimage">
+            <article class="step" data-section="Short Blocks">
+                <p>Third narrative step details...</p>
+                </article><div id = "map-a"></div>
+            </section>
+            <section class = "narration-no-image">
+            <article class="step" data-section="A Mixture of Old and New Buildings">
+                <p>Third narrative step details...</p>
+            </article>
+            </section><section class = "writing-left-image-right">
+            <article class="step" data-section="A Dense Concentration of People, Including residents">
+                <p>Third narrative step details...</p>
+            </article>
+            </section>
+            <section class = "narration-no-image">
+            <article class="step" data-section="Section 7">
+                <p>Third narrative step details...</p>
+            </article>
+             
+        </div>
+        </section>
+    </section>
+
+
+    <section class="scrolly-section grid-container">
+        <!-- Visual graphic layer pinned during scroll -->
+        <div class="graphic-stage"><div id ="chart-rents-over-time"></div>
+                <!-- Visual element (SVG, canvas, or DOM nodes) -->
+        </div>
+
+        <!-- Narrative step cards driving the scroll animations -->
+        <div class="narrative-steps">
+            <article class="step" data-section="Section 1">
+                <p>First narrative step details...</p>
+            </article>
+            <article class="step" data-section="Section 2">
+                <p>Second narrative step details...</p>
+            </article>
+            <article class="step" data-section="Section 3">
+                <p>Third narrative step details...</p>
+            </article>
+            <article class="step" data-section="Section 4">
+                <p>Third narrative step details...</p>
+            </article>
+            <article class="step" data-section="Section 5">
+                <p>Third narrative step details...</p>
+            </article>
+            <article class="step" data-section="Short Blocks">
+                <p>Third narrative step details...</p>
+                
+            </article>
+            
+            <article class="step" data-section="A Mixture of Old and New Buildings">
+                <p>Third narrative step details...</p>
+            </article>
+            <article class="step" data-section="Section 6">
+                <p>Third narrative step details...</p>
+            </article>
+            <article class="step" data-section="Section 7">
+                <p>Third narrative step details...</p>
+            </article>
+             
+        </div>
+        </section>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+    <script src="ink.js"></script>
+    <script src="chart-line.js"></script>
+    <script src="chart-treemap.js"></script>
+    <script src="chart-map.js"></script>          <!-- ← is this line missing or out of order? -->
+    <script src="chart-small-multiples.js"></script>
+    <script src="charts-data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

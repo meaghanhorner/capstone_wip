@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Storefront Turnover — Hand-Inked D3 Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Libre+Franklin:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<style>
+  :root{
+    --cream:#f3f3e7;
+    --pale-green:#d4dfa8;
+    --bright-green:#a8c169;
+    --coral:#f27966;
+    --mustard:#e0a638;
+    --ink:#33302a;
+  }
+  * { box-sizing: border-box; }
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Libre Franklin', sans-serif;
+    padding:28px 20px 40px;
+  }
+  .wrap{ max-width:900px; margin:0 auto; }
+  h1{
+    font-family:'Libre Baskerville', serif;
+    font-weight:700;
+    font-size:1.5rem;
+    margin:0 0 2px;
+  }
+  .sub{
+    font-family:'Special Elite', monospace;
+    font-size:0.85rem;
+    color:var(--ink);
+    opacity:0.75;
+    margin:0 0 18px;
+  }
+  .note{
+    font-size:0.85rem;
+    line-height:1.5;
+    max-width:640px;
+    margin:16px 0 0;
+    color:var(--ink);
+    opacity:0.85;
+  }
+  .legend{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:6px;
+  }
+  .legend button{
+    font-family:'Special Elite', monospace;
+    font-size:0.8rem;
+    border:1.5px solid var(--ink);
+    background:var(--cream);
+    padding:6px 12px;
+    border-radius:3px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    opacity:1;
+    transition:opacity 0.15s ease;
+  }
+  .legend button.off{ opacity:0.35; }
+  .legend .swatch{
+    width:12px; height:12px; border-radius:50%; display:inline-block;
+  }
+  .hint{
+    font-family:'Special Elite', monospace;
+    font-size:0.75rem;
+    opacity:0.6;
+    margin:6px 0 12px;
+  }
+  svg{ overflow: visible; }
+  .axis text{
+    font-family:'Special Elite', monospace;
+    font-size:11px;
+    fill:var(--ink);
+  }
+  .axis path, .axis line{
+    stroke:var(--ink);
+    stroke-opacity:0.4;
+  }
+  .brush .selection{
+    fill: var(--mustard);
+    fill-opacity:0.15;
+    stroke: var(--ink);
+    stroke-dasharray:2,2;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Storefront Category Counts, 1950–2020</h1>
+  <p class="sub">// illustrative capstone demo — real D3 scales & interaction, hand-inked render layer</p>
+
+  <div class="legend" id="legend"></div>
+  <div class="hint">click a legend dot to toggle a category · drag on the timeline below to zoom the years above</div>
+
+  <svg id="chart" width="860" height="380"></svg>
+  <svg id="brush" width="860" height="70"></svg>
+
+  <p class="note">
+    <strong>How this works:</strong> the lines and axes are driven entirely by D3 scales, exactly like a normal
+    interactive chart — the brush below re-filters the domain, and the legend toggles series in/out, both of
+    which recompute real scales. What makes it read as hand-inked is the render layer: each point gets a small
+    per-point offset seeded from its own index (not re-randomized on every redraw, so it doesn't flicker while
+    you interact), the path is drawn with a slightly wavering line generator instead of d3.curveLinear, and an
+    SVG <code>feTurbulence</code> + <code>feDisplacementMap</code> filter roughs up the stroke edge. No rough.js —
+    just a custom line generator and a filter, which keeps you in full control of exactly how "sketchy" it looks.
+  </p>
+</div>
+
+<svg width="0" height="0">
+  <defs>
+    <filter id="inkwobble" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.06" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3.2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="inkwobbleBold" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02 0.09" numOctaves="2" seed="3" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="4.5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+<script>
+// ---------- fake but plausible data ----------
+const categories = [
+  { key: "restaurants", label: "Restaurants & Bars", color: "#f27966" },
+  { key: "retail",      label: "Independent Retail", color: "#e0a638" },
+  { key: "chains",      label: "Chain Storefronts",  color: "#33302a" },
+  { key: "vacant",      label: "Vacant",             color: "#a8c169" }
+];
+
+function seededNoise(i, salt){
+  // deterministic pseudo-random in [-1,1], stable across redraws
+  const x = Math.sin(i * 12.9898 + salt * 78.233) * 43758.5453;
+  return (x - Math.floor(x)) * 2 - 1;
+}
+
+const years = d3.range(1950, 2021, 5);
+const rawData = categories.map((c, ci) => ({
+  ...c,
+  values: years.map((y, i) => {
+    const base = { restaurants:8, retail:22, chains:2, vacant:3 }[c.key];
+    const trend = { restaurants:0.35, retail:-0.28, chains:0.45, vacant:0.12 }[c.key];
+    const wobble = Math.sin(i*0.7 + ci) * 2.2;
+    return { year:y, value: Math.max(0, base + trend*i + wobble) };
+  })
+}));
+
+let activeKeys = new Set(categories.map(c=>c.key));
+
+// ---------- legend ----------
+const legend = d3.select("#legend");
+legend.selectAll("button")
+  .data(categories)
+  .join("button")
+  .html(d => `<span class="swatch" style="background:${d.color}"></span>${d.label}`)
+  .on("click", function(event, d){
+    if(activeKeys.has(d.key) && activeKeys.size === 1) return; // keep at least one on
+    activeKeys.has(d.key) ? activeKeys.delete(d.key) : activeKeys.add(d.key);
+    d3.select(this).classed("off", !activeKeys.has(d.key));
+    draw(currentDomain);
+  });
+
+// ---------- main chart ----------
+const margin = {top:20, right:24, bottom:30, left:40};
+const width = 860 - margin.left - margin.right;
+const height = 380 - margin.top - margin.bottom;
+
+const svg = d3.select("#chart");
+const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+const x = d3.scaleLinear().range([0, width]);
+const y = d3.scaleLinear().range([height, 0]);
+
+const gx = g.append("g").attr("class","axis").attr("transform", `translate(0,${height})`);
+const gy = g.append("g").attr("class","axis");
+
+const linesLayer = g.append("g");
+
+// hand-wavered line generator: interpolates then nudges each sample point
+function handLine(xScale, yScale, seedSalt){
+  return (values) => {
+    const pts = values.map((v,i) => {
+      const jitterY = seededNoise(i, seedSalt) * 3.5;
+      const jitterX = seededNoise(i, seedSalt+50) * 1.5;
+      return [xScale(v.year) + jitterX, yScale(v.value) + jitterY];
+    });
+    // catmull-rom-ish smoothing via d3.curveCatmullRom on the jittered points
+    const gen = d3.line().curve(d3.curveCatmullRom.alpha(0.7));
+    return gen(pts);
+  };
+}
+
+let currentDomain = [1950, 2020];
+
+function draw(domain){
+  currentDomain = domain;
+  const visible = rawData.filter(d => activeKeys.has(d.key));
+  const yearsInRange = years.filter(y => y >= domain[0] && y <= domain[1]);
+
+  x.domain(domain);
+  const maxY = d3.max(visible, d => d3.max(d.values.filter(v => v.year>=domain[0] && v.year<=domain[1]), v=>v.value)) || 1;
+  y.domain([0, maxY * 1.15]);
+
+  gx.transition().duration(300).call(d3.axisBottom(x).tickFormat(d3.format("d")).ticks(yearsInRange.length));
+  gy.transition().duration(300).call(d3.axisLeft(y).ticks(5));
+
+  const paths = linesLayer.selectAll("path.series").data(visible, d=>d.key);
+
+  paths.join(
+    enter => enter.append("path")
+      .attr("class","series")
+      .attr("fill","none")
+      .attr("stroke", d=>d.color)
+      .attr("stroke-width", 3)
+      .attr("stroke-linecap","round")
+      .attr("filter","url(#inkwobble)")
+      .attr("d", d => handLine(x,y, d.key.length)(d.values.filter(v=>v.year>=domain[0]&&v.year<=domain[1])))
+      .style("opacity", 0)
+      .transition().duration(300).style("opacity", 0.9),
+    update => update
+      .transition().duration(300)
+      .attr("d", d => handLine(x,y, d.key.length)(d.values.filter(v=>v.year>=domain[0]&&v.year<=domain[1]))),
+    exit => exit.transition().duration(200).style("opacity",0).remove()
+  );
+}
+
+// ---------- brush timeline (mini overview) ----------
+const bMargin = {top:6, right:24, bottom:22, left:40};
+const bWidth = 860 - bMargin.left - bMargin.right;
+const bHeight = 70 - bMargin.top - bMargin.bottom;
+
+const bsvg = d3.select("#brush");
+const bg = bsvg.append("g").attr("transform", `translate(${bMargin.left},${bMargin.top})`);
+
+const bx = d3.scaleLinear().domain([1950,2020]).range([0, bWidth]);
+const by = d3.scaleLinear().range([bHeight, 0]);
+by.domain([0, d3.max(rawData, d=>d3.max(d.values, v=>v.value)) * 1.1]);
+
+rawData.forEach(d => {
+  bg.append("path")
+    .datum(d.values)
+    .attr("fill","none")
+    .attr("stroke", d3.color(d.color))
+    .attr("stroke-width", 1.6)
+    .attr("stroke-opacity", 0.65)
+    .attr("filter","url(#inkwobbleBold)")
+    .attr("d", handLine(bx, by, d.length + 20));
+});
+
+bg.append("g").attr("class","axis").attr("transform",`translate(0,${bHeight})`)
+  .call(d3.axisBottom(bx).tickFormat(d3.format("d")).ticks(8));
+
+const brush = d3.brushX()
+  .extent([[0,0],[bWidth,bHeight]])
+  .on("brush end", (event) => {
+    if(!event.selection) return;
+    const [x0,x1] = event.selection.map(bx.invert);
+    draw([Math.round(x0/5)*5, Math.round(x1/5)*5]);
+  });
+
+bg.append("g").attr("class","brush").call(brush)
+  .call(brush.move, [bx(1950), bx(2020)]);
+
+draw([1950,2020]);
+</script>
+</body>
+</html>

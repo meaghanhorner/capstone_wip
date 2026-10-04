@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hand-inked D3 chart — multi-instance demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Libre+Franklin:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<style>
+  :root{
+    --cream:#f3f3e7; --pale-green:#d4dfa8; --bright-green:#a8c169;
+    --coral:#f27966; --mustard:#e0a638; --ink:#33302a;
+  }
+  * { box-sizing: border-box; }
+  body{
+    margin:0; background:var(--cream); color:var(--ink);
+    font-family:'Libre Franklin', sans-serif; padding:28px 20px 60px;
+  }
+  .wrap{ max-width:900px; margin:0 auto 60px; }
+  .hdc-title{ font-family:'Libre Baskerville', serif; font-weight:700; font-size:1.4rem; margin:0 0 2px; }
+  .hdc-subtitle{ font-family:'Special Elite', monospace; font-size:0.85rem; opacity:0.75; margin:0 0 16px; }
+  .hdc-legend{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:6px; }
+  .hdc-legend-btn{
+    font-family:'Special Elite', monospace; font-size:0.8rem;
+    border:1.5px solid var(--ink); background:var(--cream);
+    padding:6px 12px; border-radius:3px; cursor:pointer;
+    display:flex; align-items:center; gap:6px; transition:opacity .15s ease;
+  }
+  .hdc-legend-btn.off{ opacity:0.35; }
+  .hdc-swatch{ width:12px; height:12px; border-radius:50%; display:inline-block; }
+  .hdc-hint{ font-family:'Special Elite', monospace; font-size:0.75rem; opacity:0.6; margin:6px 0 12px; }
+  .hdc-main, .hdc-brush{ overflow: visible; display:block; }
+  .hdc-axis text{ font-family:'Special Elite', monospace; font-size:11px; fill:var(--ink); }
+  .hdc-axis path, .hdc-axis line{ stroke:var(--ink); stroke-opacity:0.4; }
+  .hdc-brush-g .selection{ fill:var(--mustard); fill-opacity:0.15; stroke:var(--ink); stroke-dasharray:2,2; }
+  hr{ border:none; border-top:1px dashed var(--ink); opacity:0.3; margin:40px auto; max-width:900px; }
+</style>
+</head>
+<body>
+
+<div class="wrap" id="chart-storefronts"></div>
+<hr>
+<div class="wrap" id="chart-rents"></div>
+
+<script src="script.js"></script>
+<script>
+  // Instance 1
+  const storefrontCategories = [
+    { key: "restaurants", label: "Restaurants & Bars", color: "#f27966" },
+    { key: "retail",      label: "Independent Retail", color: "#e0a638" },
+    { key: "chains",      label: "Chain Storefronts",  color: "#33302a" },
+    { key: "vacant",      label: "Vacant",             color: "#a8c169" },
+  ];
+  createHandDrawnChart({
+    container: "#chart-storefronts",
+    title: "Storefront Category Counts, 1950–2020",
+    subtitle: "// instance 1 — independent data, independent filters",
+    categories: storefrontCategories,
+    data: buildDemoData(storefrontCategories),
+  });
+
+  // Instance 2 — different categories, different data, same page.
+  // No id/filter collisions with instance 1 because each call gets its
+  // own instanceId internally.
+  const rentCategories = [
+    { key: "restaurants", label: "Avg. Restaurant Rent", color: "#e0a638" },
+    { key: "retail",      label: "Avg. Retail Rent",     color: "#33302a" },
+  ];
+  const years = d3.range(1950, 2021, 5);
+  const rentData = rentCategories.map((c, ci) => ({
+    key: c.key,
+    values: years.map((yr, i) => ({
+      x: yr,
+      y: 5 + i * (ci === 0 ? 1.8 : 1.1) + Math.cos(i * 0.5) * 1.5,
+    })),
+  }));
+  createHandDrawnChart({
+    container: "#chart-rents",
+    title: "Average Commercial Rent Index, 1950–2020",
+    subtitle: "// instance 2 — proves multiple charts coexist cleanly",
+    categories: rentCategories,
+    data: rentData,
+  });
+</script>
+</body>
+</html>

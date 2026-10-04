@@ -1,0 +1,263 @@
+:root {
+  /* Dynamic layout values: clamp(min, preferred, max) */
+  --grid-margins: clamp(1rem, 4vw, 3.5rem);
+  --grid-gutter: clamp(0.75rem, 2vw, 1.5rem);
+  
+  /* Mobile: 4 columns | Tablet: 8 columns | Laptop/Desktop: 12 columns */
+  --grid-columns: 4;
+  
+    --cream:#f3f3e7;
+    --pale-green:#d4dfa8;
+    --bright-green:#a8c169;
+    --coral:#f27966;
+    --mustard:#e0a638;
+    --ink:#33302a;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --grid-columns: 8;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --grid-columns: 12;
+  }
+}
+
+.hdc-axis text{ font-family:'Libre Franklin', sans-serif; font-size:11px; fill:var(--ink); }
+.hdc-hint{ font-family:'Libre Franklin', sans-serif; font-size:0.75rem; opacity:0.6; margin:6px 0 12px; }
+
+.hdc-main {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+
+.mono-text {
+  font-family: "Courier Prime", monospace;
+  font-weight: 400; /* or 700 for bold */
+}
+
+/* Special Elite — only has one weight (400), typewriter-style */
+.typewriter {
+  font-family: "Special Elite", monospace;
+}
+
+/* Section Headings */
+h3 {
+  font-family: "Libre Baskerville", serif;
+  font-style: italic;
+  font-size: 3rem;
+}
+
+/* Libre Baskerville — loaded weights: 400, 700 (regular + italic) */
+.serif-text {
+  font-family: "Libre Baskerville", serif;
+}
+
+/* Libre Franklin — variable weight axis 100-900 */
+.sans-text {
+  font-family: "Libre Franklin", sans-serif;
+  font-weight: 400; /* can use any value 100-900 since it's variable */
+}
+
+/* Reenie Beanie — handwriting style, only one weight */
+.handwriting {
+  font-family: "Reenie Beanie", cursive;
+}
+
+body {
+    background-color: #d4dfa7;
+}
+
+/* Base grid layout structure */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  column-gap: var(--grid-gutter);
+  padding-left: var(--grid-margins);
+  padding-right: var(--grid-margins);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
+
+.graphic-stage {
+  grid-column: 1 / -1;
+  height: 45vh;
+  z-index: 1;
+  /* no position: sticky — GSAP pin handles this now */
+}
+
+.narrative-steps {
+  grid-column: 1 / -1;
+  z-index: 2;
+}
+
+.narration-no-image {
+  max-width: 780px;
+  grid-column: 1 / -1;
+  z-index: 2;
+  margin: 0 auto;
+}
+
+.writing-left-image-right {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--grid-gutter);
+  max-width: 1440px;
+  grid-column: 1/ -1;
+  z-index: 2;
+  margin: 0 auto;
+  align-items: start;
+  min-height: 100vh; /*only for now temporary; in the end height not min-height should be 100vh */
+}
+
+.writing-left-image-right-largeimage .step {
+  grid-column: 1;
+}
+
+.writing-left-image-right-largeimage .svg-stage {
+  grid-column: 2;
+}
+
+.writing-left-image-right-largeimage {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--grid-gutter);
+  max-width: 1440px;
+  grid-column: 1/ -1;
+  z-index: 2;
+  margin: 0 auto;
+  align-items: start;
+  min-height: 100vh; /*only for now temporary; in the end height not min-height should be 100vh */
+}
+
+.writing-left-image-right .step {
+  grid-column: 1;
+}
+
+.writing-left-image-right .svg-stage {
+  grid-column: 2;
+}
+
+
+.svg-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: grid; 
+  place-items: center;
+}
+
+.svg-stage .frame {
+  grid-area: 1 / 1; 
+  width: 100%;
+  height: 100%;
+  max-width: 600px; 
+  object-fit: contain; 
+}
+
+.svg-stage .frame.active {
+  opacity: 1;
+}
+
+.step {
+
+  min-height: 10vh;
+  display: flex;
+  flex-direction:column;
+  padding: 1.5rem;
+  align-items: flex-start;
+}
+
+.hand-drawn-chart {
+  padding: 24px;
+  margin-top: 136px;
+}
+
+#chart-rents-over-time {
+  min-height: 10vh;
+  display: flex;
+  flex-direction:column;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+h1,h2 {
+    font-family: "Libre Franklin", sans-serif;
+}
+
+h4 {
+    font-family: "Libre Baskerville", italic;
+    font-style: italic;
+    font-weight: 200;
+}
+
+.step p,
+.step li {
+  max-width: 70ch;   
+  min-width: 55ch;
+  line-height: 1.6;   
+  font-family: "Special Elite", monospace;
+}
+
+#map-a {
+  position: relative;   /* so the legend can be positioned inside it */
+}
+
+.hdc-legend {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;          /* or top: 12px */
+  font-size: 16px;
+  font-family: "Libre Franklin", sans-serif;
+  line-height: 1.4;
+}
+
+.hdc-legend-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.hdc-legend-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hdc-legend-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+  .graphic-stage {
+    grid-column: 1 / span 7;
+    height: 80vh;
+  }
+  .narrative-steps {
+    grid-column: 8 / span 5;
+  }
+
+    .writing-left-image-right {
+    grid-template-columns: 1fr 1fr;
+  }
+
+   .writing-left-image-right-largeimage {
+    grid-template-columns: 1fr 2fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .graphic-stage {
+    position: static;
+    height: auto;
+  }
+}
