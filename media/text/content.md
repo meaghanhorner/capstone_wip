@@ -1,11 +1,21 @@
 ## Section 1
-### Section 1
-Visual: horizontal scroll across a lively 1960s street with people milling outside at local businesses, horizontal scroll to: vacant storefront with no one (tumbleweed?)
-Need something more as a hook but oh well
         
 ## Section 2
 ### Section 2
 Title: The Death and Life of Greenwich Village (ehhhh) still could be better
+
+## Section Intro
+### Commercial Space Available
+
+It is a brisk October morning in Greenwich Village. Caffe Reggio, at 119 MacDougal Street, which claims to have served the first cappuccino in America in 1927, is still serving them 99 years later to tourists and residents of Greenwich Village alike. Still fairly early in the morning, MacDougal Street is not yet swarming with NYU students, but some early bird tourists are out taking photos. A woman walks her dog. Across the street, brown craft paper covers the floor to ceiling storefront windows at 126 MacDougal. Next door to 126 MacDougal is a storefront advertising "Commercial Space Available". It has been vacant since at least April, according to Google's Streetview. 
+
+Two vacant storefronts may not seem like much, but it might be surprising that there are any at all on one of the busiest streets in one of the busiest cities in the world. In fact, New York City considers them a big enough problem that the city comptroller's office issued a report, titled "Who's Minding the Storefronts? An Analysis of Storefront Vacancies in New York City" in June 2026. They've been written about in the New York Times and Curbed, which have placed the blame on "Sex and the City" and landlords holding out for high rents from drugstores and banks. 
+
+What is undeniable is that commercial rents in Greenwich Village are, adjusted for inflation, dramatically higher than they were in the 1960s. 
+
+Jane Jacobs, who wrote about her beloved neighborhood in the late 1950s and early 1960s, recognized the importance of storefront businesses to the vitality of a neighborhood. "The trust of a city street is formed over time from many, many little public sidewalk contacts. It grows out of people stopping by at the bar for a beer, getting advice from the grocer and giving advice to the newsstand man, comparing opinions with other customers at the bakery and nodding hello to the two boys drinking pop on the stoop; eying the girls while waiting to be called for dinner, admonishing the children, hearing about a job from the hardware man and borrowing a dollar from the druggist, admiring the new babies and sympathizing over the way a coat faded."(73)
+
+So if storefronts are so important to a neighborhood, why do so many sit vacant in Greenwich Village today? 
 
 ## Section 3
 ### The Sidewalk Ballet
@@ -37,20 +47,28 @@ If you've lived in one of these neighborhoods you know how comforting it is to k
 This all-hours vitality was dependent, according to Jacobs, on four primary conditions:
         
 ## Section 4		
-1:  Mixed use.
-The district must serve more than one primary function; preferably more than two
 
-2: Short blocks
+### 1:  The District... must serve more than one primary function; preferably more than two.
+These must insure the presence of people who go outdoors on different schedules and are in the place for different purposes, but who are able to use many facilities in common.
 
-3: A mixture of old and new buildings
+### 2: Most blocks must be short
+That is, streets and opportunities to turn corners must be frequent.
 
-4: A dense concentration of people, including residents. (196)
+### 3: The district must mingle buildings that vary in age and condition,
+including a good proportion of old ones so that they may vary the economic yield they must produce.
+
+### 4: There must be a sufficiently dense concentration of people, for whatever purposes they may be there. 
+This includes dense concentration in the case of people who are there because of residence.
+
+(196)
 
 ## Section 5
 
 Was Jacobs correct in the elements needed for city vitality?
 
 If Greenwich Village feels less vibrant than it used to, is it because some of those 4 elements have been lost?
+
+Jacobs named four conditions necessary for a vital neighborhood. Greenwich Village still has the short blocks and the mix of old and new buildings she described, but I argue that the uniformly high commercial rents have eroded the room for small businesses that mix once created. 
 
 ## Research underpinnings
 
@@ -129,8 +147,12 @@ Not for lack of demand. People weren't moving out because they no longer wanted 
 
 
 ## Mixed Use
+### Mixed Uses
+Jacobs's last condition for a vital neighborhood is mixed primary use. She thought for a neighborhood to work well, it needed to have more than one primary function, and preferably more than two. A mix of uses reasons for people to use the streets at all times of the day.
 
-blah blah blah
+The Greenwich Village of Jacobs's time certainly did. It was a residential neighborhood, but also a neighborhood people worked in, a neighborhood people shopped in, and a neighborhood people ate and drank in. It had restaurants and bars, clothing stores and shoe stores, grocery stores and drugstores, laundromats and beauty parlors. It had small stores that catered to niche interests, and art galleries that were destinations for people outside the neighborhood. These different uses gave the residents reasons to leave their homes and explore the neighborhood, and they gave people living outside the neighborhood reasons to visit. As a result, the streets were lively and filled with people most of the day. 
+
+
 
 ## Synthesis
 

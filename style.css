@@ -70,7 +70,7 @@ h3 {
 }
 
 body {
-    background-color: #d4dfa7;
+    background-color: #dbc398;
 }
 
 /* Base grid layout structure */
@@ -175,10 +175,39 @@ body {
   align-items: flex-start;
 }
 
+.step.flyer {
+  background: #fdfcf8;
+  color: #33302a;
+  padding: 3rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,.25), 0 8px 16px rgba(0,0,0,.12);
+  transform: rotate(-1.5deg);
+}
+
+.flyer {
+  position: relative;        /* the legend positions itself against the flyer, not the page */
+  background: #fdfcf8;
+  color: #33302a;               /* see step 3 */
+  padding: 3rem;
+  box-shadow: 0 6px 24px rgba(0,0,0,.25);
+  box-sizing: border-box;
+  width: 100%;
+  transform: rotate(-1.5deg);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
 .hand-drawn-chart {
   padding: 24px;
   margin-top: 136px;
 }
+
+.hdc-legend-swatch { opacity: 0.6; }
+
 
 #chart-rents-over-time {
   min-height: 10vh;

@@ -77,7 +77,7 @@ function createHandDrawnMap(opts) {
     .attr("class", "hdc-feature")
     .attr("d", path)
     .attr("fill", strokeOnly ? "none" : (d) => color(valueByFeature(d)))
-    .attr("fill-opacity", strokeOnly ? null : 0.8)
+    .attr("fill-opacity", strokeOnly ? null : 0.6)
     .attr("stroke", strokeOnly ? (d) => color(valueByFeature(d)) : "#33302a")
     .attr("stroke-width", strokeOnly ? 3 : 1.2)
     .attr("stroke-linecap", strokeOnly ? "round" : null)

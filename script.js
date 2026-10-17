@@ -511,69 +511,60 @@ function createLegend({ container, title, colors, thresholds, unit = "ft" }) {
 }
 
 Promise.all([
-  fetch("data/manhattan_ntas.geojson").then((r) => r.json()), // shapes — swap in your real filename
-  fetch("data/block_stats.json").then((r) => r.json()),             // the array you just showed — swap in your real filename
-  fetch("data/manhattan_segments.geojson").then((r) => r.json()),      // streets
+  fetch("data/manhattan_ntas.geojson").then((r) => r.json()),
+  fetch("data/block_stats.json").then((r) => r.json()),
+  fetch("data/manhattan_segments.geojson").then((r) => r.json()),
 ]).then(([neighborhoods, medianData, segments]) => {
 
-  // build a lookup: neighborhood name -> stats object
-  const medianLookup = {};
-  medianData.forEach((d) => {
-    medianLookup[d.ntaname] = d;
-  });
+  // legend bins: <250, 250–300, 300–350, 350–400, 400+
+  const thresholds = [275, 300, 325, 350, 375, 400];
 
-   neighborhoods.features = neighborhoods.features.filter(
+  const medianLookup = {};
+  medianData.forEach((d) => { medianLookup[d.ntaname] = d; });
+
+  neighborhoods.features = neighborhoods.features.filter(
     (f) => f.properties.boroname === "Manhattan"
   );
 
-   neighborhoods.features.forEach((f) => {
+  neighborhoods.features.forEach((f) => {
     const stats = medianLookup[f.properties.ntaname];
-    f.properties.mean_length_ft = stats ? stats.mean_length_ft : null; 
-    f.properties.is_gv = stats ? stats.is_gv : false;
+    f.properties.mean_length_ft   = stats ? stats.mean_length_ft : null;
+    f.properties.median_length_ft = stats ? stats.median_length_ft : null;
+    // use the json flag, but fall back to matching the name directly
+    f.properties.is_gv = (stats && stats.is_gv) ||
+      /Greenwich Village|West Village/i.test(f.properties.ntaname || "");
   });
-
-  const GROUP_SIZE = 5;
-
-  const sortedMeans = neighborhoods.features
-    .map((f) => f.properties.mean_length_ft)
-    .filter((v) => v != null)
-    .sort(d3.ascending);
-
-  const thresholds = d3.range(GROUP_SIZE, sortedMeans.length, GROUP_SIZE)
-    .map((i) => sortedMeans[i]);
 
   const nGroups = thresholds.length + 1;
 
-  const colorDark  = "#7c2c13";  
-  const colorLight = "#e0a638";
+  const colorDark  = "#6e2107";
+  const colorMid   = "#ca5223";
+  const colorLight = "#fe7e4f";
+
+  const ramp = d3.scaleLinear()
+    .domain([0, 0.5, 1])
+    .range([colorDark, colorMid, colorLight])
+    .interpolate(d3.interpolateLab);
+
+  const WHITE_MIX = 0.15;   // 15% white
+
   const groupColors = d3.range(nGroups).map((i) =>
-    d3.interpolateLab(colorDark, colorLight)(nGroups === 1 ? 0 : i / (nGroups - 1))
+    d3.interpolateLab(
+      ramp(nGroups === 1 ? 0 : i / (nGroups - 1)),
+      "#ffffff"
+    )(WHITE_MIX)
   );
-
-  
-
-  // attach median (and other stats) onto each neighborhood polygon's properties
-  neighborhoods.features.forEach((f) => {
-    const stats = medianLookup[f.properties.ntaname]; // <-- confirm boundary geojson also uses "ntaname"
-    f.properties.median_length_ft = stats ? stats.median_length_ft : null;
-    f.properties.is_gv = stats ? stats.is_gv : false;
-  });
-
-  // color scale for neighborhoods, based on median_length_ft
-  const medianValues = neighborhoods.features
-    .map((f) => f.properties.median_length_ft)
-    .filter((v) => v != null);
 
   const neighborhoodColorScale = d3.scaleThreshold()
     .domain(thresholds)
     .range(groupColors);
 
-  // 1. draw neighborhoods first (underlying polygon layer)
+  // 1. neighborhoods
   const neighborhoodMap = createHandDrawnMap({
     container: "#map-a",
     geojson: neighborhoods,
     zoomScale: 3,
-    zoomCenter: [0.3,1],
+    zoomCenter: [0.3, 1],
     title: "Greenwich Village and the West Village have among the shortest blocks in Manhattan",
     subtitle: "Average length of blocks in Manhattan, by neighborhood",
     valueByFeature: (d) => d.properties.mean_length_ft,
@@ -581,12 +572,14 @@ Promise.all([
     strokeOnly: false,
   });
 
-  // 2. draw street segments on top, same svg/g, same projection
-  const streetColorScale = d3.scaleSequential()
-    .domain([200, 600])
-    .clamp(true)
-    .interpolator((t) => d3.interpolateGreys(1 - t));
+  createLegend({
+    container: "#map-a",
+    title: "Average block length",
+    colors: groupColors,
+    thresholds: thresholds,
+  });
 
+  // 2. street segments
   neighborhoodMap.g
     .selectAll("path.hdc-street")
     .data(segments.features.filter((f) => f.geometry != null))
@@ -595,12 +588,13 @@ Promise.all([
     .attr("d", neighborhoodMap.path)
     .attr("fill", "none")
     .attr("stroke", "#33302a")
-    .attr("stroke-opacity", 0.35)
+    .attr("stroke-opacity", 0.25)
     .attr("stroke-width", 1.5)
     .attr("stroke-linecap", "round")
     .attr("vector-effect", "non-scaling-stroke");
 
-    const labelFeatures = neighborhoods.features.filter((f) => f.properties.is_gv);
+  // 3. GV border + labels
+  const labelFeatures = neighborhoods.features.filter((f) => f.properties.is_gv);
 
   neighborhoodMap.g
     .selectAll("path.hdc-gv-border")
@@ -611,7 +605,7 @@ Promise.all([
     .attr("fill", "none")
     .attr("stroke", "#f27966")
     .attr("stroke-width", 6)
-    .attr("stroke-opacity", .5)
+    .attr("stroke-opacity", .7)
     .attr("stroke-linejoin", "round")
     .attr("vector-effect", "non-scaling-stroke")
     .style("pointer-events", "none");
@@ -621,23 +615,18 @@ Promise.all([
     .data(labelFeatures)
     .join("text")
     .attr("class", "hdc-label")
-    .attr("x", (d) => neighborhoodMap.path.centroid(d)[0])
-    .attr("y", (d) => neighborhoodMap.path.centroid(d)[1])
+    .attr("x", (d) => neighborhoodMap.path.centroid(d)[0] + 4)
+    .attr("y", (d) => neighborhoodMap.path.centroid(d)[1] + 6)
     .attr("text-anchor", "middle")
-    .attr("font-size", 5)
-    .attr("font-family", "'Libre Franklin', sans-serif")
+    .attr("font-size", 8)
+    .attr("font-family", "'Libre Baskerville', serif")
+    .attr("font-style", "italic")
     .attr("font-weight", 600)
-    .attr("fill", "#f3f3e7")
+    .attr("fill", "#33302a")
+    .style("pointer-events", "none")
     .text((d) => d.properties.ntaname);
 
-    createLegend({
-    container: "#map-a",
-    title: "Average block length",
-    colors: groupColors,
-    thresholds: thresholds,
-  });
-});
 
-  // END CHART A
+}).catch((err) => console.error("Chart A failed:", err));
 
 //END CHARTS
