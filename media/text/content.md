@@ -17,6 +17,20 @@ Jane Jacobs, who wrote about her beloved neighborhood in the late 1950s and earl
 
 So if storefronts are so important to a neighborhood, why do so many sit vacant in Greenwich Village today? 
 
+## Section Context
+### Context
+
+2026 marks the 65th anniversary of the 1961 publication of Jane Jacobs's "The Death and Life of Great American Cities". Jacobs's first book, it is her most widely read and most influential. Its thesis was that cities were problems of "organized complexity" which thrived on the unplanned variety of street life. It challenged existing city planning orthodoxy, which held that cities must be carefully planned to keep homes far from dirty, unsafe business and industry.
+
+The city planners of the early 20th century criticized urban spaces as dirty and crowded - and rightly so. The slums of New York, Boston and London, centered around polluting factories, were unsanitary and unpleasant. The air and water were polluted, and tuberculosis, typhoid and cholera spread quickly. The streets were often filled with manure from horse-drawn carriages. People slept six or more to a room in crowded tenements. Reformers like Jacob Riis documented these conditions, and cities responded with tenement laws, sanitation systems, and eventually zoning codes to separate land uses.
+
+From these conditions, a new movement towards city planning began to take shape. Ebenezer Howard's "Garden City", Daniel Burnham's "City Beautiful" and Le Corbusier's "Radiant City" all imagined that cities could be planned to reduce overcrowding and pollution. Le Corbusier, in particular, envisioned widely-spaced high-rise towers in parks where residents would live, separate from the business towers and factories where they worked, with people traveling between them by car or mass transit. 
+
+Following World War II, housing shortages led to a building boom that took up many of these principles. In Manhattan, huge complexes like Stuyvesant Town and Peter Cooper Village, and public housing like the Lillian Wald Houses and Jacob Riis houses followed Le Corbusier's tower-in-a-park model, though unlike in Le Corbusier's vision, they stood within the city. Working-class neighborhoods were demolished to build these, and existing residents were displaced. The Housing Act of 1949 funded "slum clearance", later called urban renewal, which in New York was run by Robert Moses. Manhattan's San Juan Hill, on the Upper West Side, another working-class neighborhood made up primarily of African-American, Afro-Caribbean and Puerto Rican residents, was cleared to make way for Lincoln Center.
+
+Jacobs, who was raised in Scranton, Pennsylvania, moved to Greenwich Village in 1935 at 19. Through the 1950s she was a writer for Architectural Forum, where she saw this work up close and began to question the mainstream consensus on urban planning. Her neighborhood, which had been labeled a slum and marked for clearance, was, to her, no slum at all. Instead, it was a working-class neighborhood where the streets were always full of people, where neighbors kept each other safe and where homes, shops and workplaces sat side by side, keeping the sidewalks busy from morning to night. 
+
+
 ## Section 3
 ### The Sidewalk Ballet
 
