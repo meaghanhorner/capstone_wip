@@ -154,10 +154,6 @@ Why would one of New York's most desireable neighborhoods be shrinking?
 Not for lack of demand. People weren't moving out because they no longer wanted to live there. Instead, household size was shrinking, from 1.67 on average in 1970 to 1.5 today.  Households with at least 3 members went from 13.4% of the population in 1970 to just 11.4% in 2020.
 
  Though the shrinking households story doesn't map cleanly onto Jacobs's 100 dwellings per acre number, the end result is exactly what she predicted.  There are no longer enough residents to sustain the niche interests, or even as many of the ordinary ones - grocery stores, hardware stores, laundromats. It's not a clean cause and effect - given the rise in online shopping, we might see the variety in stores decrease even with the population staying constant.
- 
- ??? Something in here about row houses converted into homes for a single person???
- 
- ??? Can we get something in here about pied a terres? Can that list that doxxed all those people help us here???
 
 
 ## Mixed Use
