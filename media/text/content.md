@@ -107,18 +107,20 @@ I’ll look at them one at a time.
 
 
 
-## Short Blocks
-<!-- svg: map-a -->
+## Short Blocks Header
+
 ### Short Blocks
 We will start with the factor that has changed the least in 65 years: short blocks.
 
- Jacobs writes that short blocks multiply opportunities for street-level commerce, and give more route options to pedestrians, increasing foot traffic on all streets. 
- 
- Additionally, she writes that the intersections formed by an organic, overlapping street layout, like that of Greenwich Village, provide ‘visual interruptions, cutting off the indefinite distant view and at the same time visually heightening and celebrating intense street use by giving it a hint of enclosure and entity’.  More recently, Dover and Massengale’s “Street Design: The Secret to Great Cities and Towns” (need a proper cite for this) goes further into the idea of a terminated vista, one of the characteristics of short blocks, as one of these secrets, stating that pedestrians need to see landmarks to find their way and feel a sense of enclosure and spatial definition in the city. 
+Jacobs writes that short blocks multiply opportunities for street-level commerce, and give more route options to pedestrians, increasing foot traffic on all streets. 
+## Short Blocks
+<!-- svg: map-a -->
+
+Additionally, she writes that the intersections formed by an organic, overlapping street layout, like that of Greenwich Village, provide ‘visual interruptions, cutting off the indefinite distant view and at the same time visually heightening and celebrating intense street use by giving it a hint of enclosure and entity’.  More recently, Dover and Massengale’s “Street Design: The Secret to Great Cities and Towns” (need a proper cite for this) goes further into the idea of a terminated vista, one of the characteristics of short blocks, as one of these secrets, stating that pedestrians need to see landmarks to find their way and feel a sense of enclosure and spatial definition in the city. 
 <!-- svg: chart-b -->
- Built before the standard 1811 Manhattan grid of widely spaced avenues (approx. 600-900 feet apart) and closely-spaced streets (approx 200-260 feet apart), blocks in Greenwich Village range between 150 - 500 feet and average 357 feet, among the shortest of all neighborhoods in the city.
+Built before the standard 1811 Manhattan grid of widely spaced avenues (approx. 600-900 feet apart) and closely-spaced streets (approx 200-260 feet apart), blocks in Greenwich Village range between 150 - 500 feet and average 357 feet, among the shortest of all neighborhoods in the city.
  
- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque euismod quam eu sem euismod, eget feugiat sapien bibendum. Nulla sed massa diam. Ut sed nulla sit amet lacus varius luctus. Vestibulum ultricies lectus sed ultricies blandit. Quisque vel felis lacinia, porttitor neque vitae, finibus sem. Praesent quis ultricies dui. Curabitur tristique mauris in mi vehicula consequat. Praesent quis dictum nunc, in interdum orci. Duis metus urna, dictum nec lectus tincidunt, elementum porttitor purus. Proin convallis, odio eu condimentum gravida, tellus mi faucibus mi, vel gravida lectus felis sit amet magna. Morbi viverra odio eu lectus commodo, nec convallis nisl eleifend. Cras quis est ut dui aliquet cursus quis ut sem. Aliquam posuere, lorem quis scelerisque tempus, arcu felis aliquet enim, nec egestas augue augue nec eros. Nulla eget velit dapibus mi sollicitudin malesuada.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque euismod quam eu sem euismod, eget feugiat sapien bibendum. Nulla sed massa diam. Ut sed nulla sit amet lacus varius luctus. Vestibulum ultricies lectus sed ultricies blandit. Quisque vel felis lacinia, porttitor neque vitae, finibus sem. Praesent quis ultricies dui. Curabitur tristique mauris in mi vehicula consequat. Praesent quis dictum nunc, in interdum orci. Duis metus urna, dictum nec lectus tincidunt, elementum porttitor purus. Proin convallis, odio eu condimentum gravida, tellus mi faucibus mi, vel gravida lectus felis sit amet magna. Morbi viverra odio eu lectus commodo, nec convallis nisl eleifend. Cras quis est ut dui aliquet cursus quis ut sem. Aliquam posuere, lorem quis scelerisque tempus, arcu felis aliquet enim, nec egestas augue augue nec eros. Nulla eget velit dapibus mi sollicitudin malesuada.
 
 Sed fermentum facilisis ipsum cursus malesuada. Sed posuere tellus a est iaculis pretium. Nulla efficitur quis augue sed venenatis. Nam sodales porta ligula in fringilla. Morbi sed gravida felis. Maecenas ac tortor ornare, egestas enim eget, facilisis magna. Phasellus pretium maximus purus quis imperdiet. Praesent mi elit, tempus eu mauris et, rutrum consequat mi. Vestibulum sit amet erat vitae lectus faucibus lacinia at non arcu. Nulla placerat est quis augue feugiat, in pulvinar orci blandit.
 
