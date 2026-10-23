@@ -1,3 +1,5 @@
+gsap.registerPlugin(ScrollTrigger);
+
 async function loadSections(mdPath) {
   const res = await fetch(mdPath);
   let raw = (await res.text()).replace(/\r\n/g, "\n");
@@ -11,7 +13,6 @@ async function loadSections(mdPath) {
     const key = match[1].trim();
     const body = chunk.slice(match[0].length).trim();
 
-    // split into line-groups on the svg directive
     const rawSteps = body.split(/\n(?=<!--\s*svg:)/).filter(Boolean);
 
     sections[key] = rawSteps.map((stepChunk) => {
@@ -36,7 +37,6 @@ async function renderSteps() {
       return;
     }
 
-    // clear placeholder, build one .step-line per line-group
     el.innerHTML = "";
     steps.forEach((step, i) => {
       const line = document.createElement("div");
@@ -47,120 +47,50 @@ async function renderSteps() {
       el.appendChild(line);
     });
   });
-
-  // initScrollTriggers(); // set up GSAP once DOM is populated
 }
 
-renderSteps().then(() => {
-  const first = document.querySelector(".step-line");
-  const firstGraphic = document.querySelector(".graphic-stage > *");
-  updateGraphic(first?.dataset.svg || firstGraphic?.id);
-  initScrollTriggers();
-  window.addEventListener("load", () => ScrollTrigger.refresh());
-});
 
-gsap.registerPlugin(ScrollTrigger);
-
-ScrollTrigger.config({
-  autoRefreshEvents: "visibilitychange,DOMContentLoaded,resize",
-});
-
-function initScrollTriggers() {            // CHANGED: wrapped in a function
-  let mm = gsap.matchMedia();
-
-  mm.add(
-    {
-      isDesktop: "(min-width: 768px) and (prefers-reduced-motion: no-preference)",
-      isMobile: "(max-width: 767px) and (prefers-reduced-motion: no-preference)",
-      reduced: "(prefers-reduced-motion: reduce)",
-    },
-    (context) => {
-      const { isDesktop, isMobile, reduced } = context.conditions;
-      const steps = gsap.utils.toArray(".step-line");   // CHANGED: .step -> .step-line
-      const triggers = [];
-
-      if (isDesktop) {
-        const stage = document.querySelector(".graphic-stage");
-
-        triggers.push(
-          ScrollTrigger.create({
-            trigger: ".narrative-steps",
-            start: "top top",
-            end: "bottom bottom",
-            pin: stage,
-            pinSpacing: false,
-          })
-        );
-
-        steps.forEach((step) => {
-          triggers.push(
-            ScrollTrigger.create({
-              trigger: step,
-              start: "top 60%",
-              end: "bottom 40%",
-              onEnter: () => updateGraphic(step.dataset.svg),      // CHANGED
-              onEnterBack: () => updateGraphic(step.dataset.svg),  // CHANGED
-            })
-          );
-        });
-      }
-
-      if (isMobile) {
-        steps.forEach((step) => {
-          triggers.push(
-            ScrollTrigger.create({
-              trigger: step,
-              start: "top 70%",
-              onEnter: () => updateGraphic(step.dataset.svg),      // CHANGED
-              onEnterBack: () => updateGraphic(step.dataset.svg),  // CHANGED
-            })
-          );
-        });
-      }
-
-      if (reduced) {
-        // CHANGED: same swap triggers, no pin, and updateGraphic skips the animation
-        steps.forEach((step) => {
-          triggers.push(
-            ScrollTrigger.create({
-              trigger: step,
-              start: "top 70%",
-              onEnter: () => updateGraphic(step.dataset.svg),
-              onEnterBack: () => updateGraphic(step.dataset.svg),
-            })
-          );
-        });
-      }
-
-      return () => {
-        triggers.forEach((t) => t.kill());
-      };
-    }
-  );
-}
-
-let currentId = null;
 
 function updateGraphic(id) {
-  const graphics = gsap.utils.toArray(".graphic-stage > *");
-  const match = graphics.find((g) => g.id === id);
+  const target = id ? document.getElementById(id) : null;
+  const stage = target?.closest(".graphic-stage");
+  if (!stage || stage.dataset.current === id) return;   // ignore ids that aren't in a stage
+  stage.dataset.current = id;
 
-  if (!match) {
-    console.warn(`updateGraphic: no element with id "${id}". Found:`, graphics.map((g) => g.id));
-    return;
-  }
-  if (id === currentId) return;
-  currentId = id;
+  gsap.utils.toArray(stage.children).forEach((g) => {
+    if (g === target) {
+      gsap.fromTo(g, { y: 20 }, { autoAlpha: 1, y: 0, duration: 0.6, overwrite: true });
+    } else {
+      gsap.to(g, { autoAlpha: 0, y: -20, duration: 0.4, overwrite: true });
+    }
+  });
+}
 
-  const instant = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  graphics.forEach((g) => {
-    gsap.to(g, {
-      autoAlpha: g.id === id ? 1 : 0,
-      duration: instant ? 0 : 0.5,
-      overwrite: true,
+function initScrollTriggers() {
+  // No pin: CSS sticky holds the stage. GSAP only swaps graphics.
+  gsap.utils.toArray(".step-line").forEach((line) => {
+    ScrollTrigger.create({
+      trigger: line,
+      start: "top 50%",
+      end: "bottom 50%",
+      onEnter: () => updateGraphic(line.dataset.svg),
+      onEnterBack: () => updateGraphic(line.dataset.svg),
     });
   });
 }
+
+renderSteps().then(() => {
+  // For each stage, show only its first child to start
+  document.querySelectorAll(".graphic-stage").forEach((stage) => {
+    const kids = gsap.utils.toArray(stage.children);
+    gsap.set(kids, { autoAlpha: 0 });
+    gsap.set(kids[0], { autoAlpha: 1 });
+    stage.dataset.current = kids[0].id;
+  });
+
+  initScrollTriggers();
+  ScrollTrigger.refresh();
+});
 
 //START HAND DRAWN CHART GENERATOR 
 
@@ -975,4 +905,7 @@ fetch("data/gv_buildingsage.geojson")
 
   }).catch((err) => console.error("Chart D failed:", err));
 
+
+
+  ScrollTrigger.refresh();
 //END CHARTS

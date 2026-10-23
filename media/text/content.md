@@ -108,25 +108,29 @@ I’ll look at them one at a time.
 
 
 ## Short Blocks
-### Short Blocks
 <!-- svg: map-a -->
+### Short Blocks
 We will start with the factor that has changed the least in 65 years: short blocks.
 
  Jacobs writes that short blocks multiply opportunities for street-level commerce, and give more route options to pedestrians, increasing foot traffic on all streets. 
  
  Additionally, she writes that the intersections formed by an organic, overlapping street layout, like that of Greenwich Village, provide ‘visual interruptions, cutting off the indefinite distant view and at the same time visually heightening and celebrating intense street use by giving it a hint of enclosure and entity’.  More recently, Dover and Massengale’s “Street Design: The Secret to Great Cities and Towns” (need a proper cite for this) goes further into the idea of a terminated vista, one of the characteristics of short blocks, as one of these secrets, stating that pedestrians need to see landmarks to find their way and feel a sense of enclosure and spatial definition in the city. 
- 
- <!-- svg: chart-b -->
- 
+<!-- svg: chart-b -->
  Built before the standard 1811 Manhattan grid of widely spaced avenues (approx. 600-900 feet apart) and closely-spaced streets (approx 200-260 feet apart), blocks in Greenwich Village range between 150 - 500 feet and average 357 feet, among the shortest of all neighborhoods in the city.
  
+ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque euismod quam eu sem euismod, eget feugiat sapien bibendum. Nulla sed massa diam. Ut sed nulla sit amet lacus varius luctus. Vestibulum ultricies lectus sed ultricies blandit. Quisque vel felis lacinia, porttitor neque vitae, finibus sem. Praesent quis ultricies dui. Curabitur tristique mauris in mi vehicula consequat. Praesent quis dictum nunc, in interdum orci. Duis metus urna, dictum nec lectus tincidunt, elementum porttitor purus. Proin convallis, odio eu condimentum gravida, tellus mi faucibus mi, vel gravida lectus felis sit amet magna. Morbi viverra odio eu lectus commodo, nec convallis nisl eleifend. Cras quis est ut dui aliquet cursus quis ut sem. Aliquam posuere, lorem quis scelerisque tempus, arcu felis aliquet enim, nec egestas augue augue nec eros. Nulla eget velit dapibus mi sollicitudin malesuada.
+
+Sed fermentum facilisis ipsum cursus malesuada. Sed posuere tellus a est iaculis pretium. Nulla efficitur quis augue sed venenatis. Nam sodales porta ligula in fringilla. Morbi sed gravida felis. Maecenas ac tortor ornare, egestas enim eget, facilisis magna. Phasellus pretium maximus purus quis imperdiet. Praesent mi elit, tempus eu mauris et, rutrum consequat mi. Vestibulum sit amet erat vitae lectus faucibus lacinia at non arcu. Nulla placerat est quis augue feugiat, in pulvinar orci blandit.
+
+Mauris fermentum neque eu urna viverra placerat. Vestibulum fringilla fringilla eros, nec tempor enim vehicula et. Aliquam erat volutpat. Morbi at ornare dolor. Aliquam eget bibendum justo, vel consectetur risus. Morbi semper nulla mi, sed ornare nulla dapibus at. Vivamus nec velit eu elit congue ultricies. Donec sit amet quam sit amet urna sodales porttitor vel eu ex. Cras vel efficitur lacus. Nam convallis justo dui, consequat vehicula eros tempus vel. Donec et sollicitudin leo. Vestibulum blandit nibh a ex iaculis laoreet. Vestibulum nisi nulla, viverra eu fringilla ac, pellentesque volutpat lectus. Morbi ut tellus id lectus consequat malesuada sit amet et magna. Quisque a fringilla ante. Nullam vitae volutpat tellus.
 
 (drawing here can show Jefferson Market Library providing a ‘terminated vista’ for pedestrians walking along west 10th street - although the street continues, because it turns, the library provides a landmark and the buildings on the opposite street create a sense of enclosure). 
 
 ## A Mixture of Old and New Buildings 
+<!-- svg: map-c -->
 ### A Mixture of Old and New Buildings
 When Jacobs writes about a mixture of old and new buildings, it isn’t only or primarily for the purposes of visual diversity, although that is a factor for her. Primarily, she writes that the buildings should “vary in age and condition, including a good proportion of old ones so that they vary in the economic yield they must produce.” (197)
-
+<!-- svg: chart-d -->
 In 1961, buildings in Greenwich Village seemingly varied greatly in condition, or at least in the economic yield they must produce. New York Times classified ads for retail space in the area showed rents ranging from xxx a square foot to yyy, a xx percent difference from the least expensive to the most expensive storefronts. From the classified ads we can see, too, the difference between some of the spaces (though of course the advertisers would have had cause to present their spaces in the best light) - we see basement storefronts advertised as well as ???. From Cole’s Directory Reference we can see that many businesses shared an address, if not a storefront, indicating that one single residential building might have had a ground floor with many small businesses - xxxx is an example of this, where xxx yyy zzz and aaa all share the same address, each with their own tiny storefront. 
 
 

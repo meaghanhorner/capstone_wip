@@ -84,26 +84,38 @@ body {
   box-sizing: border-box;
 }
 
-
-
-.graphic-stage {
-  grid-column: 1 / -1;
-  height: 100vh;
-  z-index: 1;
-  /* no position: sticky — GSAP pin handles this now */
+.graphic-stage,
+.svg-stage {
+  grid-column: 2;
+  grid-row: 1/-1;
+  position: sticky;
+  top: 2rem; 
+  height: calc(100vh - 4rem); 
+  align-self: start; 
+  display: grid;
+  place-items: center;
 }
 
-.graphic-stage > * {
-  position: absolute;
-  inset: 0;
+.pin-spacer {
+  grid-column: 2 !important;
+}
+
+.graphic-stage > *,
+.svg-stage > * {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
 }
 
 
 .narrative-steps {
   grid-column: 1 / -1;
-  z-index: 2;
+  position: relative;
 }
 
 .narration-no-image {
@@ -116,25 +128,21 @@ body {
 .writing-left-image-right {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--grid-gutter);
+  gap: var(--grid-gutter, 2rem);
   max-width: 1440px;
-  grid-column: 1/ -1;
-  z-index: 2;
+  position: relative;
   margin: 0 auto;
   align-items: start;
-  min-height: 100vh; /*only for now temporary; in the end height not min-height should be 100vh */
 }
 
 .writing-left-image-right-largeimage {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  grid-template-columns: 1fr 2fr;
   gap: 4vw;
   max-width: 1440px;
-  grid-column: 1/ -1;
-  z-index: 2;
   margin: 0 auto;
   align-items: start;
-  min-height: 100vh; /*only for now temporary; in the end height not min-height should be 100vh */
+  position: relative;
 }
 
 
@@ -144,18 +152,50 @@ body {
 
 .writing-left-image-right-largeimage .svg-stage {
   grid-column: 2;
+  grid-row: 1 / -1;       /* Spans from the first row to the last row of all narrative steps */
+  position: sticky;
+  top: 2rem;              /* Distance from top of viewport when stuck */
+  height: calc(100vh - 4rem); /* Fixed height so it has travel room inside the parent */
+  align-self: start;      /* Overrides grid stretch so height stays at 100vh */
+  display: grid;
+  place-items: center;
 }
 
+.writing-left-image-right-largeimage > .narrative-steps {
+  grid-row: 1/-1;
+  grid-column: 1 !important;
+}
 
+.writing-left-image-right-largeimage > .graphic-column {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  align-self: stretch;   
+}
 
 .writing-left-image-right .step {
+  grid-row: 1/-1;
   grid-column: 1;
 }
 
 .writing-left-image-right .svg-stage {
   grid-column: 2;
+  grid-row: 1 / -1;       /* Spans from the first row to the last row of all narrative steps */
+  position: sticky;
+  top: 2rem;              /* Distance from top of viewport when stuck */
+  height: calc(100vh - 4rem); /* Fixed height so it has travel room inside the parent */
+  align-self: start;      /* Overrides grid stretch so height stays at 100vh */
+  display: grid;
+  place-items: center;
 }
 
+.step-line {
+  min-height: 50vh;
+  padding: 10vh 0;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
 .svg-stage {
   position: sticky;
@@ -166,11 +206,14 @@ body {
 }
 
 .svg-stage .frame {
-  grid-area: 1 / 1; 
+  grid-area: 1 / 1;
   width: 100%;
   height: 100%;
-  max-width: 600px; 
-  object-fit: contain; 
+  max-width: 600px;
+  object-fit: contain;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease;
 }
 
 .svg-stage .frame.active {
