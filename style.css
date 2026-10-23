@@ -88,10 +88,18 @@ body {
 
 .graphic-stage {
   grid-column: 1 / -1;
-  height: 45vh;
+  height: 100vh;
   z-index: 1;
   /* no position: sticky — GSAP pin handles this now */
 }
+
+.graphic-stage > * {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+}
+
 
 .narrative-steps {
   grid-column: 1 / -1;
@@ -117,6 +125,19 @@ body {
   min-height: 100vh; /*only for now temporary; in the end height not min-height should be 100vh */
 }
 
+.writing-left-image-right-largeimage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 4vw;
+  max-width: 1440px;
+  grid-column: 1/ -1;
+  z-index: 2;
+  margin: 0 auto;
+  align-items: start;
+  min-height: 100vh; /*only for now temporary; in the end height not min-height should be 100vh */
+}
+
+
 .writing-left-image-right-largeimage .step {
   grid-column: 1;
 }
@@ -125,17 +146,7 @@ body {
   grid-column: 2;
 }
 
-.writing-left-image-right-largeimage {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: var(--grid-gutter);
-  max-width: 1440px;
-  grid-column: 1/ -1;
-  z-index: 2;
-  margin: 0 auto;
-  align-items: start;
-  min-height: 100vh; /*only for now temporary; in the end height not min-height should be 100vh */
-}
+
 
 .writing-left-image-right .step {
   grid-column: 1;

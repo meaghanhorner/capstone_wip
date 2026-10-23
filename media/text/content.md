@@ -109,13 +109,17 @@ I’ll look at them one at a time.
 
 ## Short Blocks
 ### Short Blocks
+<!-- svg: map-a -->
 We will start with the factor that has changed the least in 65 years: short blocks.
 
  Jacobs writes that short blocks multiply opportunities for street-level commerce, and give more route options to pedestrians, increasing foot traffic on all streets. 
  
- Additionally, she writes that the intersections formed by an organic, overlapping street layout, like that of Greenwich Village, provide ‘visual interruptions, cutting off the indefinite distant view and at the same time visually heightening and celebrating intense street use by giving it a hint of enclosure and entity’.  More recently, Dover and Massengale’s “Street Design: The Secret to Great Cities and Towns” (need a proper cite for this) goes further into the idea of a terminated vista, one of the characteristics of short blocks, as one of these secrets, stating that pedestrians need to see landmarks to find their way and feel a sense of enclosure and spatial definition in the city. Built before the standard 1811 Manhattan grid of widely spaced avenues (approx. 600-900 feet apart) and closely-spaced streets (approx 200-260 feet apart), blocks in Greenwich Village range between 150 - 500 feet and average 357 feet, among the shortest of all neighborhoods in the city.
+ Additionally, she writes that the intersections formed by an organic, overlapping street layout, like that of Greenwich Village, provide ‘visual interruptions, cutting off the indefinite distant view and at the same time visually heightening and celebrating intense street use by giving it a hint of enclosure and entity’.  More recently, Dover and Massengale’s “Street Design: The Secret to Great Cities and Towns” (need a proper cite for this) goes further into the idea of a terminated vista, one of the characteristics of short blocks, as one of these secrets, stating that pedestrians need to see landmarks to find their way and feel a sense of enclosure and spatial definition in the city. 
  
-(chart here can show differences in block length by neighborhood)
+ <!-- svg: chart-b -->
+ 
+ Built before the standard 1811 Manhattan grid of widely spaced avenues (approx. 600-900 feet apart) and closely-spaced streets (approx 200-260 feet apart), blocks in Greenwich Village range between 150 - 500 feet and average 357 feet, among the shortest of all neighborhoods in the city.
+ 
 
 (drawing here can show Jefferson Market Library providing a ‘terminated vista’ for pedestrians walking along west 10th street - although the street continues, because it turns, the library provides a landmark and the buildings on the opposite street create a sense of enclosure). 
 
@@ -191,3 +195,5 @@ Think it would be good to have a section focused on Greenwich Village’s queer 
 
 
 Let’s get some quotes from historical newspapers. This one is from The Villager, October 2, 1969. “ It seems to be the trend of the times,” (Mrs. Anita Adelman) said. “Everything is getting bigger and more depersonalized. This neighborhood was developed by small people who operated small businesses, and now the warlords, the large chain operations, are coming in and pushing all the little people out.” Phil Arlotta, operator of Costos Exotic Garden, another business that was forced to move, said “A large chain store will only help to further a bad change that has been gradually occurring in this neighborhood.” (Eighth St. Shops Dying One By One by Steven L. Kaplan).
+
+This is from "The Great Inversion" and I think it's fabulous, though he's writing about the financial district: "I live just about geographic dead center of the Financial District," longtime resident Ro Sheffe said toward the end of the boom in 2008, "and the three delis we had in 2000 are all gone. One is a high-end cosmetics store, one is high-end condos, one is Gucci couture. After nine o'clock at night[when the drugstores close], if I want a carton of milk, I have to walk nine blocks. In 2000, I could walk down the street."  

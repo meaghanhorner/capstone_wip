@@ -51,8 +51,13 @@ async function renderSteps() {
   // initScrollTriggers(); // set up GSAP once DOM is populated
 }
 
-renderSteps();
-
+renderSteps().then(() => {
+  const first = document.querySelector(".step-line");
+  const firstGraphic = document.querySelector(".graphic-stage > *");
+  updateGraphic(first?.dataset.svg || firstGraphic?.id);
+  initScrollTriggers();
+  window.addEventListener("load", () => ScrollTrigger.refresh());
+});
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -60,87 +65,101 @@ ScrollTrigger.config({
   autoRefreshEvents: "visibilitychange,DOMContentLoaded,resize",
 });
 
-let mm = gsap.matchMedia();
+function initScrollTriggers() {            // CHANGED: wrapped in a function
+  let mm = gsap.matchMedia();
 
-// Desktop / tablet: pinned graphic, scrubbed steps
-mm.add(
-  {
-    isDesktop: "(min-width: 768px) and (prefers-reduced-motion: no-preference)",
-    isMobile: "(max-width: 767px) and (prefers-reduced-motion: no-preference)",
-    reduced: "(prefers-reduced-motion: reduce)",
-  },
-  (context) => {
-    const { isDesktop, isMobile, reduced } = context.conditions;
-    const steps = gsap.utils.toArray(".step");
-    const triggers = [];
+  mm.add(
+    {
+      isDesktop: "(min-width: 768px) and (prefers-reduced-motion: no-preference)",
+      isMobile: "(max-width: 767px) and (prefers-reduced-motion: no-preference)",
+      reduced: "(prefers-reduced-motion: reduce)",
+    },
+    (context) => {
+      const { isDesktop, isMobile, reduced } = context.conditions;
+      const steps = gsap.utils.toArray(".step-line");   // CHANGED: .step -> .step-line
+      const triggers = [];
 
-    if (isDesktop) {
-      const stage = document.querySelector(".graphic-stage");
+      if (isDesktop) {
+        const stage = document.querySelector(".graphic-stage");
 
-      const pinTrigger = ScrollTrigger.create({
-        trigger: ".narrative-steps",
-        start: "top top",
-        end: "bottom bottom",
-        pin: stage,
-        pinSpacing: false, // narrative column already provides scroll length
-      });
-      triggers.push(pinTrigger);
-
-      steps.forEach((step, index) => {
         triggers.push(
           ScrollTrigger.create({
-            trigger: step,
-            start: "top 60%",
-            end: "bottom 40%",
-            onEnter: () => updateGraphic(index, "forward"),
-            onEnterBack: () => updateGraphic(index, "backward"),
+            trigger: ".narrative-steps",
+            start: "top top",
+            end: "bottom bottom",
+            pin: stage,
+            pinSpacing: false,
           })
         );
-      });
-    }
 
-    if (isMobile) {
-      // no pinning on mobile — avoid dynamic-toolbar jump/flicker
-      steps.forEach((step, index) => {
-        triggers.push(
-          ScrollTrigger.create({
-            trigger: step,
-            start: "top 70%",
-            onEnter: () => updateGraphic(index, "forward"),
-            onEnterBack: () => updateGraphic(index, "backward"),
-          })
-        );
-      });
-    }
+        steps.forEach((step) => {
+          triggers.push(
+            ScrollTrigger.create({
+              trigger: step,
+              start: "top 60%",
+              end: "bottom 40%",
+              onEnter: () => updateGraphic(step.dataset.svg),      // CHANGED
+              onEnterBack: () => updateGraphic(step.dataset.svg),  // CHANGED
+            })
+          );
+        });
+      }
 
-    if (reduced) {
-      // static reveal only, no scroll-linked motion
-      steps.forEach((step, index) => updateGraphic(index, "forward"));
-    }
+      if (isMobile) {
+        steps.forEach((step) => {
+          triggers.push(
+            ScrollTrigger.create({
+              trigger: step,
+              start: "top 70%",
+              onEnter: () => updateGraphic(step.dataset.svg),      // CHANGED
+              onEnterBack: () => updateGraphic(step.dataset.svg),  // CHANGED
+            })
+          );
+        });
+      }
 
-    // cleanup on breakpoint change
-    return () => {
-      triggers.forEach((t) => t.kill());
-    };
+      if (reduced) {
+        // CHANGED: same swap triggers, no pin, and updateGraphic skips the animation
+        steps.forEach((step) => {
+          triggers.push(
+            ScrollTrigger.create({
+              trigger: step,
+              start: "top 70%",
+              onEnter: () => updateGraphic(step.dataset.svg),
+              onEnterBack: () => updateGraphic(step.dataset.svg),
+            })
+          );
+        });
+      }
+
+      return () => {
+        triggers.forEach((t) => t.kill());
+      };
+    }
+  );
+}
+
+let currentId = null;
+
+function updateGraphic(id) {
+  const graphics = gsap.utils.toArray(".graphic-stage > *");
+  const match = graphics.find((g) => g.id === id);
+
+  if (!match) {
+    console.warn(`updateGraphic: no element with id "${id}". Found:`, graphics.map((g) => g.id));
+    return;
   }
-);
+  if (id === currentId) return;
+  currentId = id;
 
-// Refresh once fonts/images settle, so trigger math uses final layout
-document.fonts.ready.then(() => ScrollTrigger.refresh());
-
-window.addEventListener("load", () => {
-  const images = document.querySelectorAll(".graphic-stage img");
-  Promise.all(
-    Array.from(images).map((img) =>
-      img.complete
-        ? Promise.resolve()
-        : new Promise((res) => img.addEventListener("load", res, { once: true }))
-    )
-  ).then(() => ScrollTrigger.refresh());
-});
-
-function updateGraphic(stepIndex, direction) {
-  // your existing graphic-update logic
+  const instant = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  graphics.forEach((g) => {
+    gsap.to(g, {
+      autoAlpha: g.id === id ? 1 : 0,
+      duration: instant ? 0 : 0.5,
+      overwrite: true,
+    });
+  });
 }
 
 //START HAND DRAWN CHART GENERATOR 
@@ -522,10 +541,6 @@ Promise.all([
   const medianLookup = {};
   medianData.forEach((d) => { medianLookup[d.ntaname] = d; });
 
-  neighborhoods.features = neighborhoods.features.filter(
-    (f) => f.properties.boroname === "Manhattan"
-  );
-
   neighborhoods.features.forEach((f) => {
     const stats = medianLookup[f.properties.ntaname];
     f.properties.mean_length_ft   = stats ? stats.mean_length_ft : null;
@@ -628,5 +643,336 @@ Promise.all([
 
 
 }).catch((err) => console.error("Chart A failed:", err));
+
+//CHART B: BAR CHART OF MEAN BLOCK LENGTH
+
+Promise.all([
+  fetch("data/block_stats.json").then((r) => r.json()),
+  fetch("data/manhattan_ntas.geojson").then((r) => r.json()),
+]).then(([stats, ntas]) => {
+
+  // only neighborhoods that appear on the map in Chart A
+  const onMap = new Set(ntas.features.map((f) => f.properties.ntaname));
+
+  const data = stats
+    .filter((d) => onMap.has(d.ntaname) && d.mean_length_ft != null)
+    .map((d) => ({
+      name: /Greenwich Village/i.test(d.ntaname) ? "Greenwich Village" : d.ntaname,
+      value: d.mean_length_ft,
+      isGV: !!d.is_gv,
+    }))
+    .sort((a, b) => a.value - b.value);          // shortest at the top
+
+  const COLOR_GV    = "#f27966";
+  const COLOR_OTHER = "#ddb298";
+
+  const margin = { top: 70, right: 50, bottom: 40, left: 210 };
+  const barH   = 22;
+  const width  = 720;
+  const height = margin.top + margin.bottom + data.length * barH;
+
+  const svg = d3.select("#chart-b")
+    .append("svg")
+    .attr("viewBox", `0 0 ${width} ${height}`)
+    .attr("width", "100%")
+    .style("height", "auto");
+
+  svg.append("text")
+    .attr("x", 0).attr("y", 22)
+    .attr("font-family", "'Libre Baskerville', serif")
+    .attr("font-size", 16).attr("font-weight", 700)
+    .attr("fill", "#33302a")
+    .text("Greenwich Village has among the shortest blocks in Manhattan");
+
+  svg.append("text")
+    .attr("x", 0).attr("y", 44)
+    .attr("font-family", "'Libre Baskerville', serif")
+    .attr("font-size", 12).attr("fill", "#33302a")
+    .text("Average block length by neighborhood");
+
+  const x = d3.scaleLinear()
+    .domain([0, d3.max(data, (d) => d.value)])
+    .nice()
+    .range([margin.left, width - margin.right]);
+
+  const y = d3.scaleBand()
+    .domain(data.map((d) => d.name))
+    .range([margin.top, height - margin.bottom])
+    .padding(0.2);
+
+  // light gridlines + x axis
+  svg.append("g")
+    .attr("transform", `translate(0,${height - margin.bottom})`)
+    .call(d3.axisBottom(x).ticks(6).tickSize(-(height - margin.top - margin.bottom)))
+    .call((g) => g.select(".domain").remove())
+    .call((g) => g.selectAll(".tick line").attr("stroke", "#33302a").attr("stroke-opacity", 0.1))
+    .call((g) => g.selectAll("text").attr("font-size", 10).attr("fill", "#33302a"));
+
+  svg.append("text")
+    .attr("x", (margin.left + width - margin.right) / 2)
+    .attr("y", height - 6)
+    .attr("text-anchor", "middle")
+    .attr("font-size", 10).attr("fill", "#33302a")
+    .text("Average block length (feet)");
+
+  // bars
+  svg.append("g")
+    .selectAll("rect")
+    .data(data)
+    .join("rect")
+    .attr("x", x(0))
+    .attr("y", (d) => y(d.name))
+    .attr("width", (d) => x(d.value) - x(0))
+    .attr("height", y.bandwidth())
+    .attr("fill", (d) => (d.isGV ? COLOR_GV : COLOR_OTHER));
+
+  // neighborhood names
+  svg.append("g")
+    .selectAll("text")
+    .data(data)
+    .join("text")
+    .attr("x", margin.left - 8)
+    .attr("y", (d) => y(d.name) + y.bandwidth() / 2)
+    .attr("dy", "0.35em")
+    .attr("text-anchor", "end")
+    .attr("font-size", 11)
+    .attr("font-weight", (d) => (d.isGV ? 700 : 400))
+    .attr("fill", "#33302a")
+    .text((d) => d.name);
+
+  // value labels
+  svg.append("g")
+    .selectAll("text")
+    .data(data)
+    .join("text")
+    .attr("x", (d) => x(d.value) + 5)
+    .attr("y", (d) => y(d.name) + y.bandwidth() / 2)
+    .attr("dy", "0.35em")
+    .attr("font-size", 10)
+    .attr("font-weight", (d) => (d.isGV ? 700 : 400))
+    .attr("fill", "#33302a")
+    .text((d) => `${Math.round(d.value)} ft`);
+
+}).catch((err) => console.error("Chart B failed:", err));
+
+//END CHART B
+
+//CHART C: MAP OF BUILDING AGE IN GREENWICH VILLAGE
+
+Promise.all([
+  fetch("data/gv_buildingsage.geojson").then((r) => r.json()),
+  fetch("data/gv_boundary.geojson").then((r) => r.json()),
+]).then(([lots, boundary]) => {
+
+  // era bins: edit freely, no need to re-run R
+  const thresholds = [1830, 1860, 1900, 1930, 1960, 2000];
+  const eras = [
+    { label: "Before 1830", color: "#7f3b08" },
+    { label: "1830–1859",   color: "#b35806" },
+    { label: "1860–1899",   color: "#e08214" },
+    { label: "1900–1929",   color: "#fdb863" },
+    { label: "1930–1959",   color: "#b2abd2" },
+    { label: "1960–1999",   color: "#8073ac" },
+    { label: "2000 +",      color: "#2d004b" },
+  ];
+  const NO_DATA = "#e6e1d8";
+
+  const colorFor = (y) =>
+    (y == null || !isFinite(y) || y <= 0) ? NO_DATA : eras[d3.bisect(thresholds, y)].color;
+
+  const width = 700, height = 820;
+
+  const svg = d3.select("#map-c")
+    .append("svg")
+    .attr("viewBox", `0 0 ${width} ${height}`)
+    .attr("width", "100%")
+    .style("height", "auto");
+
+  svg.append("text")
+    .attr("x", 0).attr("y", 24)
+    .attr("font-family", "'Libre Baskerville', serif")
+    .attr("font-size", 16).attr("font-weight", 700)
+    .attr("fill", "#33302a")
+    .text("Most buildings in Greenwich Village date from the 19th century");   // check against the data
+
+  svg.append("text")
+    .attr("x", 0).attr("y", 46)
+    .attr("font-family", "'Libre Baskerville', serif")
+    .attr("font-size", 12).attr("fill", "#33302a")
+    .text("Tax lots by year built");
+
+  const projection = d3.geoMercator()
+    .fitExtent([[10, 70], [width - 10, height - 10]], boundary);
+  const path = d3.geoPath(projection);
+
+  const g = svg.append("g");
+
+  g.selectAll("path.hdc-lot")
+    .data(lots.features.filter((f) => f.geometry != null))
+    .join("path")
+    .attr("class", "hdc-lot")
+    .attr("d", path)
+    .attr("fill", (d) => colorFor(d.properties.yearbuilt))
+    .attr("stroke", "#ffffff")
+    .attr("stroke-width", 0.3)
+    .append("title")
+    .text((d) => {
+      const p = d.properties;
+      const yr = p.yearbuilt ? `built ${Math.round(p.yearbuilt)}` : "year built unknown";
+      return `${p.address || "Lot"}: ${yr}`;
+    });
+
+  // Greenwich Village boundary, same style as Chart A
+  g.selectAll("path.hdc-gv-border")
+    .data(boundary.type === "FeatureCollection" ? boundary.features : [boundary])
+    .join("path")
+    .attr("class", "hdc-gv-border")
+    .attr("d", path)
+    .attr("fill", "none")
+    .attr("stroke", "#f27966")
+    .attr("stroke-width", 4)
+    .attr("stroke-opacity", 0.7)
+    .attr("stroke-linejoin", "round")
+    .style("pointer-events", "none");
+
+  // legend (reuses the .hdc-legend styles from Chart A)
+  const legend = d3.select("#map-c").append("div").attr("class", "hdc-legend");
+  legend.append("div").attr("class", "hdc-legend-title").text("Year built");
+
+  const items = [...eras, { label: "No data", color: NO_DATA }];
+  const row = legend.selectAll(".hdc-legend-row")
+    .data(items)
+    .join("div")
+    .attr("class", "hdc-legend-row");
+  row.append("span").attr("class", "hdc-legend-swatch").style("background", (d) => d.color);
+  row.append("span").text((d) => d.label);
+
+}).catch((err) => console.error("Chart C failed:", err));
+// END CHART C
+
+//CHART D: BAR CHART OF BUILDING AGE IN GREENWICH VILLAGE
+
+fetch("data/gv_buildingsage.geojson")
+  .then((r) => r.json())
+  .then((lots) => {
+
+    // same eras and colors as Chart C
+    const thresholds = [1830, 1860, 1900, 1930, 1960, 2000];
+    const eras = [
+      { label: "Before 1830", color: "#7f3b08" },
+      { label: "1830–1859",   color: "#b35806" },
+      { label: "1860–1899",   color: "#e08214" },
+      { label: "1900–1929",   color: "#fdb863" },
+      { label: "1930–1959",   color: "#b2abd2" },
+      { label: "1960–1999",   color: "#8073ac" },
+      { label: "2000 +",      color: "#2d004b" },
+    ];
+
+    // count lots per era (lots with no year are left out, as in the R version)
+    const counts = new Array(eras.length).fill(0);
+    let known = 0, unknown = 0;
+
+    lots.features.forEach((f) => {
+      const y = f.properties.yearbuilt;
+      if (y == null || !isFinite(y) || y <= 0) { unknown++; return; }
+      counts[d3.bisect(thresholds, y)]++;
+      known++;
+    });
+
+    const data = eras.map((e, i) => ({
+      label: e.label,
+      color: e.color,
+      value: counts[i],
+      share: known ? counts[i] / known : 0,
+    }));
+
+    const margin = { top: 80, right: 20, bottom: 70, left: 55 };
+    const width  = 720;
+    const height = 460;
+
+    const svg = d3.select("#chart-d")
+      .append("svg")
+      .attr("viewBox", `0 0 ${width} ${height}`)
+      .attr("width", "100%")
+      .style("height", "auto");
+
+    svg.append("text")
+      .attr("x", 0).attr("y", 24)
+      .attr("font-family", "'Libre Baskerville', serif")
+      .attr("font-size", 16).attr("font-weight", 700)
+      .attr("fill", "#33302a")
+      .text("When Greenwich Village's buildings were built");    // check against the data
+
+    svg.append("text")
+      .attr("x", 0).attr("y", 46)
+      .attr("font-family", "'Libre Baskerville', serif")
+      .attr("font-size", 12).attr("fill", "#33302a")
+      .text("Number of tax lots by year built");
+
+    const x = d3.scaleBand()
+      .domain(data.map((d) => d.label))
+      .range([margin.left, width - margin.right])
+      .padding(0.2);
+
+    const y = d3.scaleLinear()
+      .domain([0, d3.max(data, (d) => d.value)])
+      .nice()
+      .range([height - margin.bottom, margin.top]);
+
+    // gridlines + y axis
+    svg.append("g")
+      .attr("transform", `translate(${margin.left},0)`)
+      .call(d3.axisLeft(y).ticks(5).tickSize(-(width - margin.left - margin.right)))
+      .call((g) => g.select(".domain").remove())
+      .call((g) => g.selectAll(".tick line").attr("stroke", "#33302a").attr("stroke-opacity", 0.1))
+      .call((g) => g.selectAll("text").attr("font-size", 10).attr("fill", "#33302a"));
+
+    svg.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("x", -(margin.top + height - margin.bottom) / 2)
+      .attr("y", 14)
+      .attr("text-anchor", "middle")
+      .attr("font-size", 10).attr("fill", "#33302a")
+      .text("Tax lots");
+
+    // bars
+    svg.append("g")
+      .selectAll("rect")
+      .data(data)
+      .join("rect")
+      .attr("x", (d) => x(d.label))
+      .attr("y", (d) => y(d.value))
+      .attr("width", x.bandwidth())
+      .attr("height", (d) => y(0) - y(d.value))
+      .attr("fill", (d) => d.color)
+      .append("title")
+      .text((d) => `${d.label}: ${d.value.toLocaleString()} lots (${Math.round(d.share * 100)}%)`);
+
+    // count + percent labels above the bars
+    svg.append("g")
+      .selectAll("text")
+      .data(data)
+      .join("text")
+      .attr("x", (d) => x(d.label) + x.bandwidth() / 2)
+      .attr("y", (d) => y(d.value) - 6)
+      .attr("text-anchor", "middle")
+      .attr("font-size", 10)
+      .attr("fill", "#33302a")
+      .text((d) => `${d.value.toLocaleString()} (${Math.round(d.share * 100)}%)`);
+
+    // era labels
+    svg.append("g")
+      .attr("transform", `translate(0,${height - margin.bottom})`)
+      .call(d3.axisBottom(x).tickSize(0))
+      .call((g) => g.select(".domain").attr("stroke", "#33302a").attr("stroke-opacity", 0.4))
+      .call((g) => g.selectAll("text").attr("dy", "1em").attr("font-size", 11).attr("fill", "#33302a"));
+
+    // note on missing data
+    svg.append("text")
+      .attr("x", 0).attr("y", height - 8)
+      .attr("font-size", 10).attr("fill", "#33302a").attr("fill-opacity", 0.7)
+      .text(`${unknown.toLocaleString()} lots with no year built are not shown. Source: NYC MapPLUTO`);
+
+  }).catch((err) => console.error("Chart D failed:", err));
 
 //END CHARTS
