@@ -49,24 +49,24 @@
     "is_gv": false
   },
   {
-    "ntaname": "West Village",
-    "n_segments": 382,
-    "mean_length_ft": 277.1478,
-    "median_length_ft": 255.7827,
+    "ntaname": "Greenwich Village",
+    "n_segments": 496,
+    "mean_length_ft": 289.6994,
+    "median_length_ft": 256.2756,
     "is_gv": true
   },
   {
     "ntaname": "East Village",
-    "n_segments": 309,
-    "mean_length_ft": 355.1544,
-    "median_length_ft": 257.8698,
+    "n_segments": 390,
+    "mean_length_ft": 337.3177,
+    "median_length_ft": 257.7812,
     "is_gv": false
   },
   {
     "ntaname": "Chelsea-Hudson Yards",
-    "n_segments": 517,
-    "mean_length_ft": 342.7917,
-    "median_length_ft": 258.3713,
+    "n_segments": 525,
+    "mean_length_ft": 343.6793,
+    "median_length_ft": 258.6998,
     "is_gv": false
   },
   {
@@ -82,13 +82,6 @@
     "mean_length_ft": 320.3837,
     "median_length_ft": 259.0878,
     "is_gv": false
-  },
-  {
-    "ntaname": "Greenwich Village",
-    "n_segments": 208,
-    "mean_length_ft": 302.2615,
-    "median_length_ft": 259.4704,
-    "is_gv": true
   },
   {
     "ntaname": "Harlem (North)",
@@ -133,13 +126,6 @@
     "is_gv": false
   },
   {
-    "ntaname": "SoHo-Little Italy-Hudson Square",
-    "n_segments": 321,
-    "mean_length_ft": 300.6841,
-    "median_length_ft": 264.5797,
-    "is_gv": false
-  },
-  {
     "ntaname": "Upper East Side-Yorkville",
     "n_segments": 230,
     "mean_length_ft": 386.8192,
@@ -151,6 +137,13 @@
     "n_segments": 197,
     "mean_length_ft": 328.9778,
     "median_length_ft": 264.7236,
+    "is_gv": false
+  },
+  {
+    "ntaname": "SoHo-Little Italy-Hudson Square",
+    "n_segments": 328,
+    "mean_length_ft": 298.8877,
+    "median_length_ft": 264.7451,
     "is_gv": false
   },
   {
@@ -204,9 +197,9 @@
   },
   {
     "ntaname": "Midtown South-Flatiron-Union Square",
-    "n_segments": 195,
-    "mean_length_ft": 407.5883,
-    "median_length_ft": 276.7442,
+    "n_segments": 193,
+    "mean_length_ft": 404.117,
+    "median_length_ft": 276.7121,
     "is_gv": false
   },
   {
