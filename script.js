@@ -49,6 +49,25 @@ async function renderSteps() {
   });
 }
 
+const CURTAIN_FADE_ZONE = 0.25;
+const CURTAIN_EXIT_MARGIN = 0.25;
+const curtainReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+function updateCurtainFades() {
+  const vh = window.innerHeight;
+  const zone = vh * CURTAIN_FADE_ZONE;
+  const exit = vh * CURTAIN_EXIT_MARGIN;
+  document.querySelectorAll('.curtain .step-line').forEach(box => {
+    if (curtainReduceMotion.matches) { box.style.opacity = 1; return; }
+    const b = box.getBoundingClientRect();
+    const fadeIn  = Math.max(0, Math.min(1, (vh - b.top) / zone));
+    const fadeOut = Math.max(0, Math.min(1, b.bottom / zone));
+    box.style.opacity = Math.min(fadeIn, fadeOut).toFixed(3);
+  });
+}
+
+window.addEventListener('scroll', () => requestAnimationFrame(updateCurtainFades), { passive: true });
+window.addEventListener('resize', updateCurtainFades);
 
 
 function updateGraphic(id) {

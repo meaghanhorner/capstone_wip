@@ -6,15 +6,15 @@ Title: The Death and Life of Greenwich Village (ehhhh) still could be better
 
 ## Section Intro
 ### Commercial Space Available
-
+<!-- svg: -->
 It is a brisk October morning in Greenwich Village. Caffe Reggio, at 119 MacDougal Street, which claims to have served the first cappuccino in America in 1927, is still serving them 99 years later to tourists and residents of Greenwich Village alike. Still fairly early in the morning, MacDougal Street is not yet swarming with NYU students, but some early bird tourists are out taking photos. A woman walks her dog. Across the street, brown craft paper covers the floor to ceiling storefront windows at 126 MacDougal. Next door to 126 MacDougal is a storefront advertising "Commercial Space Available". It has been vacant since at least April, according to Google's Streetview. 
-
+<!-- svg: -->
 Two vacant storefronts may not seem like much, but it might be surprising that there are any at all on one of the busiest streets in one of the busiest cities in the world. In fact, New York City considers them a big enough problem that the city comptroller's office issued a report, titled "Who's Minding the Storefronts? An Analysis of Storefront Vacancies in New York City" in June 2026. They've been written about in the New York Times and Curbed, which have placed the blame on "Sex and the City" and landlords holding out for high rents from drugstores and banks. 
-
+<!-- svg: -->
 What is undeniable is that commercial rents in Greenwich Village are, adjusted for inflation, dramatically higher than they were in the 1960s. 
-
+<!-- svg: -->
 Jane Jacobs, who wrote about her beloved neighborhood in the late 1950s and early 1960s, recognized the importance of storefront businesses to the vitality of a neighborhood. "The trust of a city street is formed over time from many, many little public sidewalk contacts. It grows out of people stopping by at the bar for a beer, getting advice from the grocer and giving advice to the newsstand man, comparing opinions with other customers at the bakery and nodding hello to the two boys drinking pop on the stoop; eying the girls while waiting to be called for dinner, admonishing the children, hearing about a job from the hardware man and borrowing a dollar from the druggist, admiring the new babies and sympathizing over the way a coat faded."(73)
-
+<!-- svg: -->
 So if storefronts are so important to a neighborhood, why do so many sit vacant in Greenwich Village today? 
 
 ## Section Context
@@ -145,7 +145,9 @@ In 1961, buildings in Greenwich Village seemingly varied greatly in condition, o
 In 2026, although the old buildings have only gotten older, and new buildings have gone up, the gap between the most expensive and least expensive commercial rents has narrowed rather than gotten wider. In the first half of 2024, according to REBNY, asking rent for storefronts on Bleeker between Seventh Avenue South and Houston Street ranged between $160 and $195 per square foot, a (xx) percent range which indicates little difference from the most expensive and least expensive storefronts on a per square foot basis. 
 
 
-Based on this data, is Greenwich Village still a place with buildings that ‘vary in age and condition, including a good proportion of old ones so that they vary in the economic yield they must produce?’ No, that is no longer the case. - Greenwich Village’s buildings have been renovated to the point where they no longer vary in the economic yield they must produce. 
+Based on this data, is Greenwich Village still a place with buildings that ‘vary in age and condition, including a good proportion of old ones so that they vary in the economic yield they must produce’? Let's look at both parts of the condition. Greenwich Village does still have a mix of old and new buildings, as the buildings added in the last 30 years add to the buildings built in the 19th and 20th centuries. But do they vary in the economic yield they must produce? Now there is little difference between the cheapest and most expensive storefronts, leaving small and less profitable businesses priced out entirely. 
+
+Looking at old business records, I found many instances in the 1960s and 1970s when a business moved but stayed in Greenwich Village. Murray's Cheese started out at a different location than where it is now. Matt Umanov Guitars moved when the pizzeria John's of Bleecker Street expanded into his former location. Costos Exotic Garden, which was forced to move in 1969 to accomodate a Nathan's location, reopened a few blocks away. In fact, xx% of businesses that closed in one location reopened in another. Today, when businesses close, they reopen outside Greenwich Village - or don't reopen at all. xx% of businesses that closed at one location in 20015 or 2020 are still open in Greenwich Village today.   
 
 
 (chart showing range of price in 1961 vs. today)
