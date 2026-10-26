@@ -23,6 +23,7 @@ function createHandDrawnMap(opts) {
     strokeOnly = false,
     zoomScale = 1,
     zoomCenter = [0.5,0.5],
+    startZoomed = false,
   } = opts;
 
   const instanceId = inkNextId("hdc-map");
@@ -64,7 +65,7 @@ function createHandDrawnMap(opts) {
   const cleanGeojson = { ...geojson, features: cleanFeatures };
 
   
-  const proj = (projection || d3.geoMercator()).fitSize([width, height], geojson);
+  const proj = (projection || d3.geoMercator()).fitSize([width, height], cleanGeojson);
   const path = d3.geoPath(proj);
 
   const color = colorScale || (() => "#d4dfa8");
@@ -86,17 +87,24 @@ function createHandDrawnMap(opts) {
     .append("title")
     .text((d) => (d.properties && d.properties.name) || "");
 
-  // --- NEW: apply a fixed (non-interactive) zoom transform, centered on zoomCenter ---
-  if (zoomScale !== 1) {
-    const cx = width * zoomCenter[0];
-    const cy = height * zoomCenter[1];
-    // scale around the chosen center point: translate to origin, scale, translate back
-    const tx = cx - cx * zoomScale;
-    const ty = cy - cy * zoomScale;
-    inner.attr("transform", `translate(${tx}, ${ty}) scale(${zoomScale})`);
+  // --- two zoom states: full view and zoomed view ---
+  const cx = width * zoomCenter[0];
+  const cy = height * zoomCenter[1];
+  const fullTransform = "translate(0, 0) scale(1)";
+  const zoomedTransform =
+    `translate(${cx - cx * zoomScale}, ${cy - cy * zoomScale}) scale(${zoomScale})`;
+
+  inner.attr("transform", startZoomed ? zoomedTransform : fullTransform);
+
+  function zoomTo(zoomed, duration = 1800) {
+    inner.interrupt()
+      .transition()
+      .duration(duration)
+      .ease(d3.easeCubicInOut)
+      .attr("transform", zoomed ? zoomedTransform : fullTransform);
   }
 
-  return { id: instanceId, projection: proj, path, svg, g: inner };
+  return { id: instanceId, filterId, projection: proj, path, svg, g: inner, zoomTo };
 }
 
 if (typeof window !== "undefined") {

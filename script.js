@@ -4,11 +4,11 @@ async function loadSections(mdPath) {
   const res = await fetch(mdPath);
   let raw = (await res.text()).replace(/\r\n/g, "\n");
 
-  const chunks = raw.split(/\n(?=## )/).filter(Boolean);
+  const chunks = raw.split(/\n(?=##### )/).filter(Boolean);
   const sections = {};
 
   chunks.forEach((chunk) => {
-    const match = chunk.match(/^##\s+(.*)\n/);
+    const match = chunk.match(/^#####\s+(.*)\n/);
     if (!match) return;
     const key = match[1].trim();
     const body = chunk.slice(match[0].length).trim();
@@ -70,10 +70,21 @@ window.addEventListener('scroll', () => requestAnimationFrame(updateCurtainFades
 window.addEventListener('resize', updateCurtainFades);
 
 
+const zoomHandlers = {};
+
 function updateGraphic(id) {
+  // "map-a-zoom-in" / "map-a-zoom-out" -> show graphic "map-a" and set its zoom
+  let zoomIn = null;
+  const m = id && id.match(/^(.*)-zoom-(in|out)$/);
+  if (m) { zoomIn = m[2] === "in"; id = m[1]; }
+
   const target = id ? document.getElementById(id) : null;
   const stage = target?.closest(".graphic-stage");
-  if (!stage || stage.dataset.current === id) return;   // ignore ids that aren't in a stage
+  if (!stage) return;
+
+  if (zoomIn !== null && zoomHandlers[id]) zoomHandlers[id](zoomIn);
+
+  if (stage.dataset.current === id) return;
   stage.dataset.current = id;
 
   gsap.utils.toArray(stage.children).forEach((g) => {
@@ -543,8 +554,14 @@ Promise.all([
     thresholds: thresholds,
   });
 
-  // 2. street segments
+  const inkFilter = `url(#${neighborhoodMap.filterId})`;
+
+   // 2. street segments
   neighborhoodMap.g
+    .append("g")
+    .attr("class", "hdc-streets")
+    .attr("filter", inkFilter)
+    .style("pointer-events", "none")
     .selectAll("path.hdc-street")
     .data(segments.features.filter((f) => f.geometry != null))
     .join("path")
@@ -561,35 +578,97 @@ Promise.all([
   const labelFeatures = neighborhoods.features.filter((f) => f.properties.is_gv);
 
   neighborhoodMap.g
+    .append("g")
+    .attr("class", "hdc-gv-borders")
+    .attr("filter", inkFilter)
+    .style("pointer-events", "none")
     .selectAll("path.hdc-gv-border")
     .data(labelFeatures)
     .join("path")
     .attr("class", "hdc-gv-border")
     .attr("d", neighborhoodMap.path)
     .attr("fill", "none")
-    .attr("stroke", "#f27966")
+    .attr("stroke", "#b25a3f")
     .attr("stroke-width", 6)
-    .attr("stroke-opacity", .7)
+    .attr("stroke-opacity", 0.7)
     .attr("stroke-linejoin", "round")
-    .attr("vector-effect", "non-scaling-stroke")
-    .style("pointer-events", "none");
+    .attr("vector-effect", "non-scaling-stroke");
 
   neighborhoodMap.g
     .selectAll("text.hdc-label")
     .data(labelFeatures)
     .join("text")
     .attr("class", "hdc-label")
-    .attr("x", (d) => neighborhoodMap.path.centroid(d)[0] + 4)
+    .style("opacity", 0)
+    .attr("x", (d) => neighborhoodMap.path.centroid(d)[0] + 12)
     .attr("y", (d) => neighborhoodMap.path.centroid(d)[1] + 6)
     .attr("text-anchor", "middle")
-    .attr("font-size", 8)
+    .attr("font-size", 12)
     .attr("font-family", "'Libre Baskerville', serif")
     .attr("font-style", "italic")
     .attr("font-weight", 600)
-    .attr("fill", "#33302a")
+    .attr("fill", "#000000")
     .style("pointer-events", "none")
     .text((d) => d.properties.ntaname);
 
+    //tooltips
+
+      const tooltip = d3.select("body")
+    .append("div")
+    .attr("class", "hdc-tooltip")
+    .style("opacity", 0);
+
+  function moveTooltip(event) {
+    const pad = 14;
+    const node = tooltip.node();
+    const w = node.offsetWidth;
+    const h = node.offsetHeight;
+    let left = event.clientX + pad;
+    let top = event.clientY + pad;
+    // keep it on screen
+    if (left + w > window.innerWidth - 8) left = event.clientX - w - pad;
+    if (top + h > window.innerHeight - 8) top = event.clientY - h - pad;
+    tooltip.style("left", `${left}px`).style("top", `${top}px`);
+  }
+
+  neighborhoodMap.g
+    .selectAll("path.hdc-feature")
+    .style("cursor", "pointer")
+    .on("mouseenter", function (event, d) {
+      const len = d.properties.mean_length_ft;
+      tooltip
+        .html(
+          `<strong>${d.properties.ntaname}</strong><br>` +
+          (len != null ? `Mean block length: ${Math.round(len)} ft` : "No data")
+        )
+        .style("opacity", 1);
+      moveTooltip(event);
+      d3.select(this).attr("stroke-width", 2.4);   // thicker outline on hover
+    })
+    .on("mousemove", moveTooltip)
+    .on("mouseleave", function () {
+      tooltip.style("opacity", 0);
+      d3.select(this).attr("stroke-width", 1.2);
+    });
+
+
+
+    // zoom (triggered by updateGraphic when a map-a-zoom-in / map-a-zoom-out step is reached)
+  let zoomed = false;
+
+  zoomHandlers["map-a"] = function (next) {
+    if (next === zoomed) return;
+    zoomed = next;
+
+    neighborhoodMap.zoomTo(zoomed);
+
+    neighborhoodMap.g.selectAll("text.hdc-label")
+      .interrupt()
+      .transition()
+      .delay(zoomed ? 1500 : 0)
+      .duration(600)
+      .style("opacity", zoomed ? 1 : 0);
+  };
 
 }).catch((err) => console.error("Chart A failed:", err));
 
@@ -612,7 +691,7 @@ Promise.all([
     }))
     .sort((a, b) => a.value - b.value);          // shortest at the top
 
-  const COLOR_GV    = "#f27966";
+  const COLOR_GV    = "#4e976e";
   const COLOR_OTHER = "#ddb298";
 
   const margin = { top: 70, right: 50, bottom: 40, left: 210 };
@@ -778,7 +857,7 @@ Promise.all([
     .attr("class", "hdc-gv-border")
     .attr("d", path)
     .attr("fill", "none")
-    .attr("stroke", "#f27966")
+    .attr("stroke", "#4e976e")
     .attr("stroke-width", 4)
     .attr("stroke-opacity", 0.7)
     .attr("stroke-linejoin", "round")
@@ -928,3 +1007,4 @@ fetch("data/gv_buildingsage.geojson")
 
   ScrollTrigger.refresh();
 //END CHARTS
+
