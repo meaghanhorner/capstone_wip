@@ -140,12 +140,13 @@ When Jacobs writes about a mixture of old and new buildings, it isn’t only or 
 <!-- svg: chart-d -->
 In 1961, buildings in Greenwich Village seemingly varied greatly in condition, or at least in the economic yield they must produce. New York Times classified ads for retail space in the area showed rents ranging from xxx a square foot to yyy, a xx percent difference from the least expensive to the most expensive storefronts. From the classified ads we can see, too, the difference between some of the spaces (though of course the advertisers would have had cause to present their spaces in the best light) - we see basement storefronts advertised as well as ???. From Cole’s Directory Reference we can see that many businesses shared an address, if not a storefront, indicating that one single residential building might have had a ground floor with many small businesses - xxxx is an example of this, where xxx yyy zzz and aaa all share the same address, each with their own tiny storefront. 
 
-
+<!-- svg: chart-e e1 -->
 In 2026, although the old buildings have only gotten older, and new buildings have gone up, the gap between the most expensive and least expensive commercial rents has narrowed rather than gotten wider. In the first half of 2024, according to REBNY, asking rent for storefronts on Bleeker between Seventh Avenue South and Houston Street ranged between $160 and $195 per square foot, a (xx) percent range which indicates little difference from the most expensive and least expensive storefronts on a per square foot basis. 
 
-
+<!-- svg: chart-e e2 -->
 Based on this data, is Greenwich Village still a place with buildings that ‘vary in age and condition, including a good proportion of old ones so that they vary in the economic yield they must produce’? Let's look at both parts of the condition. Greenwich Village does still have a mix of old and new buildings, as the buildings added in the last 30 years add to the buildings built in the 19th and 20th centuries. But do they vary in the economic yield they must produce? Now there is little difference between the cheapest and most expensive storefronts, leaving small and less profitable businesses priced out entirely. 
 
+<!-- svg: chart-e e3 -->
 Looking at old business records, I found many instances in the 1960s and 1970s when a business moved but stayed in Greenwich Village. Murray's Cheese started out at a different location than where it is now. Matt Umanov Guitars moved when the pizzeria John's of Bleecker Street expanded into his former location. Costos Exotic Garden, which was forced to move in 1969 to accomodate a Nathan's location, reopened a few blocks away. In fact, xx% of businesses that closed in one location reopened in another. Today, when businesses close, they reopen outside Greenwich Village - or don't reopen at all. xx% of businesses that closed at one location in 20015 or 2020 are still open in Greenwich Village today.   
 
 

@@ -30,8 +30,8 @@ function createHandDrawnMap(opts) {
   const root = d3.select(container);
   root.html("").classed("hand-drawn-chart", true).attr("data-instance", instanceId);
 
-  if (title) root.append("h2").attr("class", "hdc-title").text(title);
-  if (subtitle) root.append("p").attr("class", "hdc-subtitle").text(subtitle);
+  if (title) root.append("h3").attr("class", "hdc-title").text(title);
+  if (subtitle) root.append("h5").attr("class", "hdc-subtitle").text(subtitle);
 
   const svg = root
   .append("svg")

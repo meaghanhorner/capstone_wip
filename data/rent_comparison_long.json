@@ -1,0 +1,854 @@
+[
+  {
+    "Year": 1961,
+    "series": "Greenwich Village",
+    "value": 6.42,
+    "n": null
+  },
+  {
+    "Year": 1961,
+    "series": "Greenwich Village (Max)",
+    "value": 9.68,
+    "n": null
+  },
+  {
+    "Year": 1961,
+    "series": "Greenwich Village (Min)",
+    "value": 2.33,
+    "n": null
+  },
+  {
+    "Year": 1961,
+    "series": "Manhattan (NYT)",
+    "value": 5.44,
+    "n": null
+  },
+  {
+    "Year": 1961,
+    "series": "Bleecker (NYT listings)",
+    "value": 2.71,
+    "n": 1
+  },
+  {
+    "Year": 1961,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": -1.9,
+    "n": null
+  },
+  {
+    "Year": 1962,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": -0.3,
+    "n": null
+  },
+  {
+    "Year": 1963,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 1.29,
+    "n": null
+  },
+  {
+    "Year": 1964,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 2.89,
+    "n": null
+  },
+  {
+    "Year": 1965,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 4.48,
+    "n": null
+  },
+  {
+    "Year": 1966,
+    "series": "Greenwich Village",
+    "value": 6,
+    "n": null
+  },
+  {
+    "Year": 1966,
+    "series": "Greenwich Village (Max)",
+    "value": 7.8,
+    "n": null
+  },
+  {
+    "Year": 1966,
+    "series": "Greenwich Village (Min)",
+    "value": 2.57,
+    "n": null
+  },
+  {
+    "Year": 1966,
+    "series": "Manhattan (NYT)",
+    "value": 5.65,
+    "n": null
+  },
+  {
+    "Year": 1966,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 6.07,
+    "n": null
+  },
+  {
+    "Year": 1967,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 7.67,
+    "n": null
+  },
+  {
+    "Year": 1968,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 9.26,
+    "n": null
+  },
+  {
+    "Year": 1969,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 10.86,
+    "n": null
+  },
+  {
+    "Year": 1970,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 12.45,
+    "n": null
+  },
+  {
+    "Year": 1971,
+    "series": "Greenwich Village",
+    "value": 8.85,
+    "n": null
+  },
+  {
+    "Year": 1971,
+    "series": "Greenwich Village (Max)",
+    "value": 15.6,
+    "n": null
+  },
+  {
+    "Year": 1971,
+    "series": "Greenwich Village (Min)",
+    "value": 3.9,
+    "n": null
+  },
+  {
+    "Year": 1971,
+    "series": "Manhattan (NYT)",
+    "value": 7.89,
+    "n": null
+  },
+  {
+    "Year": 1971,
+    "series": "Bleecker (NYT listings)",
+    "value": 3.9,
+    "n": 1
+  },
+  {
+    "Year": 1971,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 14.04,
+    "n": null
+  },
+  {
+    "Year": 1972,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 15.64,
+    "n": null
+  },
+  {
+    "Year": 1973,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 17.23,
+    "n": null
+  },
+  {
+    "Year": 1974,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 18.82,
+    "n": null
+  },
+  {
+    "Year": 1975,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 20.42,
+    "n": null
+  },
+  {
+    "Year": 1976,
+    "series": "Greenwich Village",
+    "value": 11.36,
+    "n": null
+  },
+  {
+    "Year": 1976,
+    "series": "Greenwich Village (Max)",
+    "value": 25.95,
+    "n": null
+  },
+  {
+    "Year": 1976,
+    "series": "Greenwich Village (Min)",
+    "value": 6,
+    "n": null
+  },
+  {
+    "Year": 1976,
+    "series": "Manhattan (NYT)",
+    "value": 9.4,
+    "n": null
+  },
+  {
+    "Year": 1976,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 22.01,
+    "n": null
+  },
+  {
+    "Year": 1977,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 23.61,
+    "n": null
+  },
+  {
+    "Year": 1978,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 25.2,
+    "n": null
+  },
+  {
+    "Year": 1979,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 26.79,
+    "n": null
+  },
+  {
+    "Year": 1980,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 28.39,
+    "n": null
+  },
+  {
+    "Year": 1981,
+    "series": "Greenwich Village",
+    "value": 26.96,
+    "n": null
+  },
+  {
+    "Year": 1981,
+    "series": "Greenwich Village (Max)",
+    "value": 44.71,
+    "n": null
+  },
+  {
+    "Year": 1981,
+    "series": "Greenwich Village (Min)",
+    "value": 9.52,
+    "n": null
+  },
+  {
+    "Year": 1981,
+    "series": "Manhattan (NYT)",
+    "value": 26.8,
+    "n": null
+  },
+  {
+    "Year": 1981,
+    "series": "Bleecker (NYT listings)",
+    "value": 21,
+    "n": 1
+  },
+  {
+    "Year": 1981,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 29.98,
+    "n": null
+  },
+  {
+    "Year": 1982,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 31.58,
+    "n": null
+  },
+  {
+    "Year": 1983,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 33.17,
+    "n": null
+  },
+  {
+    "Year": 1984,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 34.76,
+    "n": null
+  },
+  {
+    "Year": 1985,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 36.36,
+    "n": null
+  },
+  {
+    "Year": 1986,
+    "series": "Greenwich Village",
+    "value": 48.53,
+    "n": null
+  },
+  {
+    "Year": 1986,
+    "series": "Greenwich Village (Max)",
+    "value": 130,
+    "n": null
+  },
+  {
+    "Year": 1986,
+    "series": "Greenwich Village (Min)",
+    "value": 20,
+    "n": null
+  },
+  {
+    "Year": 1986,
+    "series": "Manhattan (NYT)",
+    "value": 46.53,
+    "n": null
+  },
+  {
+    "Year": 1986,
+    "series": "Bleecker (NYT listings)",
+    "value": 49.71,
+    "n": 2
+  },
+  {
+    "Year": 1986,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 37.95,
+    "n": null
+  },
+  {
+    "Year": 1987,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 39.54,
+    "n": null
+  },
+  {
+    "Year": 1988,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 41.14,
+    "n": null
+  },
+  {
+    "Year": 1989,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 42.73,
+    "n": null
+  },
+  {
+    "Year": 1990,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 44.33,
+    "n": null
+  },
+  {
+    "Year": 1991,
+    "series": "Greenwich Village",
+    "value": 46.79,
+    "n": null
+  },
+  {
+    "Year": 1991,
+    "series": "Greenwich Village (Max)",
+    "value": 94.29,
+    "n": null
+  },
+  {
+    "Year": 1991,
+    "series": "Greenwich Village (Min)",
+    "value": 14.62,
+    "n": null
+  },
+  {
+    "Year": 1991,
+    "series": "Manhattan (NYT)",
+    "value": 44.52,
+    "n": null
+  },
+  {
+    "Year": 1991,
+    "series": "Bleecker (NYT listings)",
+    "value": 40,
+    "n": 1
+  },
+  {
+    "Year": 1991,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 45.92,
+    "n": null
+  },
+  {
+    "Year": 1992,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 47.51,
+    "n": null
+  },
+  {
+    "Year": 1993,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 49.11,
+    "n": null
+  },
+  {
+    "Year": 1994,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 50.7,
+    "n": null
+  },
+  {
+    "Year": 1995,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 52.3,
+    "n": null
+  },
+  {
+    "Year": 1996,
+    "series": "Greenwich Village",
+    "value": 50.93,
+    "n": null
+  },
+  {
+    "Year": 1996,
+    "series": "Greenwich Village (Max)",
+    "value": 60,
+    "n": null
+  },
+  {
+    "Year": 1996,
+    "series": "Greenwich Village (Min)",
+    "value": 40,
+    "n": null
+  },
+  {
+    "Year": 1996,
+    "series": "Manhattan (NYT)",
+    "value": 55.12,
+    "n": null
+  },
+  {
+    "Year": 1996,
+    "series": "Bleecker (NYT listings)",
+    "value": 60,
+    "n": 1
+  },
+  {
+    "Year": 1996,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 53.89,
+    "n": null
+  },
+  {
+    "Year": 1997,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 55.48,
+    "n": null
+  },
+  {
+    "Year": 1998,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 57.08,
+    "n": null
+  },
+  {
+    "Year": 1999,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 58.67,
+    "n": null
+  },
+  {
+    "Year": 2000,
+    "series": "Manhattan (REBNY)",
+    "value": 96,
+    "n": null
+  },
+  {
+    "Year": 2000,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 60.26,
+    "n": null
+  },
+  {
+    "Year": 2001,
+    "series": "Greenwich Village",
+    "value": 64,
+    "n": null
+  },
+  {
+    "Year": 2001,
+    "series": "Greenwich Village (Max)",
+    "value": 64,
+    "n": null
+  },
+  {
+    "Year": 2001,
+    "series": "Greenwich Village (Min)",
+    "value": 64,
+    "n": null
+  },
+  {
+    "Year": 2001,
+    "series": "Manhattan (NYT)",
+    "value": 71.45,
+    "n": null
+  },
+  {
+    "Year": 2001,
+    "series": "Manhattan (REBNY)",
+    "value": 91,
+    "n": null
+  },
+  {
+    "Year": 2001,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 61.86,
+    "n": null
+  },
+  {
+    "Year": 2002,
+    "series": "Manhattan (REBNY)",
+    "value": 86,
+    "n": null
+  },
+  {
+    "Year": 2002,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 63.45,
+    "n": null
+  },
+  {
+    "Year": 2003,
+    "series": "Manhattan (REBNY)",
+    "value": 90,
+    "n": null
+  },
+  {
+    "Year": 2003,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 65.05,
+    "n": null
+  },
+  {
+    "Year": 2004,
+    "series": "Manhattan (REBNY)",
+    "value": 97,
+    "n": null
+  },
+  {
+    "Year": 2004,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 66.64,
+    "n": null
+  },
+  {
+    "Year": 2005,
+    "series": "Manhattan (REBNY)",
+    "value": 102.5,
+    "n": null
+  },
+  {
+    "Year": 2005,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 68.23,
+    "n": null
+  },
+  {
+    "Year": 2006,
+    "series": "Manhattan (REBNY)",
+    "value": 107,
+    "n": null
+  },
+  {
+    "Year": 2006,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 69.83,
+    "n": null
+  },
+  {
+    "Year": 2007,
+    "series": "Manhattan (REBNY)",
+    "value": 112.5,
+    "n": null
+  },
+  {
+    "Year": 2007,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 71.42,
+    "n": null
+  },
+  {
+    "Year": 2008,
+    "series": "Manhattan (REBNY)",
+    "value": 120,
+    "n": null
+  },
+  {
+    "Year": 2008,
+    "series": "Manhattan (Bleecker)",
+    "value": 379.5,
+    "n": null
+  },
+  {
+    "Year": 2008,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 73.02,
+    "n": null
+  },
+  {
+    "Year": 2009,
+    "series": "Manhattan (REBNY)",
+    "value": 116,
+    "n": null
+  },
+  {
+    "Year": 2009,
+    "series": "Manhattan (Bleecker)",
+    "value": 528,
+    "n": null
+  },
+  {
+    "Year": 2009,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 74.61,
+    "n": null
+  },
+  {
+    "Year": 2010,
+    "series": "Manhattan (REBNY)",
+    "value": 115.5,
+    "n": null
+  },
+  {
+    "Year": 2010,
+    "series": "Manhattan (Bleecker)",
+    "value": 486,
+    "n": null
+  },
+  {
+    "Year": 2010,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 76.2,
+    "n": null
+  },
+  {
+    "Year": 2011,
+    "series": "Manhattan (REBNY)",
+    "value": 113.5,
+    "n": null
+  },
+  {
+    "Year": 2011,
+    "series": "Manhattan (Bleecker)",
+    "value": 429.5,
+    "n": null
+  },
+  {
+    "Year": 2011,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 77.8,
+    "n": null
+  },
+  {
+    "Year": 2012,
+    "series": "Manhattan (REBNY)",
+    "value": 112,
+    "n": null
+  },
+  {
+    "Year": 2012,
+    "series": "Manhattan (Bleecker)",
+    "value": 455,
+    "n": null
+  },
+  {
+    "Year": 2012,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 79.39,
+    "n": null
+  },
+  {
+    "Year": 2013,
+    "series": "Manhattan (REBNY)",
+    "value": 123,
+    "n": null
+  },
+  {
+    "Year": 2013,
+    "series": "Manhattan (Bleecker)",
+    "value": 478.5,
+    "n": null
+  },
+  {
+    "Year": 2013,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 80.99,
+    "n": null
+  },
+  {
+    "Year": 2014,
+    "series": "Manhattan (REBNY)",
+    "value": 144,
+    "n": null
+  },
+  {
+    "Year": 2014,
+    "series": "Manhattan (Bleecker)",
+    "value": 504,
+    "n": null
+  },
+  {
+    "Year": 2014,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 82.58,
+    "n": null
+  },
+  {
+    "Year": 2015,
+    "series": "Manhattan (REBNY)",
+    "value": 154.5,
+    "n": null
+  },
+  {
+    "Year": 2015,
+    "series": "Manhattan (Bleecker)",
+    "value": 474.5,
+    "n": null
+  },
+  {
+    "Year": 2015,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 84.17,
+    "n": null
+  },
+  {
+    "Year": 2016,
+    "series": "Manhattan (REBNY)",
+    "value": 138.5,
+    "n": null
+  },
+  {
+    "Year": 2016,
+    "series": "Manhattan (Bleecker)",
+    "value": 492,
+    "n": null
+  },
+  {
+    "Year": 2016,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 85.77,
+    "n": null
+  },
+  {
+    "Year": 2017,
+    "series": "Manhattan (Bleecker)",
+    "value": 362,
+    "n": null
+  },
+  {
+    "Year": 2017,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 87.36,
+    "n": null
+  },
+  {
+    "Year": 2018,
+    "series": "Manhattan (Bleecker)",
+    "value": 312.5,
+    "n": null
+  },
+  {
+    "Year": 2018,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 88.95,
+    "n": null
+  },
+  {
+    "Year": 2019,
+    "series": "Manhattan (Bleecker)",
+    "value": 286,
+    "n": null
+  },
+  {
+    "Year": 2019,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 90.55,
+    "n": null
+  },
+  {
+    "Year": 2020,
+    "series": "Manhattan (Bleecker)",
+    "value": 263,
+    "n": null
+  },
+  {
+    "Year": 2020,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 92.14,
+    "n": null
+  },
+  {
+    "Year": 2021,
+    "series": "Manhattan (Bleecker)",
+    "value": 251,
+    "n": null
+  },
+  {
+    "Year": 2021,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 93.74,
+    "n": null
+  },
+  {
+    "Year": 2022,
+    "series": "Manhattan (Bleecker)",
+    "value": 226,
+    "n": null
+  },
+  {
+    "Year": 2022,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 95.33,
+    "n": null
+  },
+  {
+    "Year": 2023,
+    "series": "Manhattan (Bleecker)",
+    "value": 242.5,
+    "n": null
+  },
+  {
+    "Year": 2023,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 96.92,
+    "n": null
+  },
+  {
+    "Year": 2024,
+    "series": "Manhattan (Bleecker)",
+    "value": 433.5,
+    "n": null
+  },
+  {
+    "Year": 2024,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 98.52,
+    "n": null
+  },
+  {
+    "Year": 2025,
+    "series": "Manhattan (Bleecker)",
+    "value": 433,
+    "n": null
+  },
+  {
+    "Year": 2025,
+    "series": "Greenwich Village (trend extrapolated)",
+    "value": 100.11,
+    "n": null
+  }
+]

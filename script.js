@@ -17,9 +17,11 @@ async function loadSections(mdPath) {
 
     sections[key] = rawSteps.map((stepChunk) => {
       const svgMatch = stepChunk.match(/^<!--\s*svg:\s*(.*?)\s*-->\n/);
-      const svgName = svgMatch ? svgMatch[1].trim() : null;
+      const parts = svgMatch ? svgMatch[1].trim().split(/\s+/) : [];
+      const svgName = parts[0] || null;
+      const svgState = parts[1] || null;          // optional, e.g. "e2"
       const text = svgMatch ? stepChunk.slice(svgMatch[0].length) : stepChunk;
-      return { svg: svgName, html: marked.parse(text.trim()) };
+      return { svg: svgName, state: svgState, html: marked.parse(text.trim()) };
     });
   });
 
@@ -42,6 +44,7 @@ async function renderSteps() {
       const line = document.createElement("div");
       line.className = "step-line";
       line.dataset.svg = step.svg || "";
+      line.dataset.state = step.state || "";
       line.dataset.index = i;
       line.innerHTML = step.html;
       el.appendChild(line);
@@ -119,6 +122,18 @@ renderSteps().then(() => {
   });
 
   initScrollTriggers();
+
+  // chart-e: each step that names a state switches the plot (e1 / e2 / e3)
+  document.querySelectorAll('.step-line[data-svg="chart-e"]').forEach((el) => {
+    if (!el.dataset.state) return;
+    ScrollTrigger.create({
+      trigger: el,
+      start: "top 60%",
+      onEnter:     () => window.chartE.show(el.dataset.state),
+      onEnterBack: () => window.chartE.show(el.dataset.state),
+    });
+  });
+
   ScrollTrigger.refresh();
 });
 
@@ -540,7 +555,7 @@ Promise.all([
     geojson: neighborhoods,
     zoomScale: 3,
     zoomCenter: [0.3, 1],
-    title: "Greenwich Village and the West Village have among the shortest blocks in Manhattan",
+    title: "Greenwich Village has among the shortest blocks in Manhattan",
     subtitle: "Average length of blocks in Manhattan, by neighborhood",
     valueByFeature: (d) => d.properties.mean_length_ft,
     colorScale: neighborhoodColorScale,
@@ -665,14 +680,14 @@ Promise.all([
     neighborhoodMap.g.selectAll("text.hdc-label")
       .interrupt()
       .transition()
-      .delay(zoomed ? 1500 : 0)
+      .delay(zoomed ? 900 : 0)
       .duration(600)
       .style("opacity", zoomed ? 1 : 0);
   };
 
 }).catch((err) => console.error("Chart A failed:", err));
 
-//CHART B: BAR CHART OF MEAN BLOCK LENGTH
+//CHART B: BAR CHART OF AVERAGE BLOCK LENGTH
 
 Promise.all([
   fetch("data/block_stats.json").then((r) => r.json()),
@@ -691,98 +706,46 @@ Promise.all([
     }))
     .sort((a, b) => a.value - b.value);          // shortest at the top
 
-  const COLOR_GV    = "#4e976e";
-  const COLOR_OTHER = "#ddb298";
+  const COLOR_GV    = "#b25a3f";
+  const COLOR_OTHER = "#d89064";
 
-  const margin = { top: 70, right: 50, bottom: 40, left: 210 };
-  const barH   = 22;
-  const width  = 720;
-  const height = margin.top + margin.bottom + data.length * barH;
+  // the bar chart colours by series, so Greenwich Village and everything else
+  // are two series; each neighborhood has a value in exactly one of them
+  const seriesFor = (isGV) => ({
+    key: isGV ? "gv" : "other",
+    values: data.map((d) => ({ x: d.name, y: d.isGV === isGV ? d.value : null })),
+  });
 
-  const svg = d3.select("#chart-b")
-    .append("svg")
-    .attr("viewBox", `0 0 ${width} ${height}`)
-    .attr("width", "100%")
-    .style("height", "auto");
+   const barH = 30;   // was 22; more room per row now that bars are spaced further apart
+  const margin = { top: 20, right: 50, bottom: 40, left: 210 };
 
-  svg.append("text")
-    .attr("x", 0).attr("y", 22)
-    .attr("font-family", "'Libre Baskerville', serif")
-    .attr("font-size", 16).attr("font-weight", 700)
-    .attr("fill", "#33302a")
-    .text("Greenwich Village has among the shortest blocks in Manhattan");
-
-  svg.append("text")
-    .attr("x", 0).attr("y", 44)
-    .attr("font-family", "'Libre Baskerville', serif")
-    .attr("font-size", 12).attr("fill", "#33302a")
-    .text("Average block length by neighborhood");
-
-  const x = d3.scaleLinear()
-    .domain([0, d3.max(data, (d) => d.value)])
-    .nice()
-    .range([margin.left, width - margin.right]);
-
-  const y = d3.scaleBand()
-    .domain(data.map((d) => d.name))
-    .range([margin.top, height - margin.bottom])
-    .padding(0.2);
-
-  // light gridlines + x axis
-  svg.append("g")
-    .attr("transform", `translate(0,${height - margin.bottom})`)
-    .call(d3.axisBottom(x).ticks(6).tickSize(-(height - margin.top - margin.bottom)))
-    .call((g) => g.select(".domain").remove())
-    .call((g) => g.selectAll(".tick line").attr("stroke", "#33302a").attr("stroke-opacity", 0.1))
-    .call((g) => g.selectAll("text").attr("font-size", 10).attr("fill", "#33302a"));
-
-  svg.append("text")
-    .attr("x", (margin.left + width - margin.right) / 2)
-    .attr("y", height - 6)
-    .attr("text-anchor", "middle")
-    .attr("font-size", 10).attr("fill", "#33302a")
-    .text("Average block length (feet)");
-
-  // bars
-  svg.append("g")
-    .selectAll("rect")
-    .data(data)
-    .join("rect")
-    .attr("x", x(0))
-    .attr("y", (d) => y(d.name))
-    .attr("width", (d) => x(d.value) - x(0))
-    .attr("height", y.bandwidth())
-    .attr("fill", (d) => (d.isGV ? COLOR_GV : COLOR_OTHER));
-
-  // neighborhood names
-  svg.append("g")
-    .selectAll("text")
-    .data(data)
-    .join("text")
-    .attr("x", margin.left - 8)
-    .attr("y", (d) => y(d.name) + y.bandwidth() / 2)
-    .attr("dy", "0.35em")
-    .attr("text-anchor", "end")
-    .attr("font-size", 11)
-    .attr("font-weight", (d) => (d.isGV ? 700 : 400))
-    .attr("fill", "#33302a")
-    .text((d) => d.name);
-
-  // value labels
-  svg.append("g")
-    .selectAll("text")
-    .data(data)
-    .join("text")
-    .attr("x", (d) => x(d.value) + 5)
-    .attr("y", (d) => y(d.name) + y.bandwidth() / 2)
-    .attr("dy", "0.35em")
-    .attr("font-size", 10)
-    .attr("font-weight", (d) => (d.isGV ? 700 : 400))
-    .attr("fill", "#33302a")
-    .text((d) => `${Math.round(d.value)} ft`);
+  createHandDrawnBarChart({
+    container: "#chart-b",
+    title: "Greenwich Village has among the shortest blocks in Manhattan",
+    subtitle: "Average block length by neighborhood",
+    categories: [
+      { key: "other", label: "Other neighborhoods", color: COLOR_OTHER },
+      { key: "gv",    label: "Greenwich Village",   color: COLOR_GV },
+    ],
+    data: [seriesFor(false), seriesFor(true)],
+    width: 720,
+    mainHeight: margin.top + margin.bottom + data.length * barH,
+    margin,
+    horizontal: true,
+    stacked: true,
+    responsive: true,
+    showLegend: false,
+    gridlines: false,
+    categoryAxisLine: false,   // removes the line that starts all the bars
+    barPadding: 0.45,          // bars further apart (0.2 was the default)
+    strokeDarken: 0.4,         // outline is slightly darker than the fill
+    valueAxisLabel: "Average block length (feet)",
+    valueLabels: (v) => `${Math.round(v)} ft`,
+    yFormat: d3.format(",.0f"),
+    boldKeys: ["gv"],
+  });
 
 }).catch((err) => console.error("Chart B failed:", err));
-
 //END CHART B
 
 //CHART C: MAP OF BUILDING AGE IN GREENWICH VILLAGE
@@ -1006,5 +969,253 @@ fetch("data/gv_buildingsage.geojson")
 
 
   ScrollTrigger.refresh();
+
+
+//CHART E
+
+// public handle for the scroll code; calls made before the data loads are remembered
+window.chartE = window.chartE || {
+  requested: "e1",
+  show(name) { this.requested = name; },
+};
+
+fetch("data/rent_comparison_long.json")
+  .then((r) => r.json())
+  .then((allRows) => {
+
+    // drop any row without a usable year
+    const rows = allRows.filter((d) => d.Year != null && isFinite(+d.Year) && d.value != null);
+
+    const dimInactiveLegend = true;   // false = legend always at full strength
+
+    // year -> value lookup per series name in the JSON
+    const byName = d3.rollup(
+      rows,
+      (v) => new Map(v.map((d) => [+d.Year, +d.value])),
+      (d) => d.series
+    );
+
+    // range of GV listings: how much more the priciest listing costs than the cheapest (%)
+    const gvMax = byName.get("Greenwich Village (Max)") || new Map();
+    const gvMin = byName.get("Greenwich Village (Min)") || new Map();
+    if (!gvMin.size) console.warn("Chart E: 'Greenwich Village (Min)' is missing from the JSON, so e3 will be empty.");
+
+    const gvRange = new Map();
+    gvMax.forEach((hi, yr) => {
+      if (gvMin.has(yr) && gvMin.get(yr) > 0) {
+        gvRange.set(yr, ((hi - gvMin.get(yr)) / gvMin.get(yr)) * 100);
+        // alternative: range as % of the average listing
+        // gvRange.set(yr, ((hi - gvMin.get(yr)) / byName.get("Greenwich Village").get(yr)) * 100);
+      }
+    });
+
+    // every series any state uses (legend order)
+    const seriesDefs = [
+      { key: "manNyt",   label: "Manhattan (NYT)",                              color: "#2c3e50", map: byName.get("Manhattan (NYT)") },
+      { key: "gv",       label: "Greenwich Village",                            color: "#c0392b", map: byName.get("Greenwich Village") },
+      { key: "manRebny", label: "Manhattan (REBNY)",                            color: "#2980b9", map: byName.get("Manhattan (REBNY)") },
+      { key: "manRebny",      label: "Manhattan (REBNY)",                                color: "#2980b9", map: byName.get("Manhattan (REBNY)") },
+{ key: "bleeckerRebny", label: "Bleecker Street (REBNY)",                          color: "#8e44ad", map: byName.get("Manhattan (Bleecker)") },
+{ key: "gvRange",       label: "Greenwich Village: priciest vs. cheapest listing", color: "#c0392b", map: gvRange },
+      { key: "gvRange",  label: "Greenwich Village: priciest vs. cheapest listing", color: "#c0392b", map: gvRange },
+    ].filter((s) => s.map && s.map.size);
+
+    // x-range is fixed across states
+    const [minYear, maxYear] = d3.extent(seriesDefs.flatMap((s) => Array.from(s.map.keys())));
+    const years = d3.range(minYear, maxYear + 1);
+
+    // one value per year; real points are connected by straight lines however far apart,
+    // and a series stays empty before its first point and after its last
+    const fillYears = (lookup) => {
+      const pts = Array.from(lookup.entries()).sort((a, b) => a[0] - b[0]);
+      const findNext = d3.bisector((p) => p[0]).left;
+      return years.map((yr) => {
+        if (lookup.has(yr)) return { x: yr, y: lookup.get(yr) };
+        const i = findNext(pts, yr);
+        const prev = pts[i - 1];
+        const next = pts[i];
+        if (prev && next) {
+          const t = (yr - prev[0]) / (next[0] - prev[0]);
+          return { x: yr, y: prev[1] + (next[1] - prev[1]) * t };
+        }
+        return { x: yr, y: null };
+      });
+    };
+
+    const seriesByKey = {};
+    seriesDefs.forEach((s) => { seriesByKey[s.key] = { ...s, values: fillYears(s.map) }; });
+
+    // what each state shows: lines, and/or one area
+    const states = {
+      e1: { lines: ["manNyt", "gv"],             area: null },
+      e2: { lines: ["manNyt", "gv", "manRebny", "bleeckerRebny"], area: null },
+      e3: { lines: [],                           area: "gvRange" },
+    };
+
+    // ---------- fixed parts: title, subtitle, legend, frame, x-axis ----------
+    const width = 860;
+    const height = 400;
+    const margin = { top: 34, right: 24, bottom: 30, left: 48 };
+
+    const instanceId = typeof inkNextId === "function" ? inkNextId("hdc-chart-e") : "hdc-chart-e";
+    const root = d3.select("#chart-e");
+    root.html("").classed("hand-drawn-chart", true).attr("data-instance", instanceId);
+
+    root.append("h2").attr("class", "hdc-title").text("Rent per square foot: Greenwich Village vs Manhattan");    // check against the data
+    root.append("p").attr("class", "hdc-subtitle").text("Average price per sq ft per year ($); NYT figures are sampled every five years");
+
+    const legendItems = seriesDefs.map((s) => ({ key: s.key, label: s.label, color: s.color }));
+    const legend = root.append("div").attr("class", "hdc-legend");
+    const legendSpans = legend
+      .selectAll("span")
+      .data(legendItems)
+      .join("span")
+      .attr("class", "hdc-legend-btn")
+      .style("cursor", "default")
+      .style("pointer-events", "none")
+      .html((d) => `<span class="hdc-swatch" style="background:${d.color}"></span>${d.label}`);
+
+    const svg = root.append("svg")
+      .attr("class", "hdc-main")
+      .attr("viewBox", `0 0 ${width} ${height}`)
+      .attr("width", "100%")
+      .style("height", "auto");
+
+    const defs = svg.append("defs");
+    const ink = typeof installInkFilters === "function" ? installInkFilters(defs, instanceId) : null;
+    const inkFilter = ink ? `url(#${ink.filterId})` : null;
+    const inkPath = (pts, seed) => (typeof inkLinePath === "function" ? inkLinePath(pts, seed) : d3.line()(pts));
+
+    const innerWidth = width - margin.left - margin.right;
+    const innerHeight = height - margin.top - margin.bottom;
+
+    const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+    const x = d3.scaleLinear().domain([minYear, maxYear]).range([0, innerWidth]);
+    const y = d3.scaleLinear().range([innerHeight, 0]);
+
+    g.append("g")
+      .attr("class", "hdc-axis")
+      .attr("transform", `translate(0,${innerHeight})`)
+      .call(
+        d3.axisBottom(x)
+          .tickValues(d3.range(Math.ceil(minYear / 5) * 5, maxYear + 1, 5))
+          .tickFormat(d3.format("d"))
+      );
+
+    // ---------- changing parts: y-axis, caption, area, lines ----------
+    const gy = g.append("g").attr("class", "hdc-axis");
+    const yCaption = g.append("text")
+      .attr("x", 0).attr("y", -14)
+      .attr("font-size", 11).attr("fill", "#33302a").attr("fill-opacity", 0.8);
+    const areaLayer = g.append("g");
+    const linesLayer = g.append("g");
+
+    const areaGen = d3.area()
+      .x((v) => x(v.x))
+      .y0(() => y(0))
+      .y1((v) => y(v.y));
+
+    const definedPoints = (s) => s.values.filter((v) => v.y != null);
+    const linePts = (s) => definedPoints(s).map((v) => [x(v.x), y(v.y)]);
+
+    function show(name, instant) {
+      const st = states[name];
+      if (!st) { console.warn(`Chart E: unknown state "${name}"`); return; }
+
+      const dur = instant ? 0 : 700;
+      const lineSeries = st.lines.map((k) => seriesByKey[k]).filter(Boolean);
+      const areaSeries = st.area && seriesByKey[st.area] ? [seriesByKey[st.area]] : [];
+      const isPct = areaSeries.length > 0;
+      const visible = [...lineSeries, ...areaSeries];
+
+      // y-axis follows the state
+      y.domain([0, (d3.max(visible, (s) => d3.max(s.values, (v) => v.y)) || 1) * 1.15]).nice();
+      const yFormat = isPct
+        ? (d) => d3.format(",.0f")(d) + "%"
+        : (d) => "$" + d3.format(",.0f")(d);
+      gy.transition().duration(dur).call(d3.axisLeft(y).ticks(5).tickFormat(yFormat));
+
+      const caption = isPct
+        ? "How much more the priciest listing costs than the cheapest"
+        : "Price per sq ft per year";
+      if (instant) {
+        yCaption.text(caption);
+      } else {
+        yCaption.transition().duration(200).style("opacity", 0)
+          .transition().duration(300).text(caption).style("opacity", 1);
+      }
+
+      // legend stays put; entries not in this state are dimmed
+      if (dimInactiveLegend) {
+        const active = new Set(visible.map((s) => s.key));
+        legendSpans.transition().duration(dur).style("opacity", (d) => (active.has(d.key) ? 1 : 0.3));
+      }
+
+      // area (state e3): soft fill plus a hand-drawn edge on top
+      areaLayer.selectAll("path.chart-e-area")
+        .data(areaSeries, (d) => d.key)
+        .join(
+          (enter) => enter.append("path")
+            .attr("class", "chart-e-area")
+            .attr("fill", (d) => d.color)
+            .attr("filter", inkFilter)
+            .attr("d", (d) => areaGen(definedPoints(d)))
+            .style("opacity", 0),
+          (update) => update,
+          (exit) => exit.transition().duration(dur / 2).style("opacity", 0).remove()
+        )
+        .transition().duration(dur)
+        .attr("d", (d) => areaGen(definedPoints(d)))
+        .style("opacity", 0.35);
+
+      areaLayer.selectAll("path.chart-e-areaedge")
+        .data(areaSeries, (d) => d.key)
+        .join(
+          (enter) => enter.append("path")
+            .attr("class", "chart-e-areaedge")
+            .attr("fill", "none")
+            .attr("stroke", (d) => d.color)
+            .attr("stroke-width", 3)
+            .attr("stroke-linecap", "round")
+            .attr("filter", inkFilter)
+            .attr("d", (d) => inkPath(linePts(d), d.key.length))
+            .style("opacity", 0),
+          (update) => update,
+          (exit) => exit.transition().duration(dur / 2).style("opacity", 0).remove()
+        )
+        .transition().duration(dur)
+        .attr("d", (d) => inkPath(linePts(d), d.key.length))
+        .style("opacity", 0.9);
+
+      // lines (states e1, e2): lines carried over from the last state slide to
+      // the new scale; new ones fade in; dropped ones fade out
+      linesLayer.selectAll("path.chart-e-line")
+        .data(lineSeries, (d) => d.key)
+        .join(
+          (enter) => enter.append("path")
+            .attr("class", "chart-e-line")
+            .attr("fill", "none")
+            .attr("stroke", (d) => d.color)
+            .attr("stroke-width", 3)
+            .attr("stroke-linecap", "round")
+            .attr("filter", inkFilter)
+            .attr("d", (d) => inkPath(linePts(d), d.key.length))
+            .style("opacity", 0),
+          (update) => update,
+          (exit) => exit.transition().duration(dur / 2).style("opacity", 0).remove()
+        )
+        .transition().duration(dur)
+        .attr("d", (d) => inkPath(linePts(d), d.key.length))
+        .style("opacity", 0.9);
+    }
+
+    // hand the real function to the public handle and draw whatever was requested
+    window.chartE.show = show;
+    show(window.chartE.requested, true);
+
+  }).catch((err) => console.error("Chart E failed:", err));
+
+//END CHART E
+
 //END CHARTS
 
