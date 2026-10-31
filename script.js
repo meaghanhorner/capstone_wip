@@ -1215,7 +1215,166 @@ fetch("data/rent_comparison_long.json")
 
   }).catch((err) => console.error("Chart E failed:", err));
 
-//END CHART E
+//END CHART E(E1,E2,E3)
+
+//START CHART G VACANCIES 2026
+
+Promise.all([
+  fetch("data/vacancy_lots_2026.geojson").then((r) => r.json()),
+  fetch("data/vacancy_outlines_2026.geojson").then((r) => r.json()),
+  fetch("data/street_labels.geojson").then((r) => r.json()),
+]).then(([lots, outlines, labels]) => {
+
+  const TAN   = "#dbc398";
+  const OTHER = "residential, open space, or other";
+
+  const statuses = [
+    { key: "vacant",     label: "Has a vacant storefront",           color: "#dfa638" },
+    { key: "occupied",   label: "Occupied",                          color: "#4e9a82" },
+    { key: "demolished", label: "Demolished",                        color: "#636363" },
+    { key: OTHER,        label: "Residential, open space, or other", color: TAN },
+  ];
+
+  const colorScale = d3.scaleOrdinal()
+    .domain(statuses.map((s) => s.key))
+    .range(statuses.map((s) => s.color))
+    .unknown(TAN);
+
+  // one layer: every lot in the area, so the map draws and fits them together.
+  // surveyed lots go last so they sit on top
+  const surveyed = new Set(lots.features.map((f) => f.properties.bbl));
+  const rest = outlines.features
+    .filter((f) => !surveyed.has(f.properties.bbl))
+    .map((f) => ({ ...f, properties: { ...f.properties, category: OTHER } }));
+  const allLots = { type: "FeatureCollection", features: [...rest, ...lots.features] };
+
+  d3.select("#map-g").style("background", TAN);
+
+  const vacancyMap = createHandDrawnMap({
+    container: "#map-g",
+    geojson: allLots,
+    title: "Commercial vacancy in Greenwich Village, 2026",       // swap for a finding once you've checked the data
+    subtitle: "Tax lots by storefront status",
+    valueByFeature: (d) => d.properties.category,
+    colorScale: colorScale,
+    strokeOnly: false,
+  });
+
+// zoom in: crop the viewBox to the surveyed lots
+const [[x0, y0], [x1, y1]] = vacancyMap.path.bounds(lots);   // bounds in the svg's own coordinates
+const pad = 12;                                              // smaller = tighter
+d3.select("#map-g svg").attr(
+  "viewBox",
+  `${x0 - pad} ${y0 - pad} ${x1 - x0 + 2 * pad} ${y1 - y0 + 2 * pad}`
+);
+
+
+  // thinner lot outlines than the neighborhood map
+  vacancyMap.g.selectAll("path.hdc-feature").attr("stroke-width", 0.4);
+
+  // street names: same italic serif as the Chart A labels
+   const LABEL_DROP = 0.01;                        // fraction of the map's height; raise for more
+  const [[bx0, by0], [bx1, by1]] = vacancyMap.path.bounds(lots);
+  const dy = (by1 - by0) * LABEL_DROP;
+
+ const BASE_SIZE = 12;
+
+  // hand overrides by label text; check real names with
+  // console.log(labels.features.map((d) => d.properties.label))
+  const sizeOverride = {
+    "Ave of the Americas": 24,
+    "7th Ave South": 24,
+    // "Christopher St": 9,
+    // "Gay St": 5,
+  };
+ const fontSize = (d) => sizeOverride[d.properties.label] ?? BASE_SIZE;
+
+  vacancyMap.g
+    .append("g")
+    .attr("class", "hdc-street-labels")
+    .style("pointer-events", "none")
+    .selectAll("text")
+    .data(labels.features)
+    .join("text")
+    .attr("transform", (d) => {
+      const [x, y] = vacancyMap.path.centroid(d);
+      return `translate(${x},${y + dy}) rotate(${-d.properties.angle})`;   // shift first, then rotate
+    })
+    .attr("text-anchor", "middle")
+    .attr("font-size", fontSize)
+    .attr("font-family", "'Libre Baskerville', serif")
+    .attr("font-style", "italic")
+    .attr("fill", "#000000")
+    .attr("fill-opacity", 0.8)
+    .attr("stroke", TAN)
+    .attr("stroke-width", 2)
+    .style("paint-order", "stroke")
+    .text((d) => d.properties.label);
+
+  // tooltips, same pattern as Chart A, for surveyed lots only
+  const tooltip = d3.select("body")
+    .append("div")
+    .attr("class", "hdc-tooltip")
+    .style("opacity", 0);
+
+  function moveTooltip(event) {
+    const pad = 14;
+    const node = tooltip.node();
+    const w = node.offsetWidth;
+    const h = node.offsetHeight;
+    let left = event.clientX + pad;
+    let top = event.clientY + pad;
+    if (left + w > window.innerWidth - 8) left = event.clientX - w - pad;
+    if (top + h > window.innerHeight - 8) top = event.clientY - h - pad;
+    tooltip.style("left", `${left}px`).style("top", `${top}px`);
+  }
+
+  const isSurveyed = (d) => d.properties.category !== OTHER;
+
+  vacancyMap.g
+    .selectAll("path.hdc-feature")
+    .filter(isSurveyed)
+    .style("cursor", "pointer")
+    .on("mouseenter", function (event, d) {
+      const p = d.properties;
+      const counts = [];
+      if (p.n_vacant)   counts.push(`${p.n_vacant} vacant`);
+      if (p.n_occupied) counts.push(`${p.n_occupied} occupied`);
+      const biz = p.businesses ? `<br>${String(p.businesses).slice(0, 140)}` : "";
+      tooltip
+        .html(`<strong>${p.address ?? "Lot"}</strong><br>${counts.join(", ") || "Demolished"}${biz}`)
+        .style("opacity", 1);
+      moveTooltip(event);
+      d3.select(this).attr("stroke-width", 1.6);
+    })
+    .on("mousemove", moveTooltip)
+    .on("mouseleave", function () {
+      tooltip.style("opacity", 0);
+      d3.select(this).attr("stroke-width", 0.4);
+    });
+
+  // legend (reuses the .hdc-legend styles)
+  const legend = d3.select("#map-g").append("div").attr("class", "hdc-legend");
+  legend.append("div").attr("class", "hdc-legend-title").text("Storefront status");
+
+  const row = legend.selectAll(".hdc-legend-row")
+    .data(statuses)
+    .join("div")
+    .attr("class", "hdc-legend-row");
+  row.append("span")
+    .attr("class", "hdc-legend-swatch")
+    .style("background", (d) => d.color)
+    .style("border", (d) => (d.key === OTHER ? "1px solid rgba(51,48,42,0.4)" : null));
+  row.append("span").text((d) => d.label);
+
+  if (window.ScrollTrigger) ScrollTrigger.refresh();    // the map changes the page height
+
+}).catch((err) => console.error("Chart G failed:", err));
+//END CHART G
+
+
+//END CHART G
+
 
 //END CHARTS
 

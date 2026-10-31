@@ -34,6 +34,8 @@
   }
 }
 
+
+
 .hdc-axis-title { font-family:'Libre Franklin', sans-serif; font-size:10px; fill:var(--ink); }
 .hdc-axis text { font-family:'Libre Franklin', sans-serif; font-size:11px; fill:var(--ink); }
 .hdc-bar-label {font-family: 'Libre Franklin', sans-serif; font-size: 10px; fill: var(--ink); }
@@ -98,6 +100,7 @@ small, figcaption { font-size: var(--step--1); }
 
 body {
     background-color: #dbc398;
+    margin:0;
 }
 
 /* Base grid layout structure */
@@ -151,11 +154,13 @@ body {
   position: relative;
 }
 
-.narration-no-image {
-  max-width: 1440px;
+.centered-on-white {
+  max-width: 100%;
   grid-column: 1 / -1;
   z-index: 2;
   margin: 0 auto;
+  background-color:#ffffff;
+  display:block;
 }
 
 .section-intro {
@@ -180,6 +185,24 @@ body {
   margin: 0 auto;
   align-items: start;
 }
+
+.writing-left-image-right > .section-intro {
+  grid-column: 1 / -1;     /* header spans both columns on its own row */
+  grid-row: 1;
+}
+
+.writing-left-image-right > .narrative-steps {
+  grid-column: 1;          /* text on the left */
+  grid-row: 2;
+  min-width: 0;
+}
+
+.writing-left-image-right > .graphic-stage {
+  grid-column: 2;          /* map on the right, same row as the text */
+  grid-row: 2;
+  min-width: 0;
+}
+
 
 .writing-left-image-right-largeimage {
   display: grid;
@@ -385,12 +408,11 @@ body {
 
 
 .step-line {
-  min-height: 50vh;
-  padding: 10vh 0;
-  margin-bottom: 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  grid-column: 1;
+  width: auto;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing:border-box;
 }
 
 .svg-stage {
@@ -453,8 +475,7 @@ img {
 }
 
 .hand-drawn-chart {
-  padding: 24px;
-  margin-top: 136px;
+  padding: 12px;
 }
 
 .hdc-legend-swatch { opacity: 0.6; }
@@ -478,7 +499,6 @@ h4 {
 .step p,
 .step li {
   max-width: 70ch;   
-  min-width: 55ch;
   font-size: var(--step-0); line-height: 1.6;
   font-family: "Courier Prime", monospace;
 }
@@ -512,4 +532,30 @@ h4 {
   height: 14px;
   border-radius: 2px;
   flex-shrink: 0;
+}
+
+#map-g {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;             /* use 100dvh if mobile browsers cut off the bottom */
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+#map-g svg {
+  flex: 1 1 0;               /* take all the space the legend doesn't use */
+  min-height: 0;             /* lets the svg shrink below its natural height */
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+#map-g .hdc-legend {
+  flex: 0 0 auto;            /* keeps its natural size */
+  position: static;          /* in case it was positioned absolutely */
+  display: flex;
+  flex-wrap: wrap;           /* lays the four rows out across, not in a tall stack */
+  gap: 4px 16px;
+  padding: 8px 12px;
 }

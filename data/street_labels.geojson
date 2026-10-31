@@ -1,0 +1,32 @@
+{
+"type": "FeatureCollection",
+"name": "street_labels",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"xy_coordinate_resolution": 1e-06,
+"features": [
+{ "type": "Feature", "properties": { "label": "Sullivan St", "angle": 57.247051498658465, "len": 547.51736576422695 }, "geometry": { "type": "Point", "coordinates": [ -73.999901, 40.729427 ] } },
+{ "type": "Feature", "properties": { "label": "Cornelia St", "angle": 25.290178236469472, "len": 544.58250018800231 }, "geometry": { "type": "Point", "coordinates": [ -74.002055, 40.731456 ] } },
+{ "type": "Feature", "properties": { "label": "W 8th St", "angle": -29.076802794906428, "len": 499.58109993394885 }, "geometry": { "type": "Point", "coordinates": [ -73.998774, 40.733279 ] } },
+{ "type": "Feature", "properties": { "label": "Jones St", "angle": 24.828835465180106, "len": 499.56839444723721 }, "geometry": { "type": "Point", "coordinates": [ -74.002481, 40.732031 ] } },
+{ "type": "Feature", "properties": { "label": "Waverly Pl", "angle": -32.629832452138828, "len": 479.2053580996681 }, "geometry": { "type": "Point", "coordinates": [ -73.99934, 40.73257 ] } },
+{ "type": "Feature", "properties": { "label": "Mac Dougal St", "angle": 57.207883006282742, "len": 464.3871283410636 }, "geometry": { "type": "Point", "coordinates": [ -74.001644, 40.728632 ] } },
+{ "type": "Feature", "properties": { "label": "Washington Pl", "angle": -32.838295201361717, "len": 462.51250465581222 }, "geometry": { "type": "Point", "coordinates": [ -73.99981, 40.731971 ] } },
+{ "type": "Feature", "properties": { "label": "Barrow St", "angle": 23.237503410344971, "len": 450.95871521617494 }, "geometry": { "type": "Point", "coordinates": [ -74.00436, 40.73208 ] } },
+{ "type": "Feature", "properties": { "label": "Carmine St", "angle": 22.456955785640503, "len": 445.82853868212692 }, "geometry": { "type": "Point", "coordinates": [ -74.003212, 40.730091 ] } },
+{ "type": "Feature", "properties": { "label": "Grove St", "angle": 22.4309576373605, "len": 445.80199807662825 }, "geometry": { "type": "Point", "coordinates": [ -74.004719, 40.732682 ] } },
+{ "type": "Feature", "properties": { "label": "Leroy St", "angle": 22.472742356989272, "len": 444.93848798127908 }, "geometry": { "type": "Point", "coordinates": [ -74.003561, 40.73068 ] } },
+{ "type": "Feature", "properties": { "label": "W 3rd St", "angle": -32.867081281509883, "len": 425.546950806491 }, "geometry": { "type": "Point", "coordinates": [ -74.000768, 40.730748 ] } },
+{ "type": "Feature", "properties": { "label": "Christopher St", "angle": 11.992602268377226, "len": 422.48110764297775 }, "geometry": { "type": "Point", "coordinates": [ -74.003532, 40.733512 ] } },
+{ "type": "Feature", "properties": { "label": "Downing St", "angle": 22.417687394227983, "len": 373.83807593432732 }, "geometry": { "type": "Point", "coordinates": [ -74.003033, 40.72954 ] } },
+{ "type": "Feature", "properties": { "label": "Commerce St", "angle": 21.815256809733626, "len": 342.99042050084591 }, "geometry": { "type": "Point", "coordinates": [ -74.004365, 40.731719 ] } },
+{ "type": "Feature", "properties": { "label": "7th Ave South", "angle": 66.633582814156597, "len": 341.11782636933572 }, "geometry": { "type": "Point", "coordinates": [ -74.003276, 40.732785 ] } },
+{ "type": "Feature", "properties": { "label": "Bleecker St", "angle": -32.232950046781866, "len": 331.93222505174708 }, "geometry": { "type": "Point", "coordinates": [ -74.001697, 40.72941 ] } },
+{ "type": "Feature", "properties": { "label": "Ave of the Americas", "angle": 66.475805789748676, "len": 327.72392057049177 }, "geometry": { "type": "Point", "coordinates": [ -74.001921, 40.730169 ] } },
+{ "type": "Feature", "properties": { "label": "Morton St", "angle": 22.251365674924841, "len": 324.51312705497315 }, "geometry": { "type": "Point", "coordinates": [ -74.003682, 40.731296 ] } },
+{ "type": "Feature", "properties": { "label": "W 4th St", "angle": -32.824280507866774, "len": 295.0690281301147 }, "geometry": { "type": "Point", "coordinates": [ -74.000051, 40.731263 ] } },
+{ "type": "Feature", "properties": { "label": "Minetta St", "angle": 19.729476396849112, "len": 252.20988885987393 }, "geometry": { "type": "Point", "coordinates": [ -74.001775, 40.72977 ] } },
+{ "type": "Feature", "properties": { "label": "Bedford St", "angle": -66.513988106860381, "len": 250.51317434611244 }, "geometry": { "type": "Point", "coordinates": [ -74.003477, 40.729029 ] } },
+{ "type": "Feature", "properties": { "label": "Minetta Lane", "angle": -33.491121605533891, "len": 221.1529343994533 }, "geometry": { "type": "Point", "coordinates": [ -74.001352, 40.730414 ] } },
+{ "type": "Feature", "properties": { "label": "Gay St", "angle": 60.78454252312283, "len": 221.12411272150342 }, "geometry": { "type": "Point", "coordinates": [ -74.000509, 40.733505 ] } }
+]
+}

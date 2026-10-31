@@ -1,5 +1,6 @@
-##### Section 1
-        
+##### cafe
+<!-- svg: cafe-busy-->
+<!-- svg: cafe-vacant-->
 ##### Section 2
 ## Section 2
 Title: The Death and Life of Greenwich Village (ehhhh) still could be better
@@ -135,23 +136,21 @@ Jacobs wrote that a district should have a mix of old and new buildings, Mauris 
 
 ##### A Mixture of Old and New Buildings 
 <!-- svg: map-c -->
+"If a city area has only new buildings," Jacobs writes, "the enterprises that can exist there are automatically limited to those that can support the high costs of new construction"(244). 
+When Jacobs writes about a mixture of old and new buildings, it isn’t only or primarily for the purposes of visual diversity. Primarily, she writes that the buildings should “vary in age and condition, including a good proportion of old ones so that they vary in the economic yield they must produce.” (197)
 
-When Jacobs writes about a mixture of old and new buildings, it isn’t only or primarily for the purposes of visual diversity, although that is a factor for her. Primarily, she writes that the buildings should “vary in age and condition, including a good proportion of old ones so that they vary in the economic yield they must produce.” (197)
 <!-- svg: chart-d -->
-In 1961, buildings in Greenwich Village seemingly varied greatly in condition, or at least in the economic yield they must produce. New York Times classified ads for retail space in the area showed rents ranging from xxx a square foot to yyy, a xx percent difference from the least expensive to the most expensive storefronts. From the classified ads we can see, too, the difference between some of the spaces (though of course the advertisers would have had cause to present their spaces in the best light) - we see basement storefronts advertised as well as ???. From Cole’s Directory Reference we can see that many businesses shared an address, if not a storefront, indicating that one single residential building might have had a ground floor with many small businesses - xxxx is an example of this, where xxx yyy zzz and aaa all share the same address, each with their own tiny storefront. 
 
-<!-- svg: chart-e e1 -->
-In 2026, although the old buildings have only gotten older, and new buildings have gone up, the gap between the most expensive and least expensive commercial rents has narrowed rather than gotten wider. In the first half of 2024, according to REBNY, asking rent for storefronts on Bleeker between Seventh Avenue South and Houston Street ranged between $160 and $195 per square foot, a (xx) percent range which indicates little difference from the most expensive and least expensive storefronts on a per square foot basis. 
+The Greenwich Village Jacobs wrote about in 1961 had this mix of old and new buildings. Rougly 40% of the buildings in Greenwich Village were built before 1861. Another 50% were built before 1929. Only 6% would have been relatively new when Jacobs was writing, that is, built between 1930 and 1959.  There was also a large variation in asking rents, with per square foot prices ranging from $2.33 per square foot per year to $9.68, a roughly 300% difference, according to classified ads posted to the New York Times. Add in the fact that would-be renters could choose a larger or smaller storefront, depending on their needs, and you find that a prospective renter could pay as little as $68 per month in 1961 for a 350 square foot space, or as much as $350 per month for a larger, possibly nicer space. 
+
+<!-- svg: chart-e e3 -->
+Jacobs can't be blamed for thinking that the variation in age of buildings and the variation in rents were related. However, this relationship has not held up over time. In 2026, although the old buildings have only gotten older, and new buildings have gone up, the gap between the most expensive and least expensive commercial rents has narrowed. In the first half of 2024, according to REBNY, asking rent for storefronts on Bleecker between Seventh Avenue South and Houston Street ranged between $160 and $195 per square foot, with the most expensive storefronts costing only 22% more than the least expensive ones.
 
 <!-- svg: chart-e e2 -->
 Based on this data, is Greenwich Village still a place with buildings that ‘vary in age and condition, including a good proportion of old ones so that they vary in the economic yield they must produce’? Let's look at both parts of the condition. Greenwich Village does still have a mix of old and new buildings, as the buildings added in the last 30 years add to the buildings built in the 19th and 20th centuries. But do they vary in the economic yield they must produce? Now there is little difference between the cheapest and most expensive storefronts, leaving small and less profitable businesses priced out entirely. 
 
 <!-- svg: chart-e e3 -->
 Looking at old business records, I found many instances in the 1960s and 1970s when a business moved but stayed in Greenwich Village. Murray's Cheese started out at a different location than where it is now. Matt Umanov Guitars moved when the pizzeria John's of Bleecker Street expanded into his former location. Costos Exotic Garden, which was forced to move in 1969 to accomodate a Nathan's location, reopened a few blocks away. In fact, xx% of businesses that closed in one location reopened in another. Today, when businesses close, they reopen outside Greenwich Village - or don't reopen at all. xx% of businesses that closed at one location in 20015 or 2020 are still open in Greenwich Village today.   
-
-
-(chart showing range of price in 1961 vs. today)
-(drawing of many storefronts sharing the same address). 
 
 ##### A Dense Concentration of People, Including residents
 ## A Dense Concentration of People, Including Residents
@@ -173,9 +172,13 @@ Not for lack of demand. People weren't moving out because they no longer wanted 
 
  Though the shrinking households story doesn't map cleanly onto Jacobs's 100 dwellings per acre number, the end result is exactly what she predicted.  There are no longer enough residents to sustain the niche interests, or even as many of the ordinary ones - grocery stores, hardware stores, laundromats. It's not a clean cause and effect - given the rise in online shopping, we might see the variety in stores decrease even with the population staying constant.
 
+##### Mixed Uses Header
 
-##### Mixed Use
 ## Mixed Uses
+Blah blah blah blah blah blah blah blah
+##### Mixed Uses
+<!-- svg: map-g -->
+
 Jacobs's last condition for a vital neighborhood is mixed primary use. She thought for a neighborhood to work well, it needed to have more than one primary function, and preferably more than two. A mix of uses reasons for people to use the streets at all times of the day.
 
 The Greenwich Village of Jacobs's time certainly did. It was a residential neighborhood, but also a neighborhood people worked in, a neighborhood people shopped in, and a neighborhood people ate and drank in. It had restaurants and bars, clothing stores and shoe stores, grocery stores and drugstores, laundromats and beauty parlors. It had small stores that catered to niche interests, and art galleries that were destinations for people outside the neighborhood. These different uses gave the residents reasons to leave their homes and explore the neighborhood, and they gave people living outside the neighborhood reasons to visit. As a result, the streets were lively and filled with people most of the day. 
