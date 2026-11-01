@@ -16,7 +16,7 @@ async function loadSections(mdPath) {
     const rawSteps = body.split(/\n(?=<!--\s*svg:)/).filter(Boolean);
 
     sections[key] = rawSteps.map((stepChunk) => {
-      const svgMatch = stepChunk.match(/^<!--\s*svg:\s*(.*?)\s*-->\n/);
+      const svgMatch = stepChunk.match(/^<!--\s*svg:\s*(.*?)\s*-->(?:\n|$)/);
       const parts = svgMatch ? svgMatch[1].trim().split(/\s+/) : [];
       const svgName = parts[0] || null;
       const svgState = parts[1] || null;          // optional, e.g. "e2"
@@ -99,15 +99,39 @@ function updateGraphic(id) {
   });
 }
 
+function crossfadeOnly(stage, id) {
+  if (!id || stage.dataset.current === id) return;
+  const next = stage.querySelector("#" + CSS.escape(id));
+  const prev = stage.querySelector("#" + CSS.escape(stage.dataset.current));
+  if (!next) return;
+
+  gsap.to(prev, { autoAlpha: 0, duration: 0.5, overwrite: true,  y: id === "logo" ? 20 : 0 });
+  gsap.fromTo(
+    next,
+    { y: id === "logo" ? 20 : 0 },
+    { autoAlpha: 1, y: 0, duration: 0.5, overwrite: true }
+  );
+  stage.dataset.current = id;
+}
+
 function initScrollTriggers() {
   // No pin: CSS sticky holds the stage. GSAP only swaps graphics.
   gsap.utils.toArray(".step-line").forEach((line) => {
+    const go = () => {
+      const stage = line
+        .closest(".centered-on-white, .narration-no-image")
+        ?.querySelector(".graphic-stage");
+
+      if (stage) return crossfadeOnly(stage, line.dataset.svg);
+      updateGraphic(line.dataset.svg); // your original call, unchanged
+    };
+
     ScrollTrigger.create({
       trigger: line,
       start: "top 50%",
       end: "bottom 50%",
-      onEnter: () => updateGraphic(line.dataset.svg),
-      onEnterBack: () => updateGraphic(line.dataset.svg),
+      onEnter: go,
+      onEnterBack: go,
     });
   });
 }

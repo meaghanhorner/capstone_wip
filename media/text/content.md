@@ -1,9 +1,9 @@
 ##### cafe
 <!-- svg: cafe-busy-->
+
 <!-- svg: cafe-vacant-->
-##### Section 2
-## Section 2
-Title: The Death and Life of Greenwich Village (ehhhh) still could be better
+
+<!-- svg: logo-->
 
 ##### Section Intro
 ## Commercial Space Available
