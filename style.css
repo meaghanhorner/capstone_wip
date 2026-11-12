@@ -1,24 +1,30 @@
 :root {
-  /* Dynamic layout values: clamp(min, preferred, max) */
   --grid-margins: clamp(1rem, 4vw, 3.5rem);
   --grid-gutter: clamp(0.75rem, 2vw, 1.5rem);
-  --step--1: clamp(0.875rem, 0.84rem + 0.17vw, 0.95rem);   /* small / captions */
-  --step-0:  clamp(1.0625rem, 1.00rem + 0.30vw, 1.25rem);  /* body (~17-20px) */
-  --step-1:  clamp(1.275rem, 1.15rem + 0.55vw, 1.50rem);   /* h4 / lead */
-  --step-2:  clamp(1.53rem,  1.32rem + 1.00vw, 1.90rem);   /* h3 */
-  --step-3:  clamp(1.84rem,  1.48rem + 1.75vw, 2.50rem);   /* h2 */
-  --step-4:  clamp(2.20rem,  1.65rem + 2.75vw, 3.25rem);   /* h1 */
-  --step-5:  clamp(2.65rem,  1.75rem + 4.40vw, 4.25rem);   /* display / hero */
+
+ 
+  --ratio: 1.272;
+  --step-0:  1rem;                                   
+  --step--1: .8rem;      
+  --step-1:  2rem;
+  /*h3*/
+  --step-2:  2rem;  
+  /*h2*/   
+  --step-3: 3rem;
+  --step-4:  4rem;      
+  --step-5:  5rem;     
+
   
   /* Mobile: 4 columns | Tablet: 8 columns | Laptop/Desktop: 12 columns */
   --grid-columns: 4;
   
-    --cream:#f3f3e7;
+    --cream:#fdfcf8;
     --pale-green:#d4dfa8;
     --bright-green:#a8c169;
     --coral:#f27966;
     --mustard:#e0a638;
     --ink:#33302a;
+    --brick: #b25a3f;
 }
 
 
@@ -34,12 +40,68 @@
   }
 }
 
+/* link decoration */
+a {color:#b25a3f;
+text-decoration:none;
+font-weight:600;}
 
+p {margin:0;}
 
-.hdc-axis-title { font-family:'Libre Franklin', sans-serif; font-size:10px; fill:var(--ink); }
-.hdc-axis text { font-family:'Libre Franklin', sans-serif; font-size:11px; fill:var(--ink); }
-.hdc-bar-label {font-family: 'Libre Franklin', sans-serif; font-size: 10px; fill: var(--ink); }
-.hdc-hint{ font-family:'Libre Franklin', sans-serif; font-size:0.75rem; opacity:0.6; margin:6px 0 12px; }
+.curtain .step-line blockquote p {
+  font-family:'Libre Baskerville', serif; font-style: italic; font-weight:400; font-size:1.1rem; line-height:1.4; fill: var(--ink);
+}
+
+.step blockquote p {
+  font-family:'Libre Baskerville', serif; font-style: italic; font-weight:400; font-size:1.1rem; line-height:1.4; fill: var(--ink);
+}
+
+.curtain .step-line blockquote p em{
+  font-family:'Jost', sans-serif; font-weight:400; font-size:1.1rem; line-height:1.4; fill: var(--ink);
+}
+
+.step blockquote p em{
+  font-family:'Jost', sans-serif; font-weight:400; font-size:1.1rem; line-height:1.4; fill: var(--ink);
+}
+
+/* emphasis */
+.step-line em { font-style: italic; font-weight:600;}
+
+section {
+  position: relative;      /* anchors absolutely positioned children */
+  display: flow-root;      /* contains floats and prevents margin collapse */
+  contain: layout;
+  padding:30px 0 30px 0;
+}
+
+.hdc-head { margin: 0 0 0.75rem; }
+
+.hdc-title {
+  font-family: 'Libre Baskerville', serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 1.8rem;
+  line-height: 1.25;
+  color: #33302a;
+  margin: 0 0 0.25rem;
+}
+
+.hdc-subtitle {
+  font-family: 'Jost', sans-serif;
+  font-size: 1.5rem;
+  line-height: 1.35;
+  color: #33302a;
+  margin: 0;
+}
+
+.hdc-source {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.8rem;
+  color: #33302a;
+  opacity: 0.7;
+  margin: 0.5rem 0 0;
+}
+.hdc-bar-label {font-family: 'Jost', sans-serif; font-size: 1rem; fill: var(--ink); }
+.hdc-hint{ font-family:'Jost', sans-serif; font-size:.8rem; opacity:0.6; margin:6px 0 12px; }
 
 .hdc-main {
   width: 100%;
@@ -62,6 +124,9 @@
   transition: opacity 0.15s;
 }
 
+.chart-block {
+  margin: 0;
+}
 
 .mono-text {
   font-family: "Courier Prime", monospace;
@@ -75,9 +140,12 @@
 
 /* Section Headings */
 h1 { font-size: var(--step-4); line-height: 1.1; }
-h2 { font-family: "Libre Baskerville", serif; font-style: italic; font-size: var(--step-3); line-height: 1.2; }
-h3 { font-family: "Libre Baskerville", serif; font-style: italic; font-size: var(--step-2); line-height: 1.25; }
-h4 { font-size: var(--step-1); line-height: 1.3; }
+/*h2 { font-family: "newshound-subhead", monospace; font-weight:500; font-size: var(--step-3); line-height: 1; text-transform:uppercase;}*/
+h2 { font-family: "Special Elite", monospace; font-weight:400; font-size: var(--step-3); line-height: 1.2; letter-spacing: -0.02em;
+  word-spacing: 0em;
+}
+h3 { font-family: "newshound-banner", sans-serif; text-transform: uppercase; font-weight: 400; font-size: var(--step-2); line-height: 1.1;}
+h4 { font-family: "Jost", sans-serif; font-weight:400; font-style: none; font-size: var(--step-1); line-height: 1.2; }
 h5 { font-family: "Libre Franklin", sans-serif; font-size: var(--step-0); line-height: 1.4; }
 small, figcaption { font-size: var(--step--1); }
 .hero { font-size: var(--step-5); line-height: 1.05; }
@@ -114,7 +182,27 @@ body {
   box-sizing: border-box;
 }
 
-.graphic-stage,
+.graphic-stage {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  position: sticky;
+  top: 0;
+  box-sizing: border-box;
+  height: 100vh;
+  padding: 3rem 0 4rem;               
+  align-self: start;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);   
+  grid-template-columns: minmax(0, 1fr);
+  place-items: stretch;
+  pointer-events: none;
+}
+
+.graphic-stage > * {
+  min-height: 0;
+  height: 100%;
+}
+
 .svg-stage {
   grid-column: 2;
   grid-row: 1/-1;
@@ -132,6 +220,7 @@ body {
 }
 
 .graphic-stage > * {
+  max-height: var(--graphic-max-h);
   grid-area: 1 / 1;
   width: 100%;
   height: 100%;
@@ -161,7 +250,9 @@ body {
   margin: 0 auto;
   background-color:#ffffff;
   display:block;
+  padding:0;
 }
+
 
 .centered-on-white .stage-wrap { position: sticky; top: 0; height: 100vh; z-index: 1; }
 .centered-on-white .graphic-stage,
@@ -169,7 +260,7 @@ body {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
 }
 .centered-on-white .step { position: relative; z-index: 2; }
-.centered-on-white .step-line { min-height: 80vh; }
+.centered-on-white .step-line { min-height: 80vh; background: none; box-shadow:none; }
 .centered-on-white #logo {
   display:grid;
   place-items:center;
@@ -177,13 +268,41 @@ body {
 }
 
 .centered-on-white #logo img {
-  width: min(80vw, 1000px);
-  max-height: 80vh;
+  width: min(60vw, 800px);
+  max-height: 70vh;
   height: auto;
   object-fit: contain;
 }
 
+.centered-on-white .graphic-stage > .scroll-cue {
+  position: absolute;
+  top: auto;
+  left: auto;
+  right: 12%;
+  bottom: 12%;
+  width: auto;
+  height: auto;
+  max-height: none;
+  margin: 0;
+  z-index: 10;
+  font-family: "Special Elite", monospace;
+  font-size: 2rem;
+  letter-spacing: 0.1em;
+  color: var(--ink);
+  pointer-events: none;
+}
 
+.centered-on-white .logo-hold {
+  height: 200vh;
+}
+
+.narration-no-image {
+  max-width: 1440px;
+  grid-column: 1 / -1;
+  z-index: 2;
+  margin: 0 auto;
+  display:block;
+}
 
 
 .section-intro {
@@ -191,11 +310,14 @@ body {
   grid-row: 1;
 }
 
+
 .section-intro .step-line {
   align-items:center;
   min-height: 0;
   padding: 0;
   margin-bottom: 0;
+  background: none;
+  box-shadow: none;
 }
 
 
@@ -209,9 +331,38 @@ body {
   align-items: start;
 }
 
-.writing-left-image-right > .section-intro {
-  grid-column: 1 / -1;     /* header spans both columns on its own row */
+.writing-left-image-right-white {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--grid-gutter, 2rem);
+  max-width: 1440px;
+  position: relative;
+  margin: 0 auto;
+  align-items: start;
+  background-color:#ffffff;
+}
+
+.writing-left-image-right-white .svg-stage .frame {
+  max-width:100%;
+}
+
+
+.writing-left-image-right-white .step-line {
+ grid-column: 1;                 /* text column; the curtain's 3 / span 5 belongs to a different grid */
+  box-sizing: border-box;
+  margin: 0 0 15rem;             /* space between cards; raise for more */
+  padding: var(--curtain-box-pad, 1.5rem);
+  min-height:16rem;
+  background: none;
+  color: var(--curtain-ink, #222);
+  box-shadow: none;
+  opacity: 1;
+}
+
+.writing-left-image-right > .step.section-intro {
+  grid-column: 1 / -1;
   grid-row: 1;
+  align-items: center;
 }
 
 .writing-left-image-right > .narrative-steps {
@@ -230,6 +381,8 @@ body {
 .writing-left-image-right-largeimage {
   display: grid;
   grid-template-columns: 1fr 2fr;
+  grid-template-rows: auto 1fr;
+  isolation: isolate;
   gap: 4vw;
   max-width: 1440px;
   margin: 0 auto;
@@ -264,6 +417,12 @@ body {
   align-self: stretch;   
 }
 
+.writing-left-image-right .section-intro {
+  grid-column: 1 / -1;   
+  grid-row: 1;
+}
+
+
 .writing-left-image-right .step {
   grid-row: 2/-1;
   grid-column: 1;
@@ -292,8 +451,13 @@ body {
 
   position: relative;
   width: 100%;
-  margin: 0;
   padding: 0;
+  z-index: 3;
+  margin-top:-100vh;
+}
+
+.curtain + .curtain {
+  margin-top: 0;
 }
 
 .curtain_bg {
@@ -348,10 +512,10 @@ body {
 
 .curtain .step-line > :first-child { margin-top: 0; }
 .curtain .step-line > :last-child  { margin-bottom: 0; }
-.curtain .step-line p  { line-height: 1.6; margin: 0 0 1em; }
+.curtain .step-line p  { line-height: 1.4; margin: 0 0 1em; }
 .curtain .step-line h1,
 .curtain .step-line h2,
-.curtain .step-line h3 { line-height: 1.2; margin: 0 0 .6em; }
+.curtain .step-line h3 { line-height: 1.2; margin: 0 0 0em; }
 
 .curtain .step p,
 .curtain .step li {
@@ -431,11 +595,14 @@ body {
 
 
 .step-line {
-  grid-column: 1;
-  width: auto;
-  min-width: 0;
-  max-width: 100%;
-  box-sizing:border-box;
+ grid-column: 1;                 /* text column; the curtain's 3 / span 5 belongs to a different grid */
+  box-sizing: border-box;
+  margin: 3rem 0 15rem;             /* space between cards; raise for more */
+  padding: var(--curtain-box-pad, 1.5rem);
+  background: var(--curtain-cream, #fff);
+  color: var(--curtain-ink, #222);
+  box-shadow: var(--curtain-shadow, 0 2px 12px rgba(0, 0, 0, 0.12));
+  opacity: 1;
 }
 
 .svg-stage {
@@ -474,9 +641,19 @@ body {
 .step.flyer {
   background: #fdfcf8;
   color: #33302a;
-  padding: 3rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,.25), 0 8px 16px rgba(0,0,0,.12);
-  transform: rotate(-1.5deg);
+  margin-bottom:15rem;
+  margin-top:15rem;
+}
+.step.flyer .step-line {
+  background: #fdfcf8;
+  color: #33302a;
+  box-shadow: none;
+  margin-bottom:0;
+}
+
+.step.flyer .step-line p{
+  max-width: none;
+  
 }
 
 .flyer {
@@ -487,7 +664,9 @@ body {
   box-shadow: 0 6px 24px rgba(0,0,0,.25);
   box-sizing: border-box;
   width: 100%;
-  transform: rotate(-1.5deg);
+  margin: 0 auto;
+  max-width: 900px;
+  transform: rotate(-3deg);
 }
 
 img {
@@ -498,6 +677,10 @@ img {
 }
 
 .hand-drawn-chart {
+  --chart-font: "Libre Franklin", sans-serif;
+  --chart-text-axis: 15px;    
+  --chart-text-axis-title: 14px;
+  --chart-text-label: 14px;   
   padding: 12px;
 }
 
@@ -513,12 +696,6 @@ img {
 }
 
 
-h4 {
-    font-family: "Libre Baskerville", italic;
-    font-style: italic;
-    font-weight: 200;
-}
-
 .step p,
 .step li {
   max-width: 70ch;   
@@ -526,16 +703,36 @@ h4 {
   font-family: "Courier Prime", monospace;
 }
 
-#map-a {
+
+
+#map-a,
+#chart-b {
+  width: 100%;
+  max-height: var(--graphic-max-h);
   position: relative;   /* so the legend can be positioned inside it */
+}
+
+#map-a :is(img, svg, canvas),
+#chart-b :is(img, svg, canvas) {
+  max-width: 100%;
+  max-height: 80vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+#chart-b svg text {
+  font-family:'Jost', serif;
+  fill: var(--ink, #33302a);
+  font-size:1rem;
 }
 
 .hdc-legend {
   position: absolute;
   right: 12px;
   bottom: 12px;          /* or top: 12px */
-  font-size: 16px;
-  font-family: "Libre Franklin", sans-serif;
+  font-size: 1rem;
+  font-family: "Jost", sans-serif;
   line-height: 1.4;
 }
 
@@ -557,21 +754,40 @@ h4 {
   flex-shrink: 0;
 }
 
+#map-c {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#map-c svg {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#map-c .hdc-legend {
+  flex: 0 0 auto;            /* keeps its natural size */
+  position: static;          /* in case it was positioned absolutely */
+  display: flex;
+  flex-wrap: wrap;           /* lays the four rows out across, not in a tall stack */
+  gap: 4px 16px;
+  padding: 8px 12px;
+}
+
+
 #map-g {
   display: flex;
   flex-direction: column;
-  height: 100vh;             /* use 100dvh if mobile browsers cut off the bottom */
-  max-height: 100vh;
-  overflow: hidden;
+  height: 100%;
 }
 
 #map-g svg {
-  flex: 1 1 0;               /* take all the space the legend doesn't use */
-  min-height: 0;             /* lets the svg shrink below its natural height */
+  flex: 1 1 auto;
+  min-height: 0;
   width: 100%;
-  height: auto;
-  display: block;
-  margin: 0 auto;
+  height: 100%;
 }
 
 #map-g .hdc-legend {
@@ -582,3 +798,18 @@ h4 {
   gap: 4px 16px;
   padding: 8px 12px;
 }
+
+.chart-h{
+  --bg:#faf8f4; --fg:#1d1d1f; --muted:#6b6b70; --wall:#b9b1a4; --wall2:#a79f92; --win:#232c3b;
+  --c1:#f2a900; --c2:#2a9d8f; --c3:#e0603f;
+}
+@media (prefers-color-scheme: dark){
+  .chart-h{--bg:#15171c;--fg:#f1efe9;--muted:#a3a3aa;--wall:#4a4f5a;--wall2:#3d424c;--win:#10131a;}
+}
+.chart-h-legend{display:flex;gap:22px;flex-wrap:wrap;font:14px system-ui,sans-serif;margin:8px 0 24px;align-items:center}
+.chart-h-legend span{display:inline-flex;align-items:center;gap:6px}
+.chart-h-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px}
+.chart-h-bld h2{font:700 28px Georgia,serif;margin:0 0 6px}
+.chart-h-bld svg{width:100%;height:auto;display:block}
+.chart-h-stats{display:flex;gap:18px;font:14px system-ui,sans-serif;margin-top:10px;flex-wrap:wrap}
+.chart-h-stats b{font-size:22px;display:block}

@@ -149,17 +149,17 @@ function createHandDrawnBarChart(opts) {
   const barsLayer = g.append("g");
   const labelsLayer = g.append("g");
 
-  if (valueAxisLabel) {
-    const lbl = mainSvg.append("text").attr("class", "hdc-axis-title").attr("font-size", 10).attr("fill", "#33302a");
-    if (horizontal) {
-      lbl.attr("x", margin.left + innerWidth / 2).attr("y", mainHeight - 6).attr("text-anchor", "middle");
-    } else {
-      lbl
-        .attr("transform", `translate(12,${margin.top + innerHeight / 2}) rotate(-90)`)
-        .attr("text-anchor", "middle");
-    }
-    lbl.text(valueAxisLabel);
+if (valueAxisLabel) {
+  const lbl = mainSvg.append("text").attr("class", "hdc-axis-title").attr("font-size", 10).attr("fill", "#33302a");
+  if (horizontal) {
+    lbl.attr("x", margin.left + innerWidth / 2).attr("y", mainHeight -2).attr("text-anchor", "middle");
+  } else {
+    lbl
+      .attr("transform", `translate(12,${margin.top + innerHeight / 2}) rotate(-90)`)
+      .attr("text-anchor", "middle");
   }
+  lbl.text(valueAxisLabel);
+}
 
   // tooltip, reusing the .hdc-tooltip class from the map code
   const tooltip = d3.select("body").append("div").attr("class", "hdc-tooltip").style("opacity", 0);

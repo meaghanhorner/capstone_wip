@@ -52,6 +52,9 @@ async function renderSteps() {
   });
 }
 
+
+
+
 const CURTAIN_FADE_ZONE = 0.25;
 const CURTAIN_EXIT_MARGIN = 0.25;
 const curtainReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -76,7 +79,6 @@ window.addEventListener('resize', updateCurtainFades);
 const zoomHandlers = {};
 
 function updateGraphic(id) {
-  // "map-a-zoom-in" / "map-a-zoom-out" -> show graphic "map-a" and set its zoom
   let zoomIn = null;
   const m = id && id.match(/^(.*)-zoom-(in|out)$/);
   if (m) { zoomIn = m[2] === "in"; id = m[1]; }
@@ -85,13 +87,18 @@ function updateGraphic(id) {
   const stage = target?.closest(".graphic-stage");
   if (!stage) return;
 
+  // the stage's direct child that is, or wraps, the target (the <figure> now)
+  const panel = gsap.utils.toArray(stage.children)
+    .find((c) => c === target || c.contains(target));
+  if (!panel) return;
+
   if (zoomIn !== null && zoomHandlers[id]) zoomHandlers[id](zoomIn);
 
   if (stage.dataset.current === id) return;
   stage.dataset.current = id;
 
   gsap.utils.toArray(stage.children).forEach((g) => {
-    if (g === target) {
+    if (g === panel) {
       gsap.fromTo(g, { y: 20 }, { autoAlpha: 1, y: 0, duration: 0.6, overwrite: true });
     } else {
       gsap.to(g, { autoAlpha: 0, y: -20, duration: 0.4, overwrite: true });
@@ -105,12 +112,19 @@ function crossfadeOnly(stage, id) {
   const prev = stage.querySelector("#" + CSS.escape(stage.dataset.current));
   if (!next) return;
 
-  gsap.to(prev, { autoAlpha: 0, duration: 0.5, overwrite: true,  y: id === "logo" ? 20 : 0 });
+  gsap.to(prev, { autoAlpha: 0, duration: 1, overwrite: true, y: id === "logo" ? 100 : 0 });
   gsap.fromTo(
     next,
-    { y: id === "logo" ? 20 : 0 },
+    { y: id === "logo" ? 100 : 0 },
     { autoAlpha: 1, y: 0, duration: 0.5, overwrite: true }
   );
+
+  // fade the scroll cue out when the logo comes on, back in otherwise
+  const cue = stage.querySelector(".scroll-cue");
+  if (cue) {
+    gsap.to(cue, { autoAlpha: id === "logo" ? 0 : 1, duration: 0.5, overwrite: true });
+  }
+
   stage.dataset.current = id;
 }
 
@@ -142,7 +156,7 @@ renderSteps().then(() => {
     const kids = gsap.utils.toArray(stage.children);
     gsap.set(kids, { autoAlpha: 0 });
     gsap.set(kids[0], { autoAlpha: 1 });
-    stage.dataset.current = kids[0].id;
+    stage.dataset.current = kids[0].querySelector("[id]:not([id^='block-'])")?.id ?? kids[0].id;
   });
 
   initScrollTriggers();
@@ -157,6 +171,21 @@ renderSteps().then(() => {
       onEnterBack: () => window.chartE.show(el.dataset.state),
     });
   });
+
+  // chart-h: each step that names a state switches the plot (h1 / h2 / h3)
+
+const hStates = ["population", "density", "household"]; // step 1, 2, 3
+
+document.querySelectorAll('.step-line[data-svg="chart-h1"]').forEach((hl, i) => {
+  const state = hl.dataset.state || hStates[i];
+  if (!state) return;
+  ScrollTrigger.create({
+    trigger: hl,
+    start: "top 60%",
+    onEnter:     () => window.chartH1.show(state),
+    onEnterBack: () => window.chartH1.show(state),
+  });
+});
 
   ScrollTrigger.refresh();
 });
@@ -491,6 +520,26 @@ if (typeof window !== "undefined") {
 
 //END HAND DRAWN CHART GENERATOR
 
+//HELPER FOR CHART TITLES
+
+function addChartHeader(selector, title, subtitle) {
+  const root = d3.select(selector);
+  root.selectAll(".hdc-head-auto").remove();
+  const head = root.insert("div", ":first-child")
+    .attr("class", "hdc-head hdc-head-auto");
+  head.append("h2").attr("class", "hdc-title").text(title);
+  if (subtitle) head.append("p").attr("class", "hdc-subtitle").text(subtitle);
+  return head;
+}
+
+function addChartSource(selector, text) {
+  return d3.select(selector).append("p").attr("class", "hdc-source").text(text);
+}
+
+//END HELPER FOR CHART TITLES
+
+
+
 //CHARTS
 
 //CHART A: MAP SHORT BLOCKS
@@ -579,12 +628,11 @@ Promise.all([
     geojson: neighborhoods,
     zoomScale: 3,
     zoomCenter: [0.3, 1],
-    title: "Greenwich Village has among the shortest blocks in Manhattan",
-    subtitle: "Average length of blocks in Manhattan, by neighborhood",
     valueByFeature: (d) => d.properties.mean_length_ft,
     colorScale: neighborhoodColorScale,
     strokeOnly: false,
   });
+
 
   createLegend({
     container: "#map-a",
@@ -608,7 +656,7 @@ Promise.all([
     .attr("d", neighborhoodMap.path)
     .attr("fill", "none")
     .attr("stroke", "#33302a")
-    .attr("stroke-opacity", 0.25)
+    .attr("stroke-opacity", 0.1)
     .attr("stroke-width", 1.5)
     .attr("stroke-linecap", "round")
     .attr("vector-effect", "non-scaling-stroke");
@@ -639,13 +687,13 @@ Promise.all([
     .join("text")
     .attr("class", "hdc-label")
     .style("opacity", 0)
-    .attr("x", (d) => neighborhoodMap.path.centroid(d)[0] + 12)
-    .attr("y", (d) => neighborhoodMap.path.centroid(d)[1] + 6)
+    .attr("x", (d) => neighborhoodMap.path.centroid(d)[0] + 3)
+    .attr("y", (d) => neighborhoodMap.path.centroid(d)[1] + 0)
     .attr("text-anchor", "middle")
-    .attr("font-size", 12)
-    .attr("font-family", "'Libre Baskerville', serif")
+    .attr("font-size", 10)
+    .attr("font-family", "'Jost', sans-serif")
     .attr("font-style", "italic")
-    .attr("font-weight", 600)
+    .attr("font-weight", 500)
     .attr("fill", "#000000")
     .style("pointer-events", "none")
     .text((d) => d.properties.ntaname);
@@ -741,18 +789,16 @@ Promise.all([
   });
 
    const barH = 30;   // was 22; more room per row now that bars are spaced further apart
-  const margin = { top: 20, right: 50, bottom: 40, left: 210 };
+  const margin = { top: 15, right: 50, bottom: 60, left: 350 };
 
   createHandDrawnBarChart({
     container: "#chart-b",
-    title: "Greenwich Village has among the shortest blocks in Manhattan",
-    subtitle: "Average block length by neighborhood",
     categories: [
       { key: "other", label: "Other neighborhoods", color: COLOR_OTHER },
       { key: "gv",    label: "Greenwich Village",   color: COLOR_GV },
     ],
     data: [seriesFor(false), seriesFor(true)],
-    width: 720,
+    width: 1100,
     mainHeight: margin.top + margin.bottom + data.length * barH,
     margin,
     horizontal: true,
@@ -760,10 +806,11 @@ Promise.all([
     responsive: true,
     showLegend: false,
     gridlines: false,
-    categoryAxisLine: false,   // removes the line that starts all the bars
-    barPadding: 0.45,          // bars further apart (0.2 was the default)
-    strokeDarken: 0.4,         // outline is slightly darker than the fill
+    categoryAxisLine: false,   
+    barPadding: 0.4,          
+    strokeDarken: 0.4,         
     valueAxisLabel: "Average block length (feet)",
+    valueAxisLabelOffset:8,
     valueLabels: (v) => `${Math.round(v)} ft`,
     yFormat: d3.format(",.0f"),
     boldKeys: ["gv"],
@@ -779,18 +826,58 @@ Promise.all([
   fetch("data/gv_boundary.geojson").then((r) => r.json()),
 ]).then(([lots, boundary]) => {
 
-  // era bins: edit freely, no need to re-run R
+  const isOdd14th = (f) => {
+    const a = String(f.properties?.address ?? "").trim();
+    const m = a.match(/^(\d+)/);
+    return !!m && /\b14(th)?\s+(st|street)/i.test(a) && Number(m[1]) % 2 === 1;
+  };
+
+  const cut = (f) =>
+  EXCLUDE.has(f.properties._idx) ||
+  /pier[\s_-]*50/i.test(JSON.stringify(f.properties ?? {})) ||
+  isOdd14th(f);
+
+  // --- clip to boundary (winding-proof, planar) ---
+  const polys = [];
+  (boundary.type === "FeatureCollection" ? boundary.features : [boundary]).forEach((b) => {
+    const g = b.geometry || b;
+    if (g.type === "Polygon") polys.push(g.coordinates);
+    if (g.type === "MultiPolygon") g.coordinates.forEach((p) => polys.push(p));
+  });
+
+lots.features.forEach((f, i) => {
+  f.properties = f.properties || {};
+  f.properties._idx = i;
+});
+
+
+
+const EXCLUDE = new Set([2954,861,884,883,859,878,879,2963,2962,887,2964,886,2961,2960,940,2957]);
+
+  const inBoundary = (f) => {
+    if (!f.geometry) return false;
+    const pt = d3.geoCentroid(f);
+    return polys.some(
+      (rings) => rings.filter((r) => d3.polygonContains(r, pt)).length % 2 === 1
+    );
+  };
+
+  console.log("lots before:", lots.features.length);
+  lots.features = lots.features.filter((f) => inBoundary(f) && !cut(f));
+  console.log("lots after:", lots.features.length);
+  // --- end clip ---
+
   const thresholds = [1830, 1860, 1900, 1930, 1960, 2000];
   const eras = [
-    { label: "Before 1830", color: "#7f3b08" },
-    { label: "1830–1859",   color: "#b35806" },
-    { label: "1860–1899",   color: "#e08214" },
-    { label: "1900–1929",   color: "#fdb863" },
-    { label: "1930–1959",   color: "#b2abd2" },
-    { label: "1960–1999",   color: "#8073ac" },
-    { label: "2000 +",      color: "#2d004b" },
-  ];
-  const NO_DATA = "#e6e1d8";
+{ label: "Before 1830", color: "#6a2238" },
+{ label: "1830–1859",   color: "#a03640" },
+{ label: "1860–1899",   color: "#d05c4a" },
+{ label: "1900–1929",   color: "#e08558" },
+{ label: "1930–1959",   color: "#eba762" },
+{ label: "1960–1999",   color: "#f6d995" },
+{ label: "2000 +",      color: "#f9eac0" },
+];
+  const NO_DATA = "#666666";
 
   const colorFor = (y) =>
     (y == null || !isFinite(y) || y <= 0) ? NO_DATA : eras[d3.bisect(thresholds, y)].color;
@@ -806,21 +893,36 @@ Promise.all([
   svg.append("text")
     .attr("x", 0).attr("y", 24)
     .attr("font-family", "'Libre Baskerville', serif")
+    .attr("font-style", "italic")
     .attr("font-size", 16).attr("font-weight", 700)
     .attr("fill", "#33302a")
-    .text("Most buildings in Greenwich Village date from the 19th century");   // check against the data
+    .text("Most buildings in Greenwich Village date from the 19th century");
 
   svg.append("text")
     .attr("x", 0).attr("y", 46)
-    .attr("font-family", "'Libre Baskerville', serif")
+    .attr("font-family", "'Libre Franklin', sans-serif")
     .attr("font-size", 12).attr("fill", "#33302a")
-    .text("Tax lots by year built");
+    .text("Buildings by year built");
 
   const projection = d3.geoMercator()
     .fitExtent([[10, 70], [width - 10, height - 10]], boundary);
   const path = d3.geoPath(projection);
 
+   console.log("chart C v3 loaded");
+
+  const tip = d3.select("body").append("div")
+    .style("position", "fixed")
+    .style("pointer-events", "none")
+    .style("display", "none")
+    .style("z-index", 9999)
+    .style("background", "#fff")
+    .style("border", "1px solid #333")
+    .style("padding", "6px 8px")
+    .style("font", "11px/1.35 'Libre Franklin', sans-serif")
+    .style("max-width", "280px");
+
   const g = svg.append("g");
+
 
   g.selectAll("path.hdc-lot")
     .data(lots.features.filter((f) => f.geometry != null))
@@ -828,27 +930,34 @@ Promise.all([
     .attr("class", "hdc-lot")
     .attr("d", path)
     .attr("fill", (d) => colorFor(d.properties.yearbuilt))
-    .attr("stroke", "#ffffff")
+    .attr("stroke", "#333333")
     .attr("stroke-width", 0.3)
-    .append("title")
-    .text((d) => {
-      const p = d.properties;
-      const yr = p.yearbuilt ? `built ${Math.round(p.yearbuilt)}` : "year built unknown";
-      return `${p.address || "Lot"}: ${yr}`;
-    });
+    .style("pointer-events", "all")
+    .on("mousemove", (event, d) => {
+      tip.style("display", "block")
+        .style("left", event.clientX + 12 + "px")
+        .style("top", event.clientY + 12 + "px")
+        .html(Object.entries(d.properties)
+          .map(([k, v]) => `<b>${k}</b>: ${v}`)
+          .join("<br>"));
+    })
+    .on("mouseleave", () => tip.style("display", "none"))
+    
+    .on("click", (event, d) => {
+})
 
   // Greenwich Village boundary, same style as Chart A
-  g.selectAll("path.hdc-gv-border")
-    .data(boundary.type === "FeatureCollection" ? boundary.features : [boundary])
-    .join("path")
-    .attr("class", "hdc-gv-border")
-    .attr("d", path)
-    .attr("fill", "none")
-    .attr("stroke", "#4e976e")
-    .attr("stroke-width", 4)
-    .attr("stroke-opacity", 0.7)
-    .attr("stroke-linejoin", "round")
-    .style("pointer-events", "none");
+  // g.selectAll("path.hdc-gv-border")
+  //   .data(boundary.type === "FeatureCollection" ? boundary.features : [boundary])
+  //   .join("path")
+  //   .attr("class", "hdc-gv-border")
+  //   .attr("d", path)
+  //   .attr("fill", "none")
+  //   .attr("stroke", "#4e976e")
+  //   .attr("stroke-width", 4)
+  //   .attr("stroke-opacity", 0.7)
+  //   .attr("stroke-linejoin", "round")
+  //   .style("pointer-events", "none");
 
   // legend (reuses the .hdc-legend styles from Chart A)
   const legend = d3.select("#map-c").append("div").attr("class", "hdc-legend");
@@ -873,15 +982,15 @@ fetch("data/gv_buildingsage.geojson")
 
     // same eras and colors as Chart C
     const thresholds = [1830, 1860, 1900, 1930, 1960, 2000];
-    const eras = [
-      { label: "Before 1830", color: "#7f3b08" },
-      { label: "1830–1859",   color: "#b35806" },
-      { label: "1860–1899",   color: "#e08214" },
-      { label: "1900–1929",   color: "#fdb863" },
-      { label: "1930–1959",   color: "#b2abd2" },
-      { label: "1960–1999",   color: "#8073ac" },
-      { label: "2000 +",      color: "#2d004b" },
-    ];
+  const eras = [
+{ label: "Before 1830", color: "#f9eac0" },
+{ label: "1830–1859",   color: "#f6d995" },
+{ label: "1860–1899",   color: "#eba762" },
+{ label: "1900–1929",   color: "#e08558" },
+{ label: "1930–1959",   color: "#d05c4a" },
+{ label: "1960–1999",   color: "#a03640" },
+{ label: "2000 +",      color: "#6a2238" },
+];
 
     // count lots per era (lots with no year are left out, as in the R version)
     const counts = new Array(eras.length).fill(0);
@@ -915,6 +1024,7 @@ fetch("data/gv_buildingsage.geojson")
       .attr("x", 0).attr("y", 24)
       .attr("font-family", "'Libre Baskerville', serif")
       .attr("font-size", 16).attr("font-weight", 700)
+      .attr("font-style", "italic")
       .attr("fill", "#33302a")
       .text("When Greenwich Village's buildings were built");    // check against the data
 
@@ -1048,8 +1158,7 @@ fetch("data/rent_comparison_long.json")
     const [minYear, maxYear] = d3.extent(seriesDefs.flatMap((s) => Array.from(s.map.keys())));
     const years = d3.range(minYear, maxYear + 1);
 
-    // one value per year; real points are connected by straight lines however far apart,
-    // and a series stays empty before its first point and after its last
+  
     const fillYears = (lookup) => {
       const pts = Array.from(lookup.entries()).sort((a, b) => a[0] - b[0]);
       const findNext = d3.bisector((p) => p[0]).left;
@@ -1253,7 +1362,7 @@ Promise.all([
   const OTHER = "residential, open space, or other";
 
   const statuses = [
-    { key: "vacant",     label: "Has a vacant storefront",           color: "#dfa638" },
+    { key: "vacant",     label: "Has a vacant storefront",           color: "#8e361b" },
     { key: "occupied",   label: "Occupied",                          color: "#4e9a82" },
     { key: "demolished", label: "Demolished",                        color: "#636363" },
     { key: OTHER,        label: "Residential, open space, or other", color: TAN },
@@ -1294,48 +1403,93 @@ d3.select("#map-g svg").attr(
 
 
   // thinner lot outlines than the neighborhood map
-  vacancyMap.g.selectAll("path.hdc-feature").attr("stroke-width", 0.4);
+  vacancyMap.g.selectAll("path.hdc-feature").attr("stroke-width", 0.5);
 
   // street names: same italic serif as the Chart A labels
    const LABEL_DROP = 0.01;                        // fraction of the map's height; raise for more
   const [[bx0, by0], [bx1, by1]] = vacancyMap.path.bounds(lots);
   const dy = (by1 - by0) * LABEL_DROP;
 
- const BASE_SIZE = 12;
+ const BASE_SIZE = 13;
 
   // hand overrides by label text; check real names with
   // console.log(labels.features.map((d) => d.properties.label))
+  const nudge = {
+    "7th Ave South": [-20,60],
+    "Ave of the Americas":[60,-125],
+    "Christopher St":[20,-8],
+    "Grove St":[120,-55],
+    "Barrow St": [0,-4],
+    "Commerce St": [0,-4],
+    "Morton St": [0,-4],
+    "Leroy St": [0,-4],
+    "Carmine St": [0,-4],
+    "Downing St": [0, -4],
+    "Bedford St": [-83, -180],
+    "Jones St": [0,-4],
+    "Cornelia St": [0,-2],
+    "Minetta Lane": [20,10],
+    "Bleecker St": [40,23],
+    "Mac Dougal St": [103,-160],
+    "Bleecker St 2": [-115,-200]
+  };
+
+  const tilt = {
+    "Ave of the Americas":4,
+    "Bleecker St 2": 33.5,
+  };
+
+  const nudgeFor = (d) => nudge[d.properties.key] ?? [0, 0];
+
+
+
+
   const sizeOverride = {
     "Ave of the Americas": 24,
     "7th Ave South": 24,
-    // "Christopher St": 9,
-    // "Gay St": 5,
   };
  const fontSize = (d) => sizeOverride[d.properties.label] ?? BASE_SIZE;
+
+
+
+
+const displayName = {
+  "Ave of the Americas" : "Avenue of the Americas",
+  "7th Ave South" : "7th Avenue South",
+};
+
+// give each label a key; Bleecker gets two copies
+const labelData = labels.features.flatMap((f) => {
+  const label = f.properties.label;
+  const make = (key) => ({ ...f, properties: { ...f.properties, key } });
+  return label === "Bleecker St"
+    ? [make("Bleecker St"), make("Bleecker St 2")]
+    : [make(label)];
+});
 
   vacancyMap.g
     .append("g")
     .attr("class", "hdc-street-labels")
     .style("pointer-events", "none")
     .selectAll("text")
-    .data(labels.features)
+    .data(labelData)
     .join("text")
     .attr("transform", (d) => {
-      const [x, y] = vacancyMap.path.centroid(d);
-      return `translate(${x},${y + dy}) rotate(${-d.properties.angle})`;   // shift first, then rotate
-    })
+    const [x, y] = vacancyMap.path.centroid(d);
+    const [nx, ny] = nudgeFor(d);
+    return `translate(${x + nx},${y + dy + ny}) rotate(${-d.properties.angle + (tilt[d.properties.key] ?? 0)})`;
+  })
     .attr("text-anchor", "middle")
     .attr("font-size", fontSize)
-    .attr("font-family", "'Libre Baskerville', serif")
-    .attr("font-style", "italic")
+    .attr("font-family", "'Jost', sans-serif")
+    .attr("font-weight", 500)
     .attr("fill", "#000000")
-    .attr("fill-opacity", 0.8)
+    .attr("fill-opacity", 1)
     .attr("stroke", TAN)
-    .attr("stroke-width", 2)
+    .attr("stroke-width", 4)
     .style("paint-order", "stroke")
-    .text((d) => d.properties.label);
+    .text((d) => displayName[d.properties.label] ?? d.properties.label);
 
-  // tooltips, same pattern as Chart A, for surveyed lots only
   const tooltip = d3.select("body")
     .append("div")
     .attr("class", "hdc-tooltip")
@@ -1377,7 +1531,6 @@ d3.select("#map-g svg").attr(
       d3.select(this).attr("stroke-width", 0.4);
     });
 
-  // legend (reuses the .hdc-legend styles)
   const legend = d3.select("#map-g").append("div").attr("class", "hdc-legend");
   legend.append("div").attr("class", "hdc-legend-title").text("Storefront status");
 
@@ -1391,13 +1544,351 @@ d3.select("#map-g svg").attr(
     .style("border", (d) => (d.key === OTHER ? "1px solid rgba(51,48,42,0.4)" : null));
   row.append("span").text((d) => d.label);
 
-  if (window.ScrollTrigger) ScrollTrigger.refresh();    // the map changes the page height
-
+  if (window.ScrollTrigger) ScrollTrigger.refresh();    
 }).catch((err) => console.error("Chart G failed:", err));
 //END CHART G
 
 
 //END CHART G
+
+//START CHART H1: SLOPE CHARTS (population / density / household size)
+
+window.chartH1 = window.chartH1 || {
+  requested: "population",
+  show(name) { this.requested = name; },
+};
+
+fetch("data/metrics_comparison.json")
+  .then((r) => r.json())
+  .then((allRows) => {
+
+    const rows = allRows.filter((d) => d.year != null && isFinite(+d.year));
+    const Y0 = 1970, Y1 = 2020;
+    const ACRES_PER_KM2 = 247.105;
+
+    // EDIT TEXT HERE
+    const states = {
+      population: {
+        value: (d) => +d.population,
+        yLabel: "Residents",
+        fmt: d3.format(",.0f"),
+        title: "Total Population, 1970 and 2020",
+        subtitle: "Residents counted in the decennial census",
+        source: "Source: U.S. Census Bureau via NHGIS. 1970 interpolated to 2010 tract boundaries."
+      },
+      density: {
+        value: (d) => +d.density_km2 / ACRES_PER_KM2,
+        yLabel: "People per acre",
+        fmt: d3.format(",.0f"),
+        title: "Population Density, 1970 and 2020",
+        subtitle: "Residents per acre of land",
+        source: "Source: U.S. Census Bureau via NHGIS; area from 2010 tract boundaries."
+      },
+      household: {
+        value: (d) => +d.avg_household_size,
+        yLabel: "Average people per household",
+        fmt: d3.format(".2f"),
+        yMax: (hi) => Math.max(2, Math.ceil(hi * 2) / 2),
+        title: "Average Household Size, 1970 and 2020",
+        subtitle: "People per household",
+        source: "Source: U.S. Census Bureau via NHGIS. 1970 interpolated to 2010 tract boundaries."
+      }
+    };
+
+    const areas = ["Manhattan", "Greenwich Village"];
+    const colors = { "Manhattan": "#2c3e50", "Greenwich Village": "#c0392b" };
+    const keys = { "Manhattan": "manhattan", "Greenwich Village": "gv" };
+    const names = { manhattan: "Manhattan", gv: "Greenwich Village" };
+
+    // two values per series per state: 1970 and 2020
+    const seriesDefs = areas.map((areaName) => {
+      const areaRows = rows.filter((d) => d.area === areaName);
+      const at = (yr) => areaRows.find((d) => +d.year === yr);
+      const vals = {};
+      Object.entries(states).forEach(([k, st]) => {
+        const a = at(Y0), b = at(Y1);
+        vals[k] = [a ? st.value(a) : null, b ? st.value(b) : null];
+      });
+      return { key: keys[areaName], color: colors[areaName], vals };
+    });
+
+    const width = 860, height = 860;
+    const margin = { top: 44, right: 190, bottom: 56, left: 120 };
+    const innerWidth = width - margin.left - margin.right;
+    const innerHeight = height - margin.top - margin.bottom;
+
+    const instanceId = typeof inkNextId === "function" ? inkNextId("hdc-chart-h1") : "hdc-chart-h1";
+    const root = d3.select("#chart-h1");
+    root.html("").classed("hand-drawn-chart", true).attr("data-instance", instanceId);
+
+    const head = root.append("div").attr("class", "hdc-head");
+    const titleEl = head.append("h2").attr("class", "hdc-title");
+    const subtitleEl = head.append("p").attr("class", "hdc-subtitle");
+
+    root.append("div").attr("class", "hdc-legend")
+      .selectAll("span")
+      .data(seriesDefs)
+      .join("span")
+      .attr("class", "hdc-legend-btn")
+      .style("cursor", "default")
+      .style("pointer-events", "none")
+      .html((d) => `<span class="hdc-swatch" style="background:${d.color}"></span>${names[d.key]}`);
+
+    const svg = root.append("svg")
+      .attr("class", "hdc-main")
+      .attr("viewBox", `0 0 ${width} ${height}`)
+      .attr("width", "100%")
+      .style("height", "auto");
+
+    const sourceEl = root.append("p").attr("class", "hdc-source");
+
+    const defs = svg.append("defs");
+    const ink = typeof installInkFilters === "function" ? installInkFilters(defs, instanceId) : null;
+    const inkFilter = ink ? `url(#${ink.filterId})` : null;
+    const inkPath = (pts, seed) => (typeof inkLinePath === "function" ? inkLinePath(pts, seed) : d3.line()(pts));
+
+    const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+    const xL = 0, xR = innerWidth;
+    const GAP = 16; // minimum px between end labels
+
+    // keep labels from overlapping
+    const spread = (items) => {
+      const s = items.slice().sort((a, b) => a.y - b.y);
+      for (let i = 1; i < s.length; i++) if (s[i].y - s[i - 1].y < GAP) s[i].y = s[i - 1].y + GAP;
+      return s;
+    };
+
+    const OFFSET = 14;
+    const layers = {};
+
+    Object.entries(states).forEach(([name, st]) => {
+      const all = seriesDefs.flatMap((s) => s.vals[name]).filter((v) => v != null);
+      const hi = d3.max(all);
+      const y = d3.scaleLinear()
+        .domain([0, st.yMax ? st.yMax(hi) : hi * 1.15])
+        .range([innerHeight, 0]);
+      if (!st.yMax) y.nice();
+
+      const layer = g.append("g")
+        .attr("class", `hdc-layer hdc-layer-${name}`)
+        .style("opacity", 0)
+        .style("pointer-events", "none")
+        .attr("transform", `translate(0,${OFFSET})`);
+
+      // y axis title (what is being measured)
+      layer.append("text")
+        .attr("x", xL - margin.left + 6).attr("y", -22)
+        .attr("font-size", 12).attr("fill", "#33302a").attr("fill-opacity", 0.85)
+        .text(st.yLabel);
+
+      // vertical guides + year labels (x axis)
+      [[xL, Y0], [xR, Y1]].forEach(([px, yr]) => {
+        layer.append("line")
+          .attr("x1", px).attr("x2", px).attr("y1", 0).attr("y2", innerHeight)
+          .attr("stroke", "#33302a").attr("stroke-opacity", 0.25);
+        layer.append("text")
+          .attr("x", px).attr("y", innerHeight + 24)
+          .attr("text-anchor", "middle").attr("font-size", 13).attr("fill", "#33302a")
+          .text(yr);
+      });
+      layer.append("text")
+        .attr("x", innerWidth / 2).attr("y", innerHeight + 46)
+        .attr("text-anchor", "middle")
+        .attr("font-size", 12).attr("fill", "#33302a").attr("fill-opacity", 0.85)
+        .text("Census year");
+
+      // baseline at zero
+      layer.append("line")
+        .attr("x1", xL).attr("x2", xR).attr("y1", y(0)).attr("y2", y(0))
+        .attr("stroke", "#33302a").attr("stroke-opacity", 0.2).attr("stroke-dasharray", "3 4");
+      layer.append("text")
+        .attr("x", xL - 10).attr("y", y(0) + 4).attr("text-anchor", "end")
+        .attr("font-size", 11).attr("fill", "#33302a").attr("fill-opacity", 0.6).text("0");
+
+      const usable = seriesDefs.filter((s) => s.vals[name][0] != null && s.vals[name][1] != null);
+
+      // slopes + end dots
+      usable.forEach((s, i) => {
+        const [a, b] = s.vals[name];
+        layer.append("path")
+          .attr("fill", "none").attr("stroke", s.color)
+          .attr("stroke-width", 3).attr("stroke-linecap", "round")
+          .attr("filter", inkFilter).style("opacity", 0.9)
+          .attr("d", inkPath([[xL, y(a)], [xR, y(b)]], s.key.length + i));
+        [[xL, a], [xR, b]].forEach(([px, v]) =>
+          layer.append("circle").attr("cx", px).attr("cy", y(v)).attr("r", 5).attr("fill", s.color));
+      });
+
+      // direct labels
+      const left = spread(usable.map((s) => ({ color: s.color, y: y(s.vals[name][0]), v: s.vals[name][0] })));
+      const right = spread(usable.map((s) => ({ color: s.color, y: y(s.vals[name][1]), v: s.vals[name][1], key: s.key })));
+
+      left.forEach((d) => layer.append("text")
+        .attr("x", xL - 12).attr("y", d.y + 4).attr("text-anchor", "end")
+        .attr("font-size", 13).attr("font-weight", 600).attr("fill", d.color)
+        .text(st.fmt(d.v)));
+      right.forEach((d) => layer.append("text")
+        .attr("x", xR + 12).attr("y", d.y + 4).attr("text-anchor", "start")
+        .attr("font-size", 13).attr("font-weight", 600).attr("fill", d.color)
+        .text(`${st.fmt(d.v)}  ${names[d.key]}`));
+
+      layers[name] = layer;
+    });
+
+    let current = null;
+
+    function setText(name) {
+      const st = states[name];
+      titleEl.text(st.title);
+      subtitleEl.text(st.subtitle);
+      sourceEl.text(st.source);
+    }
+
+    function show(name, instant) {
+      if (!states[name]) { console.warn(`Chart H1: unknown state "${name}"`); return; }
+      if (name === current && !instant) return;
+
+      const dur = instant ? 0 : 600;
+      const prev = current;
+      current = name;
+
+      if (prev && layers[prev]) {
+        layers[prev]
+          .style("pointer-events", "none")
+          .transition("layer").duration(dur).ease(d3.easeCubicInOut)
+          .style("opacity", 0)
+          .attr("transform", `translate(0,${-OFFSET})`);
+      }
+
+      layers[name]
+        .interrupt("layer")
+        .attr("transform", `translate(0,${OFFSET})`)
+        .style("pointer-events", "all")
+        .transition("layer").duration(dur).ease(d3.easeCubicInOut)
+        .style("opacity", 1)
+        .attr("transform", "translate(0,0)");
+
+      const textEls = [head, sourceEl];
+      if (instant || !prev) {
+        setText(name);
+        textEls.forEach((el) => el.style("opacity", 1));
+      } else {
+        textEls.forEach((el, i) => {
+          el.transition("text").duration(dur / 2).style("opacity", 0)
+            .on("end", () => {
+              if (i === 0) setText(name);
+              el.transition("text").duration(dur / 2).style("opacity", 1);
+            });
+        });
+      }
+    }
+
+    window.chartH1.show = show;
+    show(window.chartH1.requested, true);
+
+  }).catch((err) => console.error("Chart H1 failed:", err));
+
+//END CHART H1 POPULATION
+
+
+//START CHART H2 DENSITY
+
+function chartH(selector, dataURL) {
+  const root = d3.select(selector).classed("chart-h", true).html("");
+
+  const SIZES = ["1","2","3","4","5","6+"];
+  const NUM = {"1":1,"2":2,"3":3,"4":4,"5":5,"6+":6};
+  const color = s => s==="1" ? "var(--c1)" : s==="2" ? "var(--c2)" : "var(--c3)";
+
+  // dot positions inside a 40x52 window
+  const POS = {
+    1:[[20,26]],
+    2:[[12,26],[28,26]],
+    3:[[20,17],[11,34],[29,34]],
+    4:[[12,18],[28,18],[12,34],[28,34]],
+    5:[[12,14],[28,14],[20,27],[12,40],[28,40]],
+    6:[[12,14],[28,14],[12,27],[28,27],[12,40],[28,40]]
+  };
+
+  // largest-remainder rounding so each building has exactly 100 windows
+  function toWindows(rows) {
+    const total = d3.sum(rows, r => r.pct);
+    const items = SIZES.map(s => {
+      const p = (rows.find(r => r.size === s)?.pct || 0) / total * 100;
+      return {size: s, pct: p, n: Math.floor(p), rem: p - Math.floor(p)};
+    });
+    const left = 100 - d3.sum(items, d => d.n);
+    items.slice().sort((a, b) => b.rem - a.rem).slice(0, left).forEach(d => d.n++);
+    return items;
+  }
+
+  const W = 40, H = 52, SX = 50, SY = 62, PADX = 18, TOP = 46, COLS = 10, ROWS = 10;
+  const width  = PADX * 2 + SX * (COLS - 1) + W;
+  const height = TOP + SY * (ROWS - 1) + H + 28;
+
+  // legend (attached to root, not "#legend")
+  const leg = root.append("div").attr("class", "chart-h-legend");
+  [["1", "1 person", 1], ["2", "2 people", 2], ["3", "3+ people", 3]].forEach(([s, t, n]) => {
+    const sp = leg.append("span");
+    const svg = sp.append("svg").attr("width", 26).attr("height", 32).attr("viewBox", "0 0 40 52");
+    svg.append("rect").attr("width", 40).attr("height", 52).attr("rx", 3).attr("fill", "var(--win)");
+    POS[n].forEach(([x, y]) => svg.append("circle").attr("cx", x).attr("cy", y).attr("r", 5.5).attr("fill", color(s)));
+    sp.append("span").text(t);
+  });
+
+  const grid = root.append("div").attr("class", "chart-h-grid");
+
+  d3.json(dataURL).then(DATA => {
+    DATA.forEach(d => { d.year = +d.year; d.size = String(d.size); d.pct = +d.pct; });
+
+    [1970, 2020].forEach(year => {
+      const items = toWindows(DATA.filter(d => d.year === year));
+
+      // one entry per window, 1-person first, filled from the bottom row up
+      const windows = [];
+      items.forEach(it => { for (let k = 0; k < it.n; k++) windows.push(it.size); });
+      const cells = windows.map((s, i) => ({s, row: ROWS - 1 - Math.floor(i / COLS), col: i % COLS}));
+
+      const box = grid.append("div").attr("class", "chart-h-bld");
+      box.append("h2").text(year);
+
+      const svg = box.append("svg")
+        .attr("viewBox", `0 0 ${width} ${height}`)
+        .attr("role", "img")
+        .attr("aria-label", `Building of 100 windows showing household sizes in ${year}`);
+
+      // facade, cornice, base
+      svg.append("rect").attr("x", 0).attr("y", TOP - 20).attr("width", width).attr("height", height - TOP + 12).attr("fill", "var(--wall)");
+      svg.append("rect").attr("x", -4).attr("y", TOP - 30).attr("width", width + 8).attr("height", 12).attr("fill", "var(--wall2)");
+      svg.append("rect").attr("x", 0).attr("y", height - 8).attr("width", width).attr("height", 8).attr("fill", "var(--wall2)");
+
+      // windows + dots
+      const g = svg.selectAll("g.win").data(cells).join("g").attr("class", "win")
+        .attr("transform", d => `translate(${PADX + d.col * SX},${TOP + d.row * SY})`);
+      g.append("rect").attr("width", W).attr("height", H).attr("rx", 3).attr("fill", "var(--win)");
+      g.each(function (d) {
+        d3.select(this).selectAll("circle").data(POS[NUM[d.s]]).join("circle")
+          .attr("cx", p => p[0]).attr("cy", p => p[1]).attr("r", 5.5).attr("fill", color(d.s));
+      });
+
+      // summary stats: 1 / 2 / 3+
+      const pct = sizes => items.filter(i => sizes.includes(i.size)).reduce((a, i) => a + i.pct, 0);
+      const st = box.append("div").attr("class", "chart-h-stats");
+      [["1 person", ["1"], "--c1"], ["2 people", ["2"], "--c2"], ["3+ people", ["3", "4", "5", "6+"], "--c3"]].forEach(([t, s, c]) => {
+        const d = st.append("div");
+        d.append("b").style("color", `var(${c})`).text(Math.round(pct(s)) + "%");
+        d.append("span").text(t);
+      });
+    });
+  }).catch(err => {
+    console.error(err);
+    root.append("p").text("Could not load " + dataURL);
+  });
+}
+
+chartH("#chart-h", "data/hh_size.json");
+
+//END CHART H
 
 
 //END CHARTS

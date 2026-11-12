@@ -1,0 +1,98 @@
+[
+  {
+    "year": 1970,
+    "area": "Manhattan",
+    "population": 1065721.7433,
+    "density_km2": 17860.665,
+    "housing_units": 510550.8281,
+    "avg_household_size": 2.0874
+  },
+  {
+    "year": 1980,
+    "area": "Manhattan",
+    "population": 1427654.7706,
+    "density_km2": 23926.3802,
+    "housing_units": 750904.0746,
+    "avg_household_size": 1.9012
+  },
+  {
+    "year": 1990,
+    "area": "Manhattan",
+    "population": 1487531.11,
+    "density_km2": 24929.8609,
+    "housing_units": 785126.18,
+    "avg_household_size": 1.8946
+  },
+  {
+    "year": 2000,
+    "area": "Manhattan",
+    "population": 1537195,
+    "density_km2": 25762.189,
+    "housing_units": 798144,
+    "avg_household_size": 1.926
+  },
+  {
+    "year": 2010,
+    "area": "Manhattan",
+    "population": 1585873,
+    "density_km2": 26577.9943,
+    "housing_units": 847090,
+    "avg_household_size": 1.8721
+  },
+  {
+    "year": 2020,
+    "area": "Manhattan",
+    "population": 1694251,
+    "density_km2": 28394.325,
+    "housing_units": 913926,
+    "avg_household_size": 1.8538
+  },
+  {
+    "year": 1970,
+    "area": "Greenwich Village",
+    "population": 39666.5652,
+    "density_km2": 37582.4904,
+    "housing_units": 23753.5995,
+    "avg_household_size": 1.6699
+  },
+  {
+    "year": 1980,
+    "area": "Greenwich Village",
+    "population": 38051.4733,
+    "density_km2": 36052.2551,
+    "housing_units": 25200.7186,
+    "avg_household_size": 1.5099
+  },
+  {
+    "year": 1990,
+    "area": "Greenwich Village",
+    "population": 38831,
+    "density_km2": 36790.8256,
+    "housing_units": 25869,
+    "avg_household_size": 1.5011
+  },
+  {
+    "year": 2000,
+    "area": "Greenwich Village",
+    "population": 37065,
+    "density_km2": 35117.611,
+    "housing_units": 25045,
+    "avg_household_size": 1.4799
+  },
+  {
+    "year": 2010,
+    "area": "Greenwich Village",
+    "population": 35653,
+    "density_km2": 33779.7972,
+    "housing_units": 24432,
+    "avg_household_size": 1.4593
+  },
+  {
+    "year": 2020,
+    "area": "Greenwich Village",
+    "population": 37198,
+    "density_km2": 35243.6232,
+    "housing_units": 24868,
+    "avg_household_size": 1.4958
+  }
+]

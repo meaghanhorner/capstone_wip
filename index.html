@@ -8,7 +8,8 @@
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Special+Elite&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Barlow+Condensed:wght@400,500,600,700,800&family=Libre+Franklin:ital,wght@0,100..900;1,100..900&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://use.typekit.net/tfi2apx.css">
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Special+Elite&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@400,500,600%display=swap&family=Libre+Franklin:ital,wght@0,100..900;1,100..900&family=Reenie+Beanie&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -16,17 +17,19 @@
         <div class ="stage-wrap">
             <div class ="graphic-stage">
                 <img id="cafe-busy"
-                src="media/images/cafe-busy-01.jpg"
+                src="media/images/cafe-busy-03.jpg"
                 alt="NEEDS AN ALT">
                  <img id="cafe-vacant"
-                src="media/images/cafe-vacant-01.jpg"
+                src="media/images/cafe-vacant-03.jpg"
                 alt="NEEDS AN ALT">
             <div id ="logo">
                 <img src="media/images/logo-v01.png" alt="The Death and Life of Greenwich Village">
             </div>
+            <p class="scroll-cue">scroll down</p>
 </div>
 </div>
 <div class="step" data-section="cafe"></div>
+<div class="logo-hold"></div>
 </section>
 
 <section class = "curtain">
@@ -38,28 +41,26 @@
                 </article>
                 </div>
             </section>
-<section class = "writing-left-image-right">
-            <article class="step" data-section="Section Context">
-                <p>Third narrative step details...</p>
+<section class = "curtain">
+    <div class = "curtain_bg">
+        <img src ="media/images/DSC_6168-sm.jpg" alt = "photo of book, The Death and Life of Great American Cities">
+    </div>
+            <div class ="curtain_steps">
+                <article class ="step" data-section="Section Context"></article>
                 </article>
-                <div class = "svg-stage">
-                    <img id ="frame-1" class="frame active" src="media/images/isometric_AdobeStock.jpg"></img>
                 </div>
-            
             </section>
-<section class = "writing-left-image-right">
-            <article class="step" data-section="Section 3">
+<section class ="centered-on-white">
+    <section class = "writing-left-image-right-white">
+            <article class="step" data-section="Sidewalk Ballet">
                 </article>
                 <div class = "svg-stage">
-                    <img id ="frame-1" class="frame active" src="media/images/isometric_AdobeStock.jpg"></img>
+                    <img id ="frame-1" class="frame active" src="media/images/isometric-background.jpg"></img>
                 </div>
-            
+            </section>
             </section>
             <section class = "narration-no-image">
-            <article class="step flyer" data-section="Section 4">
-                <p>Third narrative step details...</p>
-            </article>
-            <article class="step" data-section="Section 5">
+            <article class="step flyer" data-section="Four Conditions">
                 <p>Third narrative step details...</p>
             </article>
             </section>
@@ -70,10 +71,23 @@
             <article class="step" data-section="Short Blocks">
                 </article></div>
                 <div class = "graphic-stage">
-                <div id = "map-a"></div>
-                <div id = "chart-b"></div>
-                </div>
-            </section>
+                    <figure class="chart-block" id="block-map-a">
+                        <div class="hdc-head">
+                            <h2 class="hdc-title">Greenwich Village has among the shortest blocks in Manhattan</h2>
+                            <h4 class="hdc-subtitle">Average block length by neighborhood</h4>
+                        </div>
+                        <div id = "map-a"></div>
+                    </figure>
+                
+               <figure class="chart-block" id="block-chart-b">
+      <div class="hdc-head">
+        <h2 class="hdc-title">Greenwich Village has among the shortest blocks in Manhattan</h2>
+        <p class="hdc-subtitle">Average block length by neighborhood</p>
+      </div>
+      <div id="chart-b"></div>
+    </figure>
+  </div>
+</section>
 
             <section class = "writing-left-image-right-largeimage">
                 <header class ="section-intro step" data-section="Old New Buildings Header"></header>
@@ -85,13 +99,16 @@
             <div id = "chart-d"></div>
             <div id = "chart-e"></div>
             </div>
-            </div>
             </section>
             
             <section class = "writing-left-image-right">
-            <article class="step" data-section="A Dense Concentration of People, Including residents">
-                <p>Third narrative step details...</p>
-            </article>
+                <header class ="section-intro step" data-section="Dense Concentration Header"></header>
+                <div class ="narrative-steps">
+            <article class="step" data-section="A Dense Concentration of People, Including Residents">
+                </article></div>
+            <div class ="graphic-stage">
+            <div id ="chart-h1"></div>
+            </div>
             </section>
 
             <section class = "writing-left-image-right">
@@ -101,9 +118,84 @@
             </article></div>
             <div class ="graphic-stage">
                 <div id ="map-g"></div>
+                <img id="strip-plot"
+                src="media/images/strip-plot.png"
+                alt="Share of businesses in each category over time">
             </div>
         </section>
-    </section>
+        <section class ="writing-left-image-right">
+            <div class="narrative-steps">
+                <article class ="step" data-section="What Has Been Lost">
+
+                </article>
+            </div>
+        </section>
+        <section class ="writing-left-image-right">
+            <div class="narrative-steps">
+                <article class ="step" data-section="Why It's Happening">
+                    
+                </article>
+            </div>
+        </section>
+        <section class ="writing-left-image-right">
+            <div class="narrative-steps">
+                <article class ="step" data-section="Putting Everything Together">
+                    
+                </article>
+            </div>
+        </section>
+        <section class ="writing-left-image-right">
+            <div class="narrative-steps">
+                <article class ="step" data-section="Research Underpinnings">
+                    
+                </article>
+            </div>
+        </section>
+         <section class ="writing-left-image-right">
+            <div class="narrative-steps">
+                <article class ="step" data-section="Call to action">
+                    
+                </article>
+            </div>
+        </section>
+         <section class ="writing-left-image-right">
+            <div class="narrative-steps">
+                <article class ="step" data-section="Conclusion">
+                    
+                </article>
+            </div>
+        </section>
+         <section class ="writing-left-image-right">
+            <div class="narrative-steps">
+                <article class ="step" data-section="Sources">
+                    
+                </article>
+            </div>
+        </section>
+ 
+         <section class ="writing-left-image-right">
+            <div class="narrative-steps">
+                <article class ="step" data-section="Methodology">
+                    
+                </article>
+            </div>
+        </section>
+        <div style="padding:100">
+  <h1>Typography</h1>
+  <h2 style="line-height:1.2; margin:10 0 10 0">Section Heading - Special Elite 3 rem</h2>
+  <h3 style="line-height:1.2;margin:10 0 10 0">Small Headings - used instead of section heading - Newshound Headline 2 rem</h3>
+  <p style="font-family: Libre Baskerville, serif; font-size:1.8rem; font-weight:700; font-style:italic; line-height:1.2;margin:10 0 10 0">Chart title - Libre Baskerville 1.8rem bold italic</p>
+  <h4 style="line-height:1.2;margin:10 0 10 0">Chart subtitle - Jost 1.5 rem</h4>
+  <p style="font-family: Jost, sans-serif; font-size:0.9rem">chart source - Jost 0.9 rem</p>
+  <p style="font-family: Jost, sans-serif; font-size:0.9rem; font-weight:600">chart labels - Jost 0.9 rem bold</p>
+  <p style="font-family: Jost, sans-serif; font-size:1rem; font-weight:600">chart legend heading - Jost 1 rem bold</p>
+  <p style="font-family: Jost, sans-serif; font-size:0.9rem; font-weight:400">chart legend - Jost 1 rem regular</p>
+    <p style ="font-family: courier prime, monospace;">Paragraph - Courier Prime 1 rem</p>
+    <blockquote style="font-family:'Libre Baskerville', serif; font-style: italic; font-weight:400; font-size:1.1rem; line-height:1.4;">Blockquote - "Libre Baskerville 1.1rem"</blockquote>
+    <p style="background-color:#fdfcf8; font-family: Jost,sans-serif; font-size:1rem; font-weight:600; padding:10px;"><a href="http://www.google.com">links jost 1rem bold #b25a3f on cream</a></p>
+</div>
+
+
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>

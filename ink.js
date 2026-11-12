@@ -68,12 +68,55 @@ function installInkFilters(defsSelection, instanceId) {
  * @param {Array<[number,number]>} pixelPoints
  * @param {number} seedSalt  vary this per series so parallel lines don't wobble in lockstep
  */
-function inkLinePath(pixelPoints, seedSalt) {
-  const pts = pixelPoints.map(([px, py], i) => [
-    px + inkSeededNoise(i, seedSalt + 50) * 1.5,
-    py + inkSeededNoise(i, seedSalt) * 3.5,
-  ]);
-  return d3.line().curve(d3.curveCatmullRom.alpha(0.7))(pts);
+function inkLinePath(points, seed = 0, opts = {}) {
+  const { vertexJitter = 1.2, bow = 0.02, maxBow = 4, corner = 18 } = opts;
+  if (!points || points.length < 2) return "";
+
+  let s = ((seed + 1) * 2654435761) >>> 0;
+  const rand = () => {
+    s += 0x6d2b79f5;
+    let t = s;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+  const r = () => rand() * 2 - 1;
+  const f = (v) => v.toFixed(2);
+
+  const pts = points.map(([x, y]) => [x + r() * vertexJitter, y + r() * vertexJitter]);
+
+  // gently bowed segment from a to b
+  const seg = (a, b) => {
+    const dx = b[0] - a[0], dy = b[1] - a[1];
+    const len = Math.hypot(dx, dy) || 1;
+    const nx = -dy / len, ny = dx / len;
+    const off = r() * Math.min(maxBow, len * bow);
+    return ` C${f(a[0] + dx / 3 + nx * off)},${f(a[1] + dy / 3 + ny * off)}` +
+           ` ${f(a[0] + (2 * dx) / 3 + nx * off)},${f(a[1] + (2 * dy) / 3 + ny * off)}` +
+           ` ${f(b[0])},${f(b[1])}`;
+  };
+
+  let d = `M${f(pts[0][0])},${f(pts[0][1])}`;
+  let cur = pts[0];
+
+  for (let i = 1; i < pts.length; i++) {
+    if (i < pts.length - 1) {
+      const prev = pts[i - 1], v = pts[i], next = pts[i + 1];
+      const l1 = Math.hypot(v[0] - prev[0], v[1] - prev[1]) || 1;
+      const l2 = Math.hypot(next[0] - v[0], next[1] - v[1]) || 1;
+      const rad = Math.min(corner, l1 / 2, l2 / 2); // never eat more than half a segment
+
+      const entry = [v[0] - ((v[0] - prev[0]) / l1) * rad, v[1] - ((v[1] - prev[1]) / l1) * rad];
+      const exit  = [v[0] + ((next[0] - v[0]) / l2) * rad, v[1] + ((next[1] - v[1]) / l2) * rad];
+
+      d += seg(cur, entry);                                   // run up to the corner
+      d += ` Q${f(v[0])},${f(v[1])} ${f(exit[0])},${f(exit[1])}`; // round it, using the data point as the control
+      cur = exit;
+    } else {
+      d += seg(cur, pts[i]);
+    }
+  }
+  return d;
 }
 
 /**

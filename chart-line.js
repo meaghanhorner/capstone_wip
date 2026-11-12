@@ -72,14 +72,19 @@ function createHandDrawnLineChart(opts) {
       );
   }
  
-  const mainSvg = root.append("svg").attr("class", "hdc-main").attr("width", width).attr("height", mainHeight);
+  const mainSvg = root.append("svg")
+  .attr("class", "hdc-main")
+  .attr("viewBox", `0 0 ${width} ${mainHeight}`)
+  .attr("width", "100%")
+  .style("height", "auto");
   const defs = mainSvg.append("defs");
   const { filterId, filterBoldId } = installInkFilters(defs, instanceId);
  
-  let brushSvg = null;
-  if (brush) {
-    brushSvg = root.append("svg").attr("class", "hdc-brush").attr("width", width).attr("height", brushHeight);
-  }
+  brushSvg = root.append("svg")
+  .attr("class", "hdc-brush")
+  .attr("viewBox", `0 0 ${width} ${brushHeight}`)
+  .attr("width", "100%")
+  .style("height", "auto");
  
   let activeKeys = new Set(categories.map((c) => c.key));
   const allX = data[0].values.map((v) => v.x);
