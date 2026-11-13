@@ -274,6 +274,9 @@ As Jacobs observed,
 
 ##### Sources
 ## Sources
+New York City Department of City Planning. 2026. "LION Single Line Street Base Map" (Version 26A) and "MapPLUTO" (Version 26v2). Accessed via NYC Open Data. https://data.cityofnewyork.us/.
+
+
 
 ##### Methodology
 ## Methodology

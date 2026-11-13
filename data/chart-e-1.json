@@ -1,0 +1,122 @@
+[
+  {
+    "year": 1961,
+    "series": "Bleecker (NYT)",
+    "value": 28.52
+  },
+  {
+    "year": 1971,
+    "series": "Bleecker (NYT)",
+    "value": 29.91
+  },
+  {
+    "year": 1981,
+    "series": "Bleecker (NYT)",
+    "value": 73.36
+  },
+  {
+    "year": 1986,
+    "series": "Bleecker (NYT)",
+    "value": 141.26
+  },
+  {
+    "year": 1991,
+    "series": "Bleecker (NYT)",
+    "value": 92.53
+  },
+  {
+    "year": 1996,
+    "series": "Bleecker (NYT)",
+    "value": 120.19
+  },
+  {
+    "year": 1961,
+    "series": "Greenwich Village",
+    "value": 67.34
+  },
+  {
+    "year": 1966,
+    "series": "Greenwich Village",
+    "value": 57.65
+  },
+  {
+    "year": 1971,
+    "series": "Greenwich Village",
+    "value": 68.4
+  },
+  {
+    "year": 1976,
+    "series": "Greenwich Village",
+    "value": 62.46
+  },
+  {
+    "year": 1981,
+    "series": "Greenwich Village",
+    "value": 92.33
+  },
+  {
+    "year": 1986,
+    "series": "Greenwich Village",
+    "value": 138.77
+  },
+  {
+    "year": 1991,
+    "series": "Greenwich Village",
+    "value": 107.39
+  },
+  {
+    "year": 1996,
+    "series": "Greenwich Village",
+    "value": 101.36
+  },
+  {
+    "year": 2001,
+    "series": "Greenwich Village",
+    "value": 112.98
+  },
+  {
+    "year": 1961,
+    "series": "Manhattan (NYT)",
+    "value": 57.13
+  },
+  {
+    "year": 1966,
+    "series": "Manhattan (NYT)",
+    "value": 54.39
+  },
+  {
+    "year": 1971,
+    "series": "Manhattan (NYT)",
+    "value": 60.94
+  },
+  {
+    "year": 1976,
+    "series": "Manhattan (NYT)",
+    "value": 51.58
+  },
+  {
+    "year": 1981,
+    "series": "Manhattan (NYT)",
+    "value": 91.62
+  },
+  {
+    "year": 1986,
+    "series": "Manhattan (NYT)",
+    "value": 133.11
+  },
+  {
+    "year": 1991,
+    "series": "Manhattan (NYT)",
+    "value": 102.18
+  },
+  {
+    "year": 1996,
+    "series": "Manhattan (NYT)",
+    "value": 109.78
+  },
+  {
+    "year": 2001,
+    "series": "Manhattan (NYT)",
+    "value": 126.23
+  }
+]

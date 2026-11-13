@@ -95,9 +95,9 @@ section {
 
 .hdc-source {
   font-family: 'Jost', sans-serif;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: #33302a;
-  opacity: 0.7;
+  opacity: 1;
   margin: 0.5rem 0 0;
 }
 .hdc-bar-label {font-family: 'Jost', sans-serif; font-size: 1rem; fill: var(--ink); }
@@ -146,7 +146,7 @@ h2 { font-family: "Special Elite", monospace; font-weight:400; font-size: var(--
 }
 h3 { font-family: "newshound-banner", sans-serif; text-transform: uppercase; font-weight: 400; font-size: var(--step-2); line-height: 1.1;}
 h4 { font-family: "Jost", sans-serif; font-weight:400; font-style: none; font-size: var(--step-1); line-height: 1.2; }
-h5 { font-family: "Libre Franklin", sans-serif; font-size: var(--step-0); line-height: 1.4; }
+h5 { font-family: "Jost", sans-serif; font-size: var(--step-0); line-height: 1.4; font-weight:400;color:#33302a;}
 small, figcaption { font-size: var(--step--1); }
 .hero { font-size: var(--step-5); line-height: 1.05; }
 
@@ -188,8 +188,8 @@ body {
   position: sticky;
   top: 0;
   box-sizing: border-box;
-  height: 100vh;
-  padding: 3rem 0 4rem;               
+  height: 95vh;
+  padding: 2rem 0 2rem;               
   align-self: start;
   display: grid;
   grid-template-rows: minmax(0, 1fr);   
@@ -597,7 +597,7 @@ body {
 .step-line {
  grid-column: 1;                 /* text column; the curtain's 3 / span 5 belongs to a different grid */
   box-sizing: border-box;
-  margin: 3rem 0 15rem;             /* space between cards; raise for more */
+  margin: 2rem 0 15rem;             /* space between cards; raise for more */
   padding: var(--curtain-box-pad, 1.5rem);
   background: var(--curtain-cream, #fff);
   color: var(--curtain-ink, #222);
@@ -706,11 +706,19 @@ img {
 
 
 #map-a,
-#chart-b {
+#chart-b,
+#map-c{
   width: 100%;
   max-height: var(--graphic-max-h);
   position: relative;   /* so the legend can be positioned inside it */
 }
+
+
+
+#block-map-c {
+  display:flex;
+  flex-direction:column;
+  min-height:0;}
 
 #map-a :is(img, svg, canvas),
 #chart-b :is(img, svg, canvas) {
@@ -721,11 +729,22 @@ img {
   object-fit: contain;
 }
 
+
+
 #chart-b svg text {
   font-family:'Jost', serif;
   fill: var(--ink, #33302a);
   font-size:1rem;
 }
+
+#map-c :is(img, svg, canvas) {
+  max-width: 100%;
+  max-height: 70vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
 
 .hdc-legend {
   position: absolute;

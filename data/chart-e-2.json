@@ -1,0 +1,356 @@
+[
+  {
+    "year": 1961,
+    "series": "Bleecker (NYT)",
+    "value": 28.52,
+    "source": "nyt"
+  },
+  {
+    "year": 1971,
+    "series": "Bleecker (NYT)",
+    "value": 29.91,
+    "source": "nyt"
+  },
+  {
+    "year": 1981,
+    "series": "Bleecker (NYT)",
+    "value": 73.36,
+    "source": "nyt"
+  },
+  {
+    "year": 1986,
+    "series": "Bleecker (NYT)",
+    "value": 141.26,
+    "source": "nyt"
+  },
+  {
+    "year": 1991,
+    "series": "Bleecker (NYT)",
+    "value": 92.53,
+    "source": "nyt"
+  },
+  {
+    "year": 1996,
+    "series": "Bleecker (NYT)",
+    "value": 120.19,
+    "source": "nyt"
+  },
+  {
+    "year": 1961,
+    "series": "Greenwich Village",
+    "value": 67.34,
+    "source": "nyt"
+  },
+  {
+    "year": 1966,
+    "series": "Greenwich Village",
+    "value": 57.65,
+    "source": "nyt"
+  },
+  {
+    "year": 1971,
+    "series": "Greenwich Village",
+    "value": 68.4,
+    "source": "nyt"
+  },
+  {
+    "year": 1976,
+    "series": "Greenwich Village",
+    "value": 62.46,
+    "source": "nyt"
+  },
+  {
+    "year": 1981,
+    "series": "Greenwich Village",
+    "value": 92.33,
+    "source": "nyt"
+  },
+  {
+    "year": 1986,
+    "series": "Greenwich Village",
+    "value": 138.77,
+    "source": "nyt"
+  },
+  {
+    "year": 1991,
+    "series": "Greenwich Village",
+    "value": 107.39,
+    "source": "nyt"
+  },
+  {
+    "year": 1996,
+    "series": "Greenwich Village",
+    "value": 101.36,
+    "source": "nyt"
+  },
+  {
+    "year": 2001,
+    "series": "Greenwich Village",
+    "value": 112.98,
+    "source": "nyt"
+  },
+  {
+    "year": 1961,
+    "series": "Manhattan (NYT)",
+    "value": 57.13,
+    "source": "nyt"
+  },
+  {
+    "year": 1966,
+    "series": "Manhattan (NYT)",
+    "value": 54.39,
+    "source": "nyt"
+  },
+  {
+    "year": 1971,
+    "series": "Manhattan (NYT)",
+    "value": 60.94,
+    "source": "nyt"
+  },
+  {
+    "year": 1976,
+    "series": "Manhattan (NYT)",
+    "value": 51.58,
+    "source": "nyt"
+  },
+  {
+    "year": 1981,
+    "series": "Manhattan (NYT)",
+    "value": 91.62,
+    "source": "nyt"
+  },
+  {
+    "year": 1986,
+    "series": "Manhattan (NYT)",
+    "value": 133.11,
+    "source": "nyt"
+  },
+  {
+    "year": 1991,
+    "series": "Manhattan (NYT)",
+    "value": 102.18,
+    "source": "nyt"
+  },
+  {
+    "year": 1996,
+    "series": "Manhattan (NYT)",
+    "value": 109.78,
+    "source": "nyt"
+  },
+  {
+    "year": 2001,
+    "series": "Manhattan (NYT)",
+    "value": 126.23,
+    "source": "nyt"
+  },
+  {
+    "year": 2008,
+    "series": "Bleecker (REBNY)",
+    "value": 379.5,
+    "source": "rebny"
+  },
+  {
+    "year": 2009,
+    "series": "Bleecker (REBNY)",
+    "value": 528,
+    "source": "rebny"
+  },
+  {
+    "year": 2010,
+    "series": "Bleecker (REBNY)",
+    "value": 486,
+    "source": "rebny"
+  },
+  {
+    "year": 2011,
+    "series": "Bleecker (REBNY)",
+    "value": 429.5,
+    "source": "rebny"
+  },
+  {
+    "year": 2012,
+    "series": "Bleecker (REBNY)",
+    "value": 455,
+    "source": "rebny"
+  },
+  {
+    "year": 2013,
+    "series": "Bleecker (REBNY)",
+    "value": 478.5,
+    "source": "rebny"
+  },
+  {
+    "year": 2014,
+    "series": "Bleecker (REBNY)",
+    "value": 504,
+    "source": "rebny"
+  },
+  {
+    "year": 2015,
+    "series": "Bleecker (REBNY)",
+    "value": 474.5,
+    "source": "rebny"
+  },
+  {
+    "year": 2016,
+    "series": "Bleecker (REBNY)",
+    "value": 492,
+    "source": "rebny"
+  },
+  {
+    "year": 2017,
+    "series": "Bleecker (REBNY)",
+    "value": 362,
+    "source": "rebny"
+  },
+  {
+    "year": 2018,
+    "series": "Bleecker (REBNY)",
+    "value": 312.5,
+    "source": "rebny"
+  },
+  {
+    "year": 2019,
+    "series": "Bleecker (REBNY)",
+    "value": 286,
+    "source": "rebny"
+  },
+  {
+    "year": 2020,
+    "series": "Bleecker (REBNY)",
+    "value": 263,
+    "source": "rebny"
+  },
+  {
+    "year": 2021,
+    "series": "Bleecker (REBNY)",
+    "value": 251,
+    "source": "rebny"
+  },
+  {
+    "year": 2022,
+    "series": "Bleecker (REBNY)",
+    "value": 226,
+    "source": "rebny"
+  },
+  {
+    "year": 2023,
+    "series": "Bleecker (REBNY)",
+    "value": 242.5,
+    "source": "rebny"
+  },
+  {
+    "year": 2024,
+    "series": "Bleecker (REBNY)",
+    "value": 433.5,
+    "source": "rebny"
+  },
+  {
+    "year": 2025,
+    "series": "Bleecker (REBNY)",
+    "value": 433,
+    "source": "rebny"
+  },
+  {
+    "year": 2000,
+    "series": "Manhattan (REBNY)",
+    "value": 96,
+    "source": "rebny"
+  },
+  {
+    "year": 2001,
+    "series": "Manhattan (REBNY)",
+    "value": 91,
+    "source": "rebny"
+  },
+  {
+    "year": 2002,
+    "series": "Manhattan (REBNY)",
+    "value": 86,
+    "source": "rebny"
+  },
+  {
+    "year": 2003,
+    "series": "Manhattan (REBNY)",
+    "value": 90,
+    "source": "rebny"
+  },
+  {
+    "year": 2004,
+    "series": "Manhattan (REBNY)",
+    "value": 97,
+    "source": "rebny"
+  },
+  {
+    "year": 2005,
+    "series": "Manhattan (REBNY)",
+    "value": 102.5,
+    "source": "rebny"
+  },
+  {
+    "year": 2006,
+    "series": "Manhattan (REBNY)",
+    "value": 107,
+    "source": "rebny"
+  },
+  {
+    "year": 2007,
+    "series": "Manhattan (REBNY)",
+    "value": 112.5,
+    "source": "rebny"
+  },
+  {
+    "year": 2008,
+    "series": "Manhattan (REBNY)",
+    "value": 120,
+    "source": "rebny"
+  },
+  {
+    "year": 2009,
+    "series": "Manhattan (REBNY)",
+    "value": 116,
+    "source": "rebny"
+  },
+  {
+    "year": 2010,
+    "series": "Manhattan (REBNY)",
+    "value": 115.5,
+    "source": "rebny"
+  },
+  {
+    "year": 2011,
+    "series": "Manhattan (REBNY)",
+    "value": 113.5,
+    "source": "rebny"
+  },
+  {
+    "year": 2012,
+    "series": "Manhattan (REBNY)",
+    "value": 112,
+    "source": "rebny"
+  },
+  {
+    "year": 2013,
+    "series": "Manhattan (REBNY)",
+    "value": 123,
+    "source": "rebny"
+  },
+  {
+    "year": 2014,
+    "series": "Manhattan (REBNY)",
+    "value": 144,
+    "source": "rebny"
+  },
+  {
+    "year": 2015,
+    "series": "Manhattan (REBNY)",
+    "value": 154.5,
+    "source": "rebny"
+  },
+  {
+    "year": 2016,
+    "series": "Manhattan (REBNY)",
+    "value": 138.5,
+    "source": "rebny"
+  }
+]

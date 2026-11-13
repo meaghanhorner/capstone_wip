@@ -890,23 +890,11 @@ const EXCLUDE = new Set([2954,861,884,883,859,878,879,2963,2962,887,2964,886,296
     .attr("width", "100%")
     .style("height", "auto");
 
-  svg.append("text")
-    .attr("x", 0).attr("y", 24)
-    .attr("font-family", "'Libre Baskerville', serif")
-    .attr("font-style", "italic")
-    .attr("font-size", 16).attr("font-weight", 700)
-    .attr("fill", "#33302a")
-    .text("Most buildings in Greenwich Village date from the 19th century");
-
-  svg.append("text")
-    .attr("x", 0).attr("y", 46)
-    .attr("font-family", "'Libre Franklin', sans-serif")
-    .attr("font-size", 12).attr("fill", "#33302a")
-    .text("Buildings by year built");
-
   const projection = d3.geoMercator()
-    .fitExtent([[10, 70], [width - 10, height - 10]], boundary);
+    .fitExtent([[10, 10], [width - 10, height - 10]], boundary);
   const path = d3.geoPath(projection);
+  const [[bx0, by0], [bx1, by1]] = path.bounds(boundary);
+svg.attr("viewBox", `${bx0 - 10} ${by0 - 10} ${bx1 - bx0 + 20} ${by1 - by0 + 20}`);
 
    console.log("chart C v3 loaded");
 
@@ -918,7 +906,7 @@ const EXCLUDE = new Set([2954,861,884,883,859,878,879,2963,2962,887,2964,886,296
     .style("background", "#fff")
     .style("border", "1px solid #333")
     .style("padding", "6px 8px")
-    .style("font", "11px/1.35 'Libre Franklin', sans-serif")
+    .style("font", "11px/1.35 'Jost', sans-serif")
     .style("max-width", "280px");
 
   const g = svg.append("g");
@@ -983,13 +971,13 @@ fetch("data/gv_buildingsage.geojson")
     // same eras and colors as Chart C
     const thresholds = [1830, 1860, 1900, 1930, 1960, 2000];
   const eras = [
-{ label: "Before 1830", color: "#f9eac0" },
-{ label: "1830–1859",   color: "#f6d995" },
-{ label: "1860–1899",   color: "#eba762" },
+{ label: "Before 1830", color: "#6a2238" },
+{ label: "1830–1859",   color: "#a03640" },
+{ label: "1860–1899",   color: "#d05c4a" },
 { label: "1900–1929",   color: "#e08558" },
-{ label: "1930–1959",   color: "#d05c4a" },
-{ label: "1960–1999",   color: "#a03640" },
-{ label: "2000 +",      color: "#6a2238" },
+{ label: "1930–1959",   color: "#eba762" },
+{ label: "1960–1999",   color: "#f6d995" },
+{ label: "2000 +",      color: "#f9eac0" },
 ];
 
     // count lots per era (lots with no year are left out, as in the R version)
@@ -1020,20 +1008,6 @@ fetch("data/gv_buildingsage.geojson")
       .attr("width", "100%")
       .style("height", "auto");
 
-    svg.append("text")
-      .attr("x", 0).attr("y", 24)
-      .attr("font-family", "'Libre Baskerville', serif")
-      .attr("font-size", 16).attr("font-weight", 700)
-      .attr("font-style", "italic")
-      .attr("fill", "#33302a")
-      .text("When Greenwich Village's buildings were built");    // check against the data
-
-    svg.append("text")
-      .attr("x", 0).attr("y", 46)
-      .attr("font-family", "'Libre Baskerville', serif")
-      .attr("font-size", 12).attr("fill", "#33302a")
-      .text("Number of tax lots by year built");
-
     const x = d3.scaleBand()
       .domain(data.map((d) => d.label))
       .range([margin.left, width - margin.right])
@@ -1057,8 +1031,9 @@ fetch("data/gv_buildingsage.geojson")
       .attr("x", -(margin.top + height - margin.bottom) / 2)
       .attr("y", 14)
       .attr("text-anchor", "middle")
-      .attr("font-size", 10).attr("fill", "#33302a")
-      .text("Tax lots");
+      .attr("font-size", 16).attr("fill", "#33302a")
+      .attr("font-family", "'Jost', sans-serif")
+      .text("Number of buildings");
 
     // bars
     svg.append("g")
@@ -1081,7 +1056,8 @@ fetch("data/gv_buildingsage.geojson")
       .attr("x", (d) => x(d.label) + x.bandwidth() / 2)
       .attr("y", (d) => y(d.value) - 6)
       .attr("text-anchor", "middle")
-      .attr("font-size", 10)
+      .attr("font-family", "'Jost', sans-serif")
+      .attr("font-size", 16)
       .attr("fill", "#33302a")
       .text((d) => `${d.value.toLocaleString()} (${Math.round(d.share * 100)}%)`);
 
@@ -1090,13 +1066,8 @@ fetch("data/gv_buildingsage.geojson")
       .attr("transform", `translate(0,${height - margin.bottom})`)
       .call(d3.axisBottom(x).tickSize(0))
       .call((g) => g.select(".domain").attr("stroke", "#33302a").attr("stroke-opacity", 0.4))
-      .call((g) => g.selectAll("text").attr("dy", "1em").attr("font-size", 11).attr("fill", "#33302a"));
-
-    // note on missing data
-    svg.append("text")
-      .attr("x", 0).attr("y", height - 8)
-      .attr("font-size", 10).attr("fill", "#33302a").attr("fill-opacity", 0.7)
-      .text(`${unknown.toLocaleString()} lots with no year built are not shown. Source: NYC MapPLUTO`);
+      .call((g) => g.selectAll("text").attr("dy", "1em").attr("font-size", 14).attr("fill", "#33302a").attr("font-family", "'Jost', sans-serif"));
+      
 
   }).catch((err) => console.error("Chart D failed:", err));
 
@@ -1106,6 +1077,7 @@ fetch("data/gv_buildingsage.geojson")
 
 
 //CHART E
+//CHART E (E1 -> E2 crossfade)
 
 // public handle for the scroll code; calls made before the data loads are remembered
 window.chartE = window.chartE || {
@@ -1113,242 +1085,215 @@ window.chartE = window.chartE || {
   show(name) { this.requested = name; },
 };
 
-fetch("data/rent_comparison_long.json")
-  .then((r) => r.json())
-  .then((allRows) => {
+Promise.all([
+  fetch("data/chart-e-1.json").then((r) => r.json()),
+  fetch("data/chart-e-2.json").then((r) => r.json()),
+]).then(([raw1, raw2]) => {
 
-    // drop any row without a usable year
-    const rows = allRows.filter((d) => d.Year != null && isFinite(+d.Year) && d.value != null);
+  const clean = (arr) => arr
+    .map((d) => ({
+      year: +(d.year ?? d.Year),
+      series: d.series,
+      value: +d.value,
+      source: d.source,
+    }))
+    .filter((d) => isFinite(d.year) && isFinite(d.value) && d.series != null);
 
-    const dimInactiveLegend = true;   // false = legend always at full strength
+  const rows1 = clean(raw1);
+  const rows2 = clean(raw2);
+  const nytRows2 = rows2.filter((d) => d.source === "nyt");
+  const rebnyRows2 = rows2.filter((d) => d.source === "rebny");
 
-    // year -> value lookup per series name in the JSON
-    const byName = d3.rollup(
-      rows,
-      (v) => new Map(v.map((d) => [+d.Year, +d.value])),
-      (d) => d.series
-    );
+  // ---------- colors (edit keys to match your series names) ----------
+  const colorByName = {
+    "Manhattan (NYT)":          "#2c3e50",
+    "Manhattan":                "#2c3e50",
+    "Greenwich Village":        "#c0392b",
+    "Bleecker Street":          "#8e44ad",
+    "Bleecker":                 "#8e44ad",
+    "Manhattan (REBNY)":        "#2980b9",
+    "Bleecker Street (REBNY)":  "#8e44ad",
+  };
+  const fallback = d3.scaleOrdinal(d3.schemeTableau10);
+  const colorOf = (name) => colorByName[name] || fallback(name);
 
-    // range of GV listings: how much more the priciest listing costs than the cheapest (%)
-    const gvMax = byName.get("Greenwich Village (Max)") || new Map();
-    const gvMin = byName.get("Greenwich Village (Min)") || new Map();
-    if (!gvMin.size) console.warn("Chart E: 'Greenwich Village (Min)' is missing from the JSON, so e3 will be empty.");
+  // rows -> [{key, color, values}] sorted by year
+  const toSeries = (rows) =>
+    Array.from(d3.group(rows, (d) => d.series), ([name, v]) => ({
+      key: name,
+      color: colorOf(name),
+      values: v.slice().sort((a, b) => a.year - b.year),
+    }));
 
-    const gvRange = new Map();
-    gvMax.forEach((hi, yr) => {
-      if (gvMin.has(yr) && gvMin.get(yr) > 0) {
-        gvRange.set(yr, ((hi - gvMin.get(yr)) / gvMin.get(yr)) * 100);
-        // alternative: range as % of the average listing
-        // gvRange.set(yr, ((hi - gvMin.get(yr)) / byName.get("Greenwich Village").get(yr)) * 100);
-      }
-    });
+  const s1 = toSeries(rows1);
+  const sNyt = toSeries(nytRows2);
+  const sRebny = toSeries(rebnyRows2);
 
-    // every series any state uses (legend order)
-    const seriesDefs = [
-      { key: "manNyt",   label: "Manhattan (NYT)",                              color: "#2c3e50", map: byName.get("Manhattan (NYT)") },
-      { key: "gv",       label: "Greenwich Village",                            color: "#c0392b", map: byName.get("Greenwich Village") },
-      { key: "manRebny", label: "Manhattan (REBNY)",                            color: "#2980b9", map: byName.get("Manhattan (REBNY)") },
-      { key: "manRebny",      label: "Manhattan (REBNY)",                                color: "#2980b9", map: byName.get("Manhattan (REBNY)") },
-{ key: "bleeckerRebny", label: "Bleecker Street (REBNY)",                          color: "#8e44ad", map: byName.get("Manhattan (Bleecker)") },
-{ key: "gvRange",       label: "Greenwich Village: priciest vs. cheapest listing", color: "#c0392b", map: gvRange },
-      { key: "gvRange",  label: "Greenwich Village: priciest vs. cheapest listing", color: "#c0392b", map: gvRange },
-    ].filter((s) => s.map && s.map.size);
+  // ---------- fixed scales shared by both states ----------
+  const allRows = [...rows1, ...rows2];
+  const [minYear, maxYear] = d3.extent(allRows, (d) => d.year);
+  const yMax = d3.max(allRows, (d) => d.value) || 1;
 
-    // x-range is fixed across states
-    const [minYear, maxYear] = d3.extent(seriesDefs.flatMap((s) => Array.from(s.map.keys())));
-    const years = d3.range(minYear, maxYear + 1);
+  const width = 860;
+  const height = 400;
+  const margin = { top: 34, right: 24, bottom: 30, left: 48 };
+  const innerWidth = width - margin.left - margin.right;
+  const innerHeight = height - margin.top - margin.bottom;
+
+  const x = d3.scaleLinear().domain([minYear, maxYear]).range([0, innerWidth]);
+  const y = d3.scaleLinear().domain([0, yMax * 1.15]).nice().range([innerHeight, 0]);
 
   
-    const fillYears = (lookup) => {
-      const pts = Array.from(lookup.entries()).sort((a, b) => a[0] - b[0]);
-      const findNext = d3.bisector((p) => p[0]).left;
-      return years.map((yr) => {
-        if (lookup.has(yr)) return { x: yr, y: lookup.get(yr) };
-        const i = findNext(pts, yr);
-        const prev = pts[i - 1];
-        const next = pts[i];
-        if (prev && next) {
-          const t = (yr - prev[0]) / (next[0] - prev[0]);
-          return { x: yr, y: prev[1] + (next[1] - prev[1]) * t };
-        }
-        return { x: yr, y: null };
+ 
+  
+
+  // ---------- DOM ----------
+  const instanceId = typeof inkNextId === "function" ? inkNextId("hdc-chart-e") : "hdc-chart-e";
+  const root = d3.select("#chart-e");
+  root.html("").classed("hand-drawn-chart", true).attr("data-instance", instanceId);
+
+
+  // legend: union of series; entries not in the current state are dimmed
+  const legendNames = Array.from(new Set([...s1, ...sNyt, ...sRebny].map((s) => s.key)));
+  const legendSpans = root.append("div").attr("class", "hdc-legend")
+    .selectAll("span")
+    .data(legendNames)
+    .join("span")
+    .attr("class", "hdc-legend-btn")
+    .style("cursor", "default")
+    .style("pointer-events", "none")
+    .html((n) => `<span class="hdc-swatch" style="background:${colorOf(n)}"></span>${n}`);
+
+  const svg = root.append("svg")
+    .attr("class", "hdc-main")
+    .attr("viewBox", `0 0 ${width} ${height}`)
+    .attr("width", "100%")
+    .style("height", "auto");
+
+  const captionEl = root.append("p").attr("class", "hdc-caption")
+    .style("white-space", "pre-line");
+
+  const defs = svg.append("defs");
+  const ink = typeof installInkFilters === "function" ? installInkFilters(defs, instanceId) : null;
+  const inkFilter = ink ? `url(#${ink.filterId})` : null;
+  const inkPath = (pts, seed) => (typeof inkLinePath === "function" ? inkLinePath(pts, seed) : d3.line()(pts));
+
+  const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+  g.append("g").attr("class", "hdc-axis")
+    .attr("transform", `translate(0,${innerHeight})`)
+    .call(d3.axisBottom(x)
+      .tickValues(d3.range(minYear, maxYear + 1, 5))
+      .tickFormat(d3.format("d")));
+
+  g.append("g").attr("class", "hdc-axis")
+    .call(d3.axisLeft(y).ticks(5).tickFormat((d) => "$" + d3.format(",.0f")(d)));
+
+  g.append("text")
+    .attr("x", 0).attr("y", -14)
+    .attr("font-size", 11).attr("fill", "#33302a").attr("fill-opacity", 0.8)
+    .text("Annual rent per sq ft");
+
+  // ---------- layers: one lines group + one points group per dataset ----------
+  function makeLayer(seriesList, cls) {
+    const lines = g.append("g").attr("class", `${cls}-lines`).style("opacity", 0);
+    const pts = g.append("g").attr("class", `${cls}-pts`).style("opacity", 0);
+
+    lines.selectAll("path")
+      .data(seriesList, (d) => d.key)
+      .join("path")
+      .attr("fill", "none")
+      .attr("stroke", (d) => d.color)
+      .attr("stroke-width", 3)
+      .attr("stroke-linecap", "round")
+      .attr("filter", inkFilter)
+      .attr("d", (d) => inkPath(d.values.map((v) => [x(v.year), y(v.value)]), d.key.length));
+
+    pts.selectAll("g")
+      .data(seriesList, (d) => d.key)
+      .join("g")
+      .style("fill", (d) => d.color)
+      .each(function (s) {
+        d3.select(this).selectAll("circle")
+          .data(s.values)
+          .join("circle")
+          .attr("cx", (v) => x(v.year))
+          .attr("cy", (v) => y(v.value))
+          .attr("r", 4)
+          .attr("filter", inkFilter);
       });
-    };
 
-    const seriesByKey = {};
-    seriesDefs.forEach((s) => { seriesByKey[s.key] = { ...s, values: fillYears(s.map) }; });
+    return { lines: lines.node(), pts: pts.node() };
+  }
 
-    // what each state shows: lines, and/or one area
-    const states = {
-      e1: { lines: ["manNyt", "gv"],             area: null },
-      e2: { lines: ["manNyt", "gv", "manRebny", "bleeckerRebny"], area: null },
-      e3: { lines: [],                           area: "gvRange" },
-    };
+  // draw order: faded NYT underneath, REBNY on top, e1 version separate
+  const L = {
+    nyt:   makeLayer(sNyt, "chart-e-nyt"),
+    rebny: makeLayer(sRebny, "chart-e-rebny"),
+    e1:    makeLayer(s1, "chart-e-e1"),
+  };
 
-    // ---------- fixed parts: title, subtitle, legend, frame, x-axis ----------
-    const width = 860;
-    const height = 400;
-    const margin = { top: 34, right: 24, bottom: 30, left: 48 };
+  // opacities taken from v01 / v02 (lines, points)
+  const states = {
+    e1: {
+      targets: [
+        [L.e1.lines, 0.5], [L.e1.pts, 0.8],
+        [L.nyt.lines, 0],  [L.nyt.pts, 0],
+        [L.rebny.lines, 0], [L.rebny.pts, 0],
+      ],
+      legend: new Set(s1.map((s) => s.key)),
+    },
+    e2: {
+      targets: [
+        [L.e1.lines, 0],   [L.e1.pts, 0],
+        [L.nyt.lines, 0.15], [L.nyt.pts, 0.25],
+        [L.rebny.lines, 0.5], [L.rebny.pts, 0.8],
+      ],
+      legend: new Set([...sNyt, ...sRebny].map((s) => s.key)),
+    },
+  };
 
-    const instanceId = typeof inkNextId === "function" ? inkNextId("hdc-chart-e") : "hdc-chart-e";
-    const root = d3.select("#chart-e");
-    root.html("").classed("hand-drawn-chart", true).attr("data-instance", instanceId);
+  // fade a text element out, swap its text, fade back in
+  function swapText(el, text, dur, instant) {
+    const node = el.node();
+    gsap.killTweensOf(node);
+    if (instant) { el.text(text); gsap.set(node, { opacity: 1 }); return; }
+    gsap.timeline()
+      .to(node, { opacity: 0, duration: dur * 0.3, ease: "power1.out" })
+      .add(() => el.text(text))
+      .to(node, { opacity: 1, duration: dur * 0.5, ease: "power1.in" });
+  }
 
-    root.append("h2").attr("class", "hdc-title").text("Rent per square foot: Greenwich Village vs Manhattan");    // check against the data
-    root.append("p").attr("class", "hdc-subtitle").text("Average price per sq ft per year ($); NYT figures are sampled every five years");
+  let current = null;
 
-    const legendItems = seriesDefs.map((s) => ({ key: s.key, label: s.label, color: s.color }));
-    const legend = root.append("div").attr("class", "hdc-legend");
-    const legendSpans = legend
-      .selectAll("span")
-      .data(legendItems)
-      .join("span")
-      .attr("class", "hdc-legend-btn")
-      .style("cursor", "default")
-      .style("pointer-events", "none")
-      .html((d) => `<span class="hdc-swatch" style="background:${d.color}"></span>${d.label}`);
+  function show(name, instant) {
+    const st = states[name];
+    if (!st) { console.warn(`Chart E: unknown state "${name}"`); return; }
+    if (name === current && !instant) return;
+    current = name;
 
-    const svg = root.append("svg")
-      .attr("class", "hdc-main")
-      .attr("viewBox", `0 0 ${width} ${height}`)
-      .attr("width", "100%")
-      .style("height", "auto");
+    const dur = instant ? 0 : 0.9;
 
-    const defs = svg.append("defs");
-    const ink = typeof installInkFilters === "function" ? installInkFilters(defs, instanceId) : null;
-    const inkFilter = ink ? `url(#${ink.filterId})` : null;
-    const inkPath = (pts, seed) => (typeof inkLinePath === "function" ? inkLinePath(pts, seed) : d3.line()(pts));
+    st.targets.forEach(([el, op]) => {
+      gsap.to(el, { opacity: op, duration: dur, ease: "power1.inOut", overwrite: true });
+    });
 
-    const innerWidth = width - margin.left - margin.right;
-    const innerHeight = height - margin.top - margin.bottom;
+    legendSpans.each(function (n) {
+      gsap.to(this, { opacity: st.legend.has(n) ? 1 : 0.3, duration: dur, overwrite: true });
+    });
 
-    const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
-    const x = d3.scaleLinear().domain([minYear, maxYear]).range([0, innerWidth]);
-    const y = d3.scaleLinear().range([innerHeight, 0]);
+    swapText(subtitleEl, texts[name].subtitle, dur, instant);
+    swapText(captionEl, texts[name].caption, dur, instant);
+  }
 
-    g.append("g")
-      .attr("class", "hdc-axis")
-      .attr("transform", `translate(0,${innerHeight})`)
-      .call(
-        d3.axisBottom(x)
-          .tickValues(d3.range(Math.ceil(minYear / 5) * 5, maxYear + 1, 5))
-          .tickFormat(d3.format("d"))
-      );
+  // hand the real function to the public handle and draw whatever was requested
+  window.chartE.show = show;
+  show(window.chartE.requested, true);
 
-    // ---------- changing parts: y-axis, caption, area, lines ----------
-    const gy = g.append("g").attr("class", "hdc-axis");
-    const yCaption = g.append("text")
-      .attr("x", 0).attr("y", -14)
-      .attr("font-size", 11).attr("fill", "#33302a").attr("fill-opacity", 0.8);
-    const areaLayer = g.append("g");
-    const linesLayer = g.append("g");
+}).catch((err) => console.error("Chart E failed:", err));
 
-    const areaGen = d3.area()
-      .x((v) => x(v.x))
-      .y0(() => y(0))
-      .y1((v) => y(v.y));
+//END CHART E
 
-    const definedPoints = (s) => s.values.filter((v) => v.y != null);
-    const linePts = (s) => definedPoints(s).map((v) => [x(v.x), y(v.y)]);
-
-    function show(name, instant) {
-      const st = states[name];
-      if (!st) { console.warn(`Chart E: unknown state "${name}"`); return; }
-
-      const dur = instant ? 0 : 700;
-      const lineSeries = st.lines.map((k) => seriesByKey[k]).filter(Boolean);
-      const areaSeries = st.area && seriesByKey[st.area] ? [seriesByKey[st.area]] : [];
-      const isPct = areaSeries.length > 0;
-      const visible = [...lineSeries, ...areaSeries];
-
-      // y-axis follows the state
-      y.domain([0, (d3.max(visible, (s) => d3.max(s.values, (v) => v.y)) || 1) * 1.15]).nice();
-      const yFormat = isPct
-        ? (d) => d3.format(",.0f")(d) + "%"
-        : (d) => "$" + d3.format(",.0f")(d);
-      gy.transition().duration(dur).call(d3.axisLeft(y).ticks(5).tickFormat(yFormat));
-
-      const caption = isPct
-        ? "How much more the priciest listing costs than the cheapest"
-        : "Price per sq ft per year";
-      if (instant) {
-        yCaption.text(caption);
-      } else {
-        yCaption.transition().duration(200).style("opacity", 0)
-          .transition().duration(300).text(caption).style("opacity", 1);
-      }
-
-      // legend stays put; entries not in this state are dimmed
-      if (dimInactiveLegend) {
-        const active = new Set(visible.map((s) => s.key));
-        legendSpans.transition().duration(dur).style("opacity", (d) => (active.has(d.key) ? 1 : 0.3));
-      }
-
-      // area (state e3): soft fill plus a hand-drawn edge on top
-      areaLayer.selectAll("path.chart-e-area")
-        .data(areaSeries, (d) => d.key)
-        .join(
-          (enter) => enter.append("path")
-            .attr("class", "chart-e-area")
-            .attr("fill", (d) => d.color)
-            .attr("filter", inkFilter)
-            .attr("d", (d) => areaGen(definedPoints(d)))
-            .style("opacity", 0),
-          (update) => update,
-          (exit) => exit.transition().duration(dur / 2).style("opacity", 0).remove()
-        )
-        .transition().duration(dur)
-        .attr("d", (d) => areaGen(definedPoints(d)))
-        .style("opacity", 0.35);
-
-      areaLayer.selectAll("path.chart-e-areaedge")
-        .data(areaSeries, (d) => d.key)
-        .join(
-          (enter) => enter.append("path")
-            .attr("class", "chart-e-areaedge")
-            .attr("fill", "none")
-            .attr("stroke", (d) => d.color)
-            .attr("stroke-width", 3)
-            .attr("stroke-linecap", "round")
-            .attr("filter", inkFilter)
-            .attr("d", (d) => inkPath(linePts(d), d.key.length))
-            .style("opacity", 0),
-          (update) => update,
-          (exit) => exit.transition().duration(dur / 2).style("opacity", 0).remove()
-        )
-        .transition().duration(dur)
-        .attr("d", (d) => inkPath(linePts(d), d.key.length))
-        .style("opacity", 0.9);
-
-      // lines (states e1, e2): lines carried over from the last state slide to
-      // the new scale; new ones fade in; dropped ones fade out
-      linesLayer.selectAll("path.chart-e-line")
-        .data(lineSeries, (d) => d.key)
-        .join(
-          (enter) => enter.append("path")
-            .attr("class", "chart-e-line")
-            .attr("fill", "none")
-            .attr("stroke", (d) => d.color)
-            .attr("stroke-width", 3)
-            .attr("stroke-linecap", "round")
-            .attr("filter", inkFilter)
-            .attr("d", (d) => inkPath(linePts(d), d.key.length))
-            .style("opacity", 0),
-          (update) => update,
-          (exit) => exit.transition().duration(dur / 2).style("opacity", 0).remove()
-        )
-        .transition().duration(dur)
-        .attr("d", (d) => inkPath(linePts(d), d.key.length))
-        .style("opacity", 0.9);
-    }
-
-    // hand the real function to the public handle and draw whatever was requested
-    window.chartE.show = show;
-    show(window.chartE.requested, true);
-
-  }).catch((err) => console.error("Chart E failed:", err));
-
-//END CHART E(E1,E2,E3)
 
 //START CHART G VACANCIES 2026
 
