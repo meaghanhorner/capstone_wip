@@ -1023,8 +1023,8 @@ fetch("data/gv_buildingsage.geojson")
       .attr("transform", `translate(${margin.left},0)`)
       .call(d3.axisLeft(y).ticks(5).tickSize(-(width - margin.left - margin.right)))
       .call((g) => g.select(".domain").remove())
-      .call((g) => g.selectAll(".tick line").attr("stroke", "#33302a").attr("stroke-opacity", 0.1))
-      .call((g) => g.selectAll("text").attr("font-size", 10).attr("fill", "#33302a"));
+      .call((g) => g.selectAll(".tick line").attr("stroke", "#33302a").attr("stroke-opacity", 0))
+      .call((g) => g.selectAll("text").attr("font-size", 10).attr("fill", "#33302a").attr("font-family", "'Jost',sans-serif"));
 
     svg.append("text")
       .attr("transform", "rotate(-90)")
@@ -1106,13 +1106,13 @@ Promise.all([
 
   // ---------- colors (edit keys to match your series names) ----------
   const colorByName = {
-    "Manhattan (NYT)":          "#2c3e50",
-    "Manhattan":                "#2c3e50",
-    "Greenwich Village":        "#c0392b",
-    "Bleecker Street":          "#8e44ad",
-    "Bleecker":                 "#8e44ad",
-    "Manhattan (REBNY)":        "#2980b9",
-    "Bleecker Street (REBNY)":  "#8e44ad",
+    "Manhattan (NYT)":          "#87aa8b",
+    "Manhattan":                "#87aa8b",
+    "Greenwich Village":        "#b25a3f",
+    "Bleecker Street":          "#e0a638",
+    "Bleecker":                 "#e0a638",
+    "Manhattan (REBNY)":        "#87aa8b",
+    "Bleecker Street (REBNY)":  "#e0a638",
   };
   const fallback = d3.scaleOrdinal(d3.schemeTableau10);
   const colorOf = (name) => colorByName[name] || fallback(name);
@@ -1834,6 +1834,322 @@ function chartH(selector, dataURL) {
 chartH("#chart-h", "data/hh_size.json");
 
 //END CHART H
+
+
+//CHART I: STRETCHY BUILDINGS BY YEAR (share of businesses by category)
+
+(async function () {
+  try {
+    const data = await fetch("data/strips_by_year.json").then((r) => r.json());
+    const byYear = new Map(data.map((d) => [d.year, d.segments]));
+    const years = data.map((d) => d.year).sort((a, b) => a - b);
+
+    // ---------- groups ----------
+    const DRAWN = [];     // empty = show everything
+
+    // every category that appears in any year, ordered by the exported `order`
+    const orderOf = new Map();
+    data.forEach((y) => y.segments.forEach((s) => {
+      if (!orderOf.has(s.group)) orderOf.set(s.group, s.order ?? 999);
+    }));
+    const allGroups = [...orderOf.keys()].sort((a, b) => orderOf.get(a) - orderOf.get(b));
+    const groups = DRAWN.length ? allGroups.filter((g) => DRAWN.includes(g)) : allGroups;
+
+    console.log("chart-i groups:", groups);
+
+    const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+    // ---------- load building pieces ----------
+    const parse = (txt) =>
+      new DOMParser().parseFromString(txt, "image/svg+xml").documentElement;
+
+    const loadPiece = async (file) => {
+      try {
+        const r = await fetch(file);
+        if (!r.ok) throw new Error(r.status);
+        const node = parse(await r.text());
+        let [x, y, w, h] = (node.getAttribute("viewBox") || "")
+          .trim().split(/[\s,]+/).map(Number);
+        if (![x, y, w, h].every(Number.isFinite)) {
+          x = 0; y = 0;
+          w = parseFloat(node.getAttribute("width")) || 0;
+          h = parseFloat(node.getAttribute("height")) || 0;
+        }
+        return { html: node.innerHTML, x, y, w, h };
+      } catch (e) {
+        return {
+          html: `<rect width="40" height="100" fill="#ccc" stroke="#888"/>`,
+          x: 0, y: 0, w: 40, h: 100,
+        };
+      }
+    };
+
+    const pieces = {};
+    await Promise.all(groups.map(async (g) => {
+      const s = slug(g);
+      const [L, M, R] = await Promise.all(
+        ["left", "mid", "right"].map((p) => loadPiece(`data/buildings/${s}-${p}.svg`))
+      );
+      pieces[g] = { L, M, R };
+    }));
+
+    // ---------- settings ----------
+    const COLORS = d3.scaleOrdinal().domain(groups).range(d3.schemeTableau10);
+    const TINT    = null;                    // one color for all, or null = per-group COLORS
+    const tintFor = (g) => TINT ?? COLORS(g);
+
+    const LINE_PX = 0.8;                     // min on-screen thickness for black linework; 0 = off
+
+    const SIGN_FONT  = "'newshound', sans-serif";
+    const SIGN_DY    = 40;                   // px down from the top of the artwork (on the building)
+    const SIGN_SIZE  = 12;
+    const SIGN_COLOR = "#000";
+    const SIGN_PAD   = 6;                   // px of breathing room each side before text counts as "too wide"
+    const UNDER_DY   = 18;                   // px below the ground line when the name goes underneath
+
+    // short names shown on the buildings (anything not listed shows its full name)
+    const signNames = {
+      "Restaurants, cafes & bars": "Restaurants",
+      "Personal services": "Services",
+      "Finance & professional": "Finance",
+      "Health, education & religion": "Social",
+      "Arts & entertainment": "Arts",
+      "Grocery, food & liquor": "Grocery",
+    };
+
+    // what each short name stands for (shown in the legend; edit freely)
+    const legendText = {
+      "Grocery, food & liquor": "grocery, specialty food, liquor",
+      "Restaurants, cafes & bars": "restaurants, bars, cafes and nightclubs",
+      "Personal services": "personal services",
+      "Finance & professional": "finance & professional",
+      "Health, education & religion": "health, education & religion",
+      "Arts & entertainment": "arts & entertainment",
+    };
+
+    const OVERLAP = .5;                       // 0 = no overlap between pieces
+    const EPS     = 0.0005;                  // below this share, treat as 0%
+
+    // ---------- layout (order matters: each line uses the ones above it) ----------
+    const margin = { top: 40, right: 30, bottom: 40, left: 30 };
+    const width  = 1440;
+    const avail  = width - margin.left - margin.right;
+
+    const maxSum = d3.max(data, (y) => d3.sum(y.segments, (s) => s.pct));
+    const K      = avail / maxSum;           // px per 100% share
+
+    // widest cap in the artwork's own units, measured from the files
+    const CAP_NATIVE = d3.max(groups, (g) => Math.max(pieces[g].L.w, pieces[g].R.w));
+    const CAP_PCT    = 0.01;                 // each end = 1% of the line
+    const BUILD_S    = CAP_PCT * K / CAP_NATIVE;
+    const V_STRETCH = 1.5;   // 1 = current height, 2 = twice as tall
+
+    const rowH = d3.max(groups, (g) => pieces[g].L.h) * BUILD_S * V_STRETCH;
+
+    // share of the line the two caps take at full size
+    const fullShare = (g) => (pieces[g].L.w + pieces[g].R.w) * BUILD_S / K;
+    const capFactor = (g, pct) => pct < EPS ? 0 : Math.min(1, pct / fullShare(g));
+    const midPx     = (g, pct) => Math.max(0, pct - fullShare(g)) * K;
+
+    console.log("chart-i: BUILD_S =", BUILD_S.toFixed(3), " rowH =", Math.round(rowH));
+
+    const height = margin.top + rowH + margin.bottom;
+
+    // ---------- measure the sign text (canvas, so it works even if the chart is hidden) ----------
+    await document.fonts.ready;
+    const ctx = document.createElement("canvas").getContext("2d");
+    ctx.font = `${SIGN_SIZE}px ${SIGN_FONT}`;
+    const textW = {};
+    groups.forEach((g) => { textW[g] = ctx.measureText(signNames[g] ?? g).width; });
+
+    // ---------- DOM ----------
+    const root = d3.select("#chart-i");
+    root.selectAll("*").remove();
+
+    const controls = root.append("div").attr("class", "chart-i-controls")
+      .style("margin-bottom", "8px");
+
+    const sliderRow = controls.append("div")
+      .style("display", "flex").style("align-items", "center").style("gap", "12px");
+    const slider = sliderRow.append("input")
+      .attr("type", "range")
+      .attr("min", 0).attr("max", years.length - 1)   // index, not year
+      .attr("step", 1).attr("value", 0)
+      .style("flex", "1");
+    const yearLabel = sliderRow.append("span")
+      .style("font-weight", "bold").style("min-width", "3em").text(years[0]);
+
+    // year ticks under the slider (states are evenly spaced by index)
+    controls.append("div")
+      .style("display", "flex").style("justify-content", "space-between")
+      .style("font-size", "11px").style("margin-right", "3.9em")
+      .selectAll("span").data(years).join("span").text((d) => d);
+
+    const svg = root.append("svg")
+      .attr("viewBox", `0 0 ${width} ${height}`)
+      .attr("width", "100%")
+      .style("max-width", `${width}px`)
+      .style("overflow", "visible");
+
+    const plot = svg.append("g")
+      .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+    // ground line
+    plot.append("line")
+      .attr("x1", 0).attr("x2", avail)
+      .attr("y1", rowH).attr("y2", rowH)
+      .attr("stroke", "#000").attr("stroke-width", 1);
+
+    const bld = plot.selectAll("g.building")
+      .data(groups, (d) => d)
+      .join("g")
+      .attr("class", "building");
+
+    // art group: uniformly scaled by BUILD_S, sitting on the ground line
+    const art = bld.append("g").attr("class", "art")
+      .attr("transform", (g) =>
+       `translate(0, ${rowH - pieces[g].L.h * BUILD_S * V_STRETCH}) scale(${BUILD_S}, ${BUILD_S * V_STRETCH})`);
+
+    art.append("g").attr("class", "cap-left").html((g) => pieces[g].L.html);
+    art.append("g").attr("class", "mid").html((g) => pieces[g].M.html)
+      .selectAll("*").attr("vector-effect", "non-scaling-stroke");
+    art.append("g").attr("class", "cap-right").html((g) => pieces[g].R.html);
+
+    // color: swap only the white fills for the tint; black linework is untouched
+    art.each(function (g) {
+      const tint = tintFor(g);
+      d3.select(this).selectAll("path, rect, polygon").each(function () {
+        const f = this.style.fill;   // browsers report "#fff" as "rgb(255, 255, 255)"
+        if (f === "rgb(255, 255, 255)" || f === "#fff" || f === "#ffffff" || f === "white") {
+          this.style.fill = tint;
+        }
+      });
+    });
+
+    // minimum on-screen thickness for black shapes so thin outlines don't fade to gray
+    if (LINE_PX > 0) {
+      art.selectAll("path, rect, polygon").each(function () {
+        const f = this.style.fill;   // black shapes have no fill set
+        if (f === "" || f === "black" || f === "#000" || f === "rgb(0, 0, 0)") {
+          this.setAttribute("stroke", "#000");
+          this.setAttribute("stroke-width", LINE_PX);
+          this.setAttribute("stroke-linejoin", "round");
+          this.setAttribute("vector-effect", "non-scaling-stroke");
+        }
+      });
+    }
+
+    // short name: on the building if it fits, underneath if not (position set in update())
+    bld.append("text").attr("class", "sign-label")
+      .attr("text-anchor", "middle")
+      .style("font-size", `${SIGN_SIZE}px`)
+      .style("font-family", SIGN_FONT)
+      .style("fill", SIGN_COLOR)
+      .style("pointer-events", "none")
+      .text((g) => signNames[g] ?? g);
+
+    // percent above
+    bld.append("text").attr("class", "pct-label")
+      .attr("y", -10).attr("text-anchor", "middle")
+      .style("font-weight", "bold");
+
+    // ---------- legend ----------
+    const legend = root.append("div").attr("class", "chart-i-legend")
+      .style("display", "flex").style("flex-wrap", "wrap")
+      .style("gap", "6px 28px").style("margin-top", "14px")
+      .style("font-size", "13px").style("line-height", "1.3");
+
+    const item = legend.selectAll("div.legend-item").data(groups).join("div")
+      .attr("class", "legend-item")
+      .style("display", "flex").style("align-items", "center").style("gap", "8px");
+
+    item.append("span")
+      .style("width", "12px").style("height", "12px").style("flex", "none")
+      .style("background", (g) => tintFor(g))
+      .style("border", "1px solid #000");
+
+    item.append("span").html((g) =>
+      `<strong>${signNames[g] ?? g}</strong> = ${legendText[g] ?? g}`);
+
+    // ---------- update ----------
+    function update(year, duration = 0) {
+      const segs = new Map(byYear.get(year).map((s) => [s.group, s]));
+      const pct = (g) => (segs.get(g) ? segs.get(g).pct : 0);
+
+      // building positions, end to end (width = share * K)
+      let x = 0;
+      const pos = new Map();
+      groups.forEach((g) => {
+        const w = pct(g) * K;
+        pos.set(g, { x, w });
+        x += w;
+      });
+
+      bld.transition().duration(duration)
+        .attr("transform", (g) => `translate(${pos.get(g).x},0)`);
+
+      // pieces live inside the BUILD_S-scaled group, so screen px are divided by BUILD_S.
+      // each piece's viewBox origin is undone, then it is squished/stretched in x only
+      const place = (p, x0, w) =>
+        `translate(${x0 / BUILD_S},0) scale(${Math.max(w, 1e-3) / BUILD_S / p.w},1) translate(${-p.x},${-p.y})`;
+
+      const capL = (g) => pieces[g].L.w * BUILD_S * capFactor(g, pct(g));
+      const capR = (g) => pieces[g].R.w * BUILD_S * capFactor(g, pct(g));
+
+      bld.select("g.cap-left").transition().duration(duration)
+        .attr("opacity", (g) => capFactor(g, pct(g)) > 0 ? 1 : 0)
+        .attr("transform", (g) => place(pieces[g].L, 0, capL(g)));
+
+      bld.select("g.mid").transition().duration(duration)
+        .attr("opacity", (g) => midPx(g, pct(g)) > 0.01 ? 1 : 0)
+        .attr("transform", (g) => {
+          const m = midPx(g, pct(g));
+          return m > 0.01
+            ? place(pieces[g].M, capL(g) - OVERLAP, m + 2 * OVERLAP)
+            : place(pieces[g].M, capL(g), 0);
+        });
+
+      bld.select("g.cap-right").transition().duration(duration)
+        .attr("opacity", (g) => capFactor(g, pct(g)) > 0 ? 1 : 0)
+        .attr("transform", (g) =>
+          place(pieces[g].R, capL(g) + midPx(g, pct(g)), capR(g)));
+
+      bld.select("text.pct-label").transition().duration(duration)
+        .attr("x", (g) => pos.get(g).w / 2)
+        .textTween(function (g) {
+          const from = parseFloat(this.textContent) / 100 || 0;
+          const i = d3.interpolateNumber(from, pct(g));
+          return (t) => d3.format(".0%")(i(t));
+        });
+
+      // short name: on the building if there's room, otherwise underneath
+      const fits = (g) => pos.get(g).w >= textW[g] + 2 * SIGN_PAD;
+
+      bld.select("text.sign-label").transition().duration(duration)
+        .attr("x", (g) => pos.get(g).w / 2)
+        .attr("y", (g) => fits(g)
+          ? rowH - pieces[g].L.h * BUILD_S * V_STRETCH + SIGN_DY
+          : rowH + UNDER_DY);
+
+      // hide the labels at 0% (named transition so it doesn't cancel the ones above)
+      bld.selectAll("text").transition("fade").duration(duration)
+        .style("opacity", function () {
+          const g = d3.select(this.parentNode).datum();
+          return pct(g) < EPS ? 0 : 1;
+        });
+
+      yearLabel.text(year);
+    }
+
+    slider.on("input", (e) => update(years[+e.target.value], 400));
+
+    update(years[0]);
+
+  } catch (err) {
+    console.error("Chart I failed:", err);
+  }
+})();
+//END CHART I
 
 
 //END CHARTS

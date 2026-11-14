@@ -1,6 +1,9 @@
 :root {
-  --grid-margins: clamp(1rem, 4vw, 3.5rem);
-  --grid-gutter: clamp(0.75rem, 2vw, 1.5rem);
+  --grid-max: 1440px;
+  --grid-margin: 20px;   
+  --grid-gutter: 20px;   
+  --grid-columns: 4;
+  --card-pad: var(--grid-gutter); 
 
  
   --ratio: 1.272;
@@ -174,10 +177,11 @@ body {
 /* Base grid layout structure */
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
   column-gap: var(--grid-gutter);
-  padding-left: var(--grid-margins);
-  padding-right: var(--grid-margins);
+  max-width: var(--grid-max);
+  margin-inline: auto;
+  padding-inline: var(--grid-margin);
   width: 100%;
   box-sizing: border-box;
 }
@@ -215,9 +219,6 @@ body {
   pointer-events:none;
 }
 
-.pin-spacer {
-  grid-column: 2 !important;
-}
 
 .graphic-stage > * {
   max-height: var(--graphic-max-h);
@@ -296,12 +297,27 @@ body {
   height: 200vh;
 }
 
+.centered-on-white .graphic-stage {
+  padding: 0;
+}
+
 .narration-no-image {
-  max-width: 1440px;
-  grid-column: 1 / -1;
-  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+  max-width: var(--grid-max);
   margin: 0 auto;
-  display:block;
+  padding-inline: var(--grid-margin);
+  box-sizing: border-box;
+}
+
+.narration-no-image > * { grid-column: 1 / -1; }
+
+.narration-no-image > .step.flyer {
+  grid-column: 4 / span 6;
+  width: auto;          
+  max-width: none;
+  margin-inline: -3rem; 
 }
 
 
@@ -310,6 +326,9 @@ body {
   grid-row: 1;
 }
 
+.section-intro step{
+  margin-top:300px;
+}
 
 .section-intro .step-line {
   align-items:center;
@@ -323,77 +342,74 @@ body {
 
 .writing-left-image-right {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--grid-gutter, 2rem);
-  max-width: 1440px;
-  position: relative;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+  max-width: var(--grid-max);
   margin: 0 auto;
+  padding-inline: var(--grid-margin);
+  box-sizing: border-box;
   align-items: start;
 }
 
 .writing-left-image-right-white {
   display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: var(--grid-gutter, 2rem);
-  max-width: 1440px;
-  position: relative;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+  max-width: var(--grid-max);
   margin: 0 auto;
+  padding-inline: var(--grid-margin);
+  box-sizing: border-box;
   align-items: start;
-  background-color:#ffffff;
 }
 
-.writing-left-image-right-white .svg-stage .frame {
-  max-width:100%;
+.writing-left-image-right-white > .narrative-steps,
+.writing-left-image-right-largeimage > .narrative-steps { grid-column: 1 / span 3 !important; }
+.writing-left-image-right-white .svg-stage,
+.writing-left-image-right-largeimage .svg-stage,
+.writing-left-image-right-largeimage > .graphic-column,
+.writing-left-image-right-largeimage > .graphic-stage,
+.writing-left-image-right-white > .pin-spacer,
+.writing-left-image-right-largeimage > .pin-spacer { grid-column: 5 / span 8 !important; }
+
+.writing-left-image-right > .step.section-intro,
+.writing-left-image-right-largeimage > .step.section-intro {
+  grid-column: 3 / span 8;   /* ≈ 927px, centered */
+  max-width: none;
 }
 
+.writing-left-image-right-white > .step {
+  grid-column: 1 / span 5;      /* text: 5 cols ≈ 572px */
+}
+
+.writing-left-image-right-white > .svg-stage,
+.writing-left-image-right-white > .pin-spacer {
+  grid-column: 6 / span 7 !important;   /* graphic: the other 7 */
+  grid-row: 1 / span 50;                /* stage must span every step row so it can stay sticky */
+}
 
 .writing-left-image-right-white .step-line {
- grid-column: 1;                 /* text column; the curtain's 3 / span 5 belongs to a different grid */
-  box-sizing: border-box;
-  margin: 0 0 15rem;             /* space between cards; raise for more */
-  padding: var(--curtain-box-pad, 1.5rem);
-  min-height:16rem;
-  background: none;
-  color: var(--curtain-ink, #222);
-  box-shadow: none;
-  opacity: 1;
+  align-self: stretch;          /* fill the .step instead of shrinking to the text */
 }
 
-.writing-left-image-right > .step.section-intro {
-  grid-column: 1 / -1;
-  grid-row: 1;
-  align-items: center;
-}
 
-.writing-left-image-right > .narrative-steps {
-  grid-column: 1;          /* text on the left */
-  grid-row: 2;
-  min-width: 0;
-}
+.writing-left-image-right > .narrative-steps { grid-column: 1 / span 6; }
 
-.writing-left-image-right > .graphic-stage {
-  grid-column: 2;          /* map on the right, same row as the text */
-  grid-row: 2;
-  min-width: 0;
-}
+.writing-left-image-right > .graphic-stage,
+.writing-left-image-right .svg-stage,
+.writing-left-image-right > .pin-spacer { grid-column: 7 / span 6 !important; }
 
 
 .writing-left-image-right-largeimage {
   display: grid;
-  grid-template-columns: 1fr 2fr;
-  grid-template-rows: auto 1fr;
-  isolation: isolate;
-  gap: 4vw;
-  max-width: 1440px;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+  max-width: var(--grid-max);
   margin: 0 auto;
+  padding-inline: var(--grid-margin);
+  box-sizing: border-box;
   align-items: start;
-  position: relative;
 }
 
-
-.writing-left-image-right-largeimage .step {
-  grid-column: 1;
-}
 
 .writing-left-image-right-largeimage .svg-stage {
   grid-column: 2;
@@ -404,11 +420,6 @@ body {
   align-self: start;      /* Overrides grid stretch so height stays at 100vh */
   display: grid;
   place-items: center;
-}
-
-.writing-left-image-right-largeimage > .narrative-steps {
-  grid-row: 2/-1;
-  grid-column: 1 !important;
 }
 
 .writing-left-image-right-largeimage > .graphic-column {
@@ -423,11 +434,6 @@ body {
 }
 
 
-.writing-left-image-right .step {
-  grid-row: 2/-1;
-  grid-column: 1;
-}
-
 .writing-left-image-right .svg-stage {
   grid-column: 2;
   grid-row: 2 / -1;       /* Spans from the first row to the last row of all narrative steps */
@@ -437,6 +443,10 @@ body {
   align-self: start;      /* Overrides grid stretch so height stays at 100vh */
   display: grid;
   place-items: center;
+}
+
+.svg-stage .frame {
+  max-width: 100%;   
 }
 
 .curtain {
@@ -457,7 +467,17 @@ body {
 }
 
 .curtain + .curtain {
-  margin-top: 0;
+  margin-top: -100svh;
+}
+
+/* A gets 100svh of extra tail to make up for the overlap */
+.curtain:has(+ .curtain) .step {
+  padding-bottom: calc(var(--curtain-tail) + 100svh);
+}
+
+/* optional: a shadow on B's top edge as it slides over A */
+.curtain + .curtain .curtain_bg {
+  box-shadow: 0 -12px 30px rgba(0, 0, 0, 0.35);
 }
 
 .curtain_bg {
@@ -478,17 +498,16 @@ body {
 /* The .step article is the column that holds the boxes, pulled up over the photo */
 .curtain .step {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  column-gap: 1.5rem;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+  max-width: var(--grid-max);
+  margin: -100vh auto 0;      /* keep your margin-top: -100svh line after this */
+  padding: var(--curtain-lead) var(--grid-margin) var(--curtain-tail);
+  box-sizing: border-box;
   row-gap: var(--curtain-gap);
   align-items: start;
   position: relative;
-  margin: -100vh 0 0;
-  margin-top: -100svh;
   min-height: 0;
-  width: 100%;
-  box-sizing: border-box;
-  padding: var(--curtain-lead) 1.25rem var(--curtain-tail);
   background: none;
   box-shadow: none;
   opacity: 1;
@@ -496,13 +515,15 @@ body {
 
 /* Each .step-line is one cream box */
 .curtain .step-line {
-  grid-column: 3 / span 5;
+  grid-column: 2 / span 6;
   width: auto;
   max-width: none;
   min-height: 0;
   margin: 0;
   box-sizing: border-box;
-  padding: var(--curtain-box-pad);
+  --card-pad: clamp(1.5rem, 4vw, 2.75rem);
+  padding: var(--card-pad);
+  margin-inline: calc(-1 * var(--card-pad));
   background: var(--curtain-cream);
   color: var(--curtain-ink);
   box-shadow: var(--curtain-shadow);
@@ -569,11 +590,6 @@ body {
   align-items: center;
 }
 
-/* Text column and sticky stage move to row 2 */
-.writing-left-image-right-largeimage > .narrative-steps {
-  grid-column: 1 !important;
-  grid-row: 2;
-}
 
 .writing-left-image-right-largeimage > .graphic-stage {
   grid-column: 2;
@@ -598,7 +614,8 @@ body {
  grid-column: 1;                 /* text column; the curtain's 3 / span 5 belongs to a different grid */
   box-sizing: border-box;
   margin: 2rem 0 15rem;             /* space between cards; raise for more */
-  padding: var(--curtain-box-pad, 1.5rem);
+  padding: var(--card-pad);
+  margin-inline: calc(-1 * var(--card-pad));
   background: var(--curtain-cream, #fff);
   color: var(--curtain-ink, #222);
   box-shadow: var(--curtain-shadow, 0 2px 12px rgba(0, 0, 0, 0.12));
@@ -617,7 +634,6 @@ body {
   grid-area: 1 / 1;
   width: 100%;
   height: 100%;
-  max-width: 600px;
   object-fit: contain;
   opacity: 0;
   visibility: hidden;
@@ -634,7 +650,7 @@ body {
   min-height: 10vh;
   display: flex;
   flex-direction:column;
-  padding: 1.5rem;
+  padding: 1.5rem 0;
   align-items: flex-start;
 }
 
@@ -663,9 +679,8 @@ body {
   padding: 3rem;
   box-shadow: 0 6px 24px rgba(0,0,0,.25);
   box-sizing: border-box;
-  width: 100%;
   margin: 0 auto;
-  max-width: 900px;
+  max-width: none;
   transform: rotate(-3deg);
 }
 

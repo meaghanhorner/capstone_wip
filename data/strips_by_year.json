@@ -1,0 +1,1097 @@
+[
+  {
+    "year": 1971,
+    "segments": [
+      {
+        "group": "Restaurants, cafes & bars",
+        "label": "15%",
+        "xmin": 0,
+        "xmax": 0.14533,
+        "mid": 0.07267,
+        "pct": 0.14533,
+        "order": 1
+      },
+      {
+        "group": "Personal services",
+        "label": "5%",
+        "xmin": 0.14533,
+        "xmax": 0.19733,
+        "mid": 0.17133,
+        "pct": 0.052,
+        "order": 2
+      },
+      {
+        "group": "Finance & professional",
+        "label": "4%",
+        "xmin": 0.19733,
+        "xmax": 0.24,
+        "mid": 0.21867,
+        "pct": 0.04267,
+        "order": 3
+      },
+      {
+        "group": "Health, education & religion",
+        "label": "6%",
+        "xmin": 0.24,
+        "xmax": 0.29867,
+        "mid": 0.26933,
+        "pct": 0.05867,
+        "order": 4
+      },
+      {
+        "group": "Arts & entertainment",
+        "label": "2%",
+        "xmin": 0.29867,
+        "xmax": 0.31733,
+        "mid": 0.308,
+        "pct": 0.01867,
+        "order": 5
+      },
+      {
+        "group": "Grocery, food & liquor",
+        "label": "8%",
+        "xmin": 0.31733,
+        "xmax": 0.4,
+        "mid": 0.35867,
+        "pct": 0.08267,
+        "order": 6
+      },
+      {
+        "group": "Retail",
+        "label": "28%",
+        "xmin": 0.4,
+        "xmax": 0.676,
+        "mid": 0.538,
+        "pct": 0.276,
+        "order": 7
+      },
+      {
+        "group": "Other",
+        "label": "4%",
+        "xmin": 0.676,
+        "xmax": 0.716,
+        "mid": 0.696,
+        "pct": 0.04,
+        "order": 8
+      },
+      {
+        "group": "Unclassified",
+        "label": "28%",
+        "xmin": 0.716,
+        "xmax": 1,
+        "mid": 0.858,
+        "pct": 0.284,
+        "order": 9
+      }
+    ]
+  },
+  {
+    "year": 1975,
+    "segments": [
+      {
+        "group": "Restaurants, cafes & bars",
+        "label": "15%",
+        "xmin": 0,
+        "xmax": 0.15074,
+        "mid": 0.07537,
+        "pct": 0.15074,
+        "order": 1
+      },
+      {
+        "group": "Personal services",
+        "label": "6%",
+        "xmin": 0.15074,
+        "xmax": 0.20861,
+        "mid": 0.17968,
+        "pct": 0.05787,
+        "order": 2
+      },
+      {
+        "group": "Finance & professional",
+        "label": "6%",
+        "xmin": 0.20861,
+        "xmax": 0.2638,
+        "mid": 0.2362,
+        "pct": 0.05518,
+        "order": 3
+      },
+      {
+        "group": "Health, education & religion",
+        "label": "7%",
+        "xmin": 0.2638,
+        "xmax": 0.33647,
+        "mid": 0.30013,
+        "pct": 0.07268,
+        "order": 4
+      },
+      {
+        "group": "Arts & entertainment",
+        "label": "2%",
+        "xmin": 0.33647,
+        "xmax": 0.35666,
+        "mid": 0.34657,
+        "pct": 0.02019,
+        "order": 5
+      },
+      {
+        "group": "Grocery, food & liquor",
+        "label": "8%",
+        "xmin": 0.35666,
+        "xmax": 0.43203,
+        "mid": 0.39435,
+        "pct": 0.07537,
+        "order": 6
+      },
+      {
+        "group": "Retail",
+        "label": "29%",
+        "xmin": 0.43203,
+        "xmax": 0.72544,
+        "mid": 0.57873,
+        "pct": 0.29341,
+        "order": 7
+      },
+      {
+        "group": "Other",
+        "label": "5%",
+        "xmin": 0.72544,
+        "xmax": 0.77254,
+        "mid": 0.74899,
+        "pct": 0.04711,
+        "order": 8
+      },
+      {
+        "group": "Unclassified",
+        "label": "23%",
+        "xmin": 0.77254,
+        "xmax": 1,
+        "mid": 0.88627,
+        "pct": 0.22746,
+        "order": 9
+      }
+    ]
+  },
+  {
+    "year": 1980,
+    "segments": [
+      {
+        "group": "Restaurants, cafes & bars",
+        "label": "18%",
+        "xmin": 0,
+        "xmax": 0.17539,
+        "mid": 0.08769,
+        "pct": 0.17539,
+        "order": 1
+      },
+      {
+        "group": "Personal services",
+        "label": "5%",
+        "xmin": 0.17539,
+        "xmax": 0.22772,
+        "mid": 0.20156,
+        "pct": 0.05233,
+        "order": 2
+      },
+      {
+        "group": "Finance & professional",
+        "label": "5%",
+        "xmin": 0.22772,
+        "xmax": 0.27864,
+        "mid": 0.25318,
+        "pct": 0.05092,
+        "order": 3
+      },
+      {
+        "group": "Health, education & religion",
+        "label": "8%",
+        "xmin": 0.27864,
+        "xmax": 0.36209,
+        "mid": 0.32037,
+        "pct": 0.08345,
+        "order": 4
+      },
+      {
+        "group": "Arts & entertainment",
+        "label": "3%",
+        "xmin": 0.36209,
+        "xmax": 0.39604,
+        "mid": 0.37907,
+        "pct": 0.03395,
+        "order": 5
+      },
+      {
+        "group": "Grocery, food & liquor",
+        "label": "8%",
+        "xmin": 0.39604,
+        "xmax": 0.47808,
+        "mid": 0.43706,
+        "pct": 0.08204,
+        "order": 6
+      },
+      {
+        "group": "Retail",
+        "label": "29%",
+        "xmin": 0.47808,
+        "xmax": 0.77228,
+        "mid": 0.62518,
+        "pct": 0.2942,
+        "order": 7
+      },
+      {
+        "group": "Other",
+        "label": "3%",
+        "xmin": 0.77228,
+        "xmax": 0.80622,
+        "mid": 0.78925,
+        "pct": 0.03395,
+        "order": 8
+      },
+      {
+        "group": "Unclassified",
+        "label": "19%",
+        "xmin": 0.80622,
+        "xmax": 1,
+        "mid": 0.90311,
+        "pct": 0.19378,
+        "order": 9
+      }
+    ]
+  },
+  {
+    "year": 1985,
+    "segments": [
+      {
+        "group": "Restaurants, cafes & bars",
+        "label": "19%",
+        "xmin": 0,
+        "xmax": 0.18933,
+        "mid": 0.09467,
+        "pct": 0.18933,
+        "order": 1
+      },
+      {
+        "group": "Personal services",
+        "label": "4%",
+        "xmin": 0.18933,
+        "xmax": 0.22933,
+        "mid": 0.20933,
+        "pct": 0.04,
+        "order": 2
+      },
+      {
+        "group": "Finance & professional",
+        "label": "5%",
+        "xmin": 0.22933,
+        "xmax": 0.28267,
+        "mid": 0.256,
+        "pct": 0.05333,
+        "order": 3
+      },
+      {
+        "group": "Health, education & religion",
+        "label": "8%",
+        "xmin": 0.28267,
+        "xmax": 0.36667,
+        "mid": 0.32467,
+        "pct": 0.084,
+        "order": 4
+      },
+      {
+        "group": "Arts & entertainment",
+        "label": "3%",
+        "xmin": 0.36667,
+        "xmax": 0.39867,
+        "mid": 0.38267,
+        "pct": 0.032,
+        "order": 5
+      },
+      {
+        "group": "Grocery, food & liquor",
+        "label": "8%",
+        "xmin": 0.39867,
+        "xmax": 0.47467,
+        "mid": 0.43667,
+        "pct": 0.076,
+        "order": 6
+      },
+      {
+        "group": "Retail",
+        "label": "27%",
+        "xmin": 0.47467,
+        "xmax": 0.74267,
+        "mid": 0.60867,
+        "pct": 0.268,
+        "order": 7
+      },
+      {
+        "group": "Other",
+        "label": "3%",
+        "xmin": 0.74267,
+        "xmax": 0.772,
+        "mid": 0.75733,
+        "pct": 0.02933,
+        "order": 8
+      },
+      {
+        "group": "Unclassified",
+        "label": "23%",
+        "xmin": 0.772,
+        "xmax": 1,
+        "mid": 0.886,
+        "pct": 0.228,
+        "order": 9
+      }
+    ]
+  },
+  {
+    "year": 1990,
+    "segments": [
+      {
+        "group": "Restaurants, cafes & bars",
+        "label": "20%",
+        "xmin": 0,
+        "xmax": 0.19505,
+        "mid": 0.09753,
+        "pct": 0.19505,
+        "order": 1
+      },
+      {
+        "group": "Personal services",
+        "label": "5%",
+        "xmin": 0.19505,
+        "xmax": 0.24863,
+        "mid": 0.22184,
+        "pct": 0.05357,
+        "order": 2
+      },
+      {
+        "group": "Finance & professional",
+        "label": "5%",
+        "xmin": 0.24863,
+        "xmax": 0.30082,
+        "mid": 0.27473,
+        "pct": 0.0522,
+        "order": 3
+      },
+      {
+        "group": "Health, education & religion",
+        "label": "9%",
+        "xmin": 0.30082,
+        "xmax": 0.38874,
+        "mid": 0.34478,
+        "pct": 0.08791,
+        "order": 4
+      },
+      {
+        "group": "Arts & entertainment",
+        "label": "3%",
+        "xmin": 0.38874,
+        "xmax": 0.41896,
+        "mid": 0.40385,
+        "pct": 0.03022,
+        "order": 5
+      },
+      {
+        "group": "Grocery, food & liquor",
+        "label": "7%",
+        "xmin": 0.41896,
+        "xmax": 0.49038,
+        "mid": 0.45467,
+        "pct": 0.07143,
+        "order": 6
+      },
+      {
+        "group": "Retail",
+        "label": "27%",
+        "xmin": 0.49038,
+        "xmax": 0.75962,
+        "mid": 0.625,
+        "pct": 0.26923,
+        "order": 7
+      },
+      {
+        "group": "Other",
+        "label": "3%",
+        "xmin": 0.75962,
+        "xmax": 0.78709,
+        "mid": 0.77335,
+        "pct": 0.02747,
+        "order": 8
+      },
+      {
+        "group": "Unclassified",
+        "label": "21%",
+        "xmin": 0.78709,
+        "xmax": 1,
+        "mid": 0.89354,
+        "pct": 0.21291,
+        "order": 9
+      }
+    ]
+  },
+  {
+    "year": 1995,
+    "segments": [
+      {
+        "group": "Restaurants, cafes & bars",
+        "label": "22%",
+        "xmin": 0,
+        "xmax": 0.22034,
+        "mid": 0.11017,
+        "pct": 0.22034,
+        "order": 1
+      },
+      {
+        "group": "Personal services",
+        "label": "6%",
+        "xmin": 0.22034,
+        "xmax": 0.27771,
+        "mid": 0.24902,
+        "pct": 0.05737,
+        "order": 2
+      },
+      {
+        "group": "Finance & professional",
+        "label": "6%",
+        "xmin": 0.27771,
+        "xmax": 0.33507,
+        "mid": 0.30639,
+        "pct": 0.05737,
+        "order": 3
+      },
+      {
+        "group": "Health, education & religion",
+        "label": "6%",
+        "xmin": 0.33507,
+        "xmax": 0.39896,
+        "mid": 0.36701,
+        "pct": 0.06389,
+        "order": 4
+      },
+      {
+        "group": "Arts & entertainment",
+        "label": "2%",
+        "xmin": 0.39896,
+        "xmax": 0.42243,
+        "mid": 0.41069,
+        "pct": 0.02347,
+        "order": 5
+      },
+      {
+        "group": "Grocery, food & liquor",
+        "label": "7%",
+        "xmin": 0.42243,
+        "xmax": 0.49674,
+        "mid": 0.45958,
+        "pct": 0.07432,
+        "order": 6
+      },
+      {
+        "group": "Retail",
+        "label": "25%",
+        "xmin": 0.49674,
+        "xmax": 0.74576,
+        "mid": 0.62125,
+        "pct": 0.24902,
+        "order": 7
+      },
+      {
+        "group": "Other",
+        "label": "3%",
+        "xmin": 0.74576,
+        "xmax": 0.77184,
+        "mid": 0.7588,
+        "pct": 0.02608,
+        "order": 8
+      },
+      {
+        "group": "Unclassified",
+        "label": "23%",
+        "xmin": 0.77184,
+        "xmax": 0.9987,
+        "mid": 0.88527,
+        "pct": 0.22686,
+        "order": 9
+      },
+      {
+        "group": "Vacant",
+        "label": "0%",
+        "xmin": 0.9987,
+        "xmax": 1,
+        "mid": 0.99935,
+        "pct": 0.0013,
+        "order": 10
+      }
+    ]
+  },
+  {
+    "year": 2000,
+    "segments": [
+      {
+        "group": "Restaurants, cafes & bars",
+        "label": "23%",
+        "xmin": 0,
+        "xmax": 0.22526,
+        "mid": 0.11263,
+        "pct": 0.22526,
+        "order": 1
+      },
+      {
+        "group": "Personal services",
+        "label": "5%",
+        "xmin": 0.22526,
+        "xmax": 0.27865,
+        "mid": 0.25195,
+        "pct": 0.05339,
+        "order": 2
+      },
+      {
+        "group": "Finance & professional",
+        "label": "5%",
+        "xmin": 0.27865,
+        "xmax": 0.32812,
+        "mid": 0.30339,
+        "pct": 0.04948,
+        "order": 3
+      },
+      {
+        "group": "Health, education & religion",
+        "label": "6%",
+        "xmin": 0.32812,
+        "xmax": 0.38672,
+        "mid": 0.35742,
+        "pct": 0.05859,
+        "order": 4
+      },
+      {
+        "group": "Arts & entertainment",
+        "label": "2%",
+        "xmin": 0.38672,
+        "xmax": 0.40755,
+        "mid": 0.39714,
+        "pct": 0.02083,
+        "order": 5
+      },
+      {
+        "group": "Grocery, food & liquor",
+        "label": "5%",
+        "xmin": 0.40755,
+        "xmax": 0.46094,
+        "mid": 0.43424,
+        "pct": 0.05339,
+        "order": 6
+      },
+      {
+        "group": "Retail",
+        "label": "26%",
+        "xmin": 0.46094,
+        "xmax": 0.71615,
+        "mid": 0.58854,
+        "pct": 0.25521,
+        "order": 7
+      },
+      {
+        "group": "Other",
+        "label": "3%",
+        "xmin": 0.71615,
+        "xmax": 0.74609,
+        "mid": 0.73112,
+        "pct": 0.02995,
+        "order": 8
+      },
+      {
+        "group": "Unclassified",
+        "label": "25%",
+        "xmin": 0.74609,
+        "xmax": 0.9987,
+        "mid": 0.8724,
+        "pct": 0.2526,
+        "order": 9
+      },
+      {
+        "group": "Vacant",
+        "label": "0%",
+        "xmin": 0.9987,
+        "xmax": 1,
+        "mid": 0.99935,
+        "pct": 0.0013,
+        "order": 10
+      }
+    ]
+  },
+  {
+    "year": 2005,
+    "segments": [
+      {
+        "group": "Restaurants, cafes & bars",
+        "label": "25%",
+        "xmin": 0,
+        "xmax": 0.25153,
+        "mid": 0.12577,
+        "pct": 0.25153,
+        "order": 1
+      },
+      {
+        "group": "Personal services",
+        "label": "7%",
+        "xmin": 0.25153,
+        "xmax": 0.31902,
+        "mid": 0.28528,
+        "pct": 0.06748,
+        "order": 2
+      },
+      {
+        "group": "Finance & professional",
+        "label": "5%",
+        "xmin": 0.31902,
+        "xmax": 0.36656,
+        "mid": 0.34279,
+        "pct": 0.04755,
+        "order": 3
+      },
+      {
+        "group": "Health, education & religion",
+        "label": "5%",
+        "xmin": 0.36656,
+        "xmax": 0.42025,
+        "mid": 0.3934,
+        "pct": 0.05368,
+        "order": 4
+      },
+      {
+        "group": "Arts & entertainment",
+        "label": "2%",
+        "xmin": 0.42025,
+        "xmax": 0.44479,
+        "mid": 0.43252,
+        "pct": 0.02454,
+        "order": 5
+      },
+      {
+        "group": "Grocery, food & liquor",
+        "label": "6%",
+        "xmin": 0.44479,
+        "xmax": 0.50613,
+        "mid": 0.47546,
+        "pct": 0.06135,
+        "order": 6
+      },
+      {
+        "group": "Retail",
+        "label": "22%",
+        "xmin": 0.50613,
+        "xmax": 0.72699,
+        "mid": 0.61656,
+        "pct": 0.22086,
+        "order": 7
+      },
+      {
+        "group": "Other",
+        "label": "2%",
+        "xmin": 0.72699,
+        "xmax": 0.74847,
+        "mid": 0.73773,
+        "pct": 0.02147,
+        "order": 8
+      },
+      {
+        "group": "Unclassified",
+        "label": "25%",
+        "xmin": 0.74847,
+        "xmax": 0.99693,
+        "mid": 0.8727,
+        "pct": 0.24847,
+        "order": 9
+      },
+      {
+        "group": "Vacant",
+        "label": "0%",
+        "xmin": 0.99693,
+        "xmax": 1,
+        "mid": 0.99847,
+        "pct": 0.00307,
+        "order": 10
+      }
+    ]
+  },
+  {
+    "year": 2010,
+    "segments": [
+      {
+        "group": "Restaurants, cafes & bars",
+        "label": "33%",
+        "xmin": 0,
+        "xmax": 0.32565,
+        "mid": 0.16283,
+        "pct": 0.32565,
+        "order": 1
+      },
+      {
+        "group": "Personal services",
+        "label": "12%",
+        "xmin": 0.32565,
+        "xmax": 0.44547,
+        "mid": 0.38556,
+        "pct": 0.11982,
+        "order": 2
+      },
+      {
+        "group": "Finance & professional",
+        "label": "4%",
+        "xmin": 0.44547,
+        "xmax": 0.48694,
+        "mid": 0.46621,
+        "pct": 0.04147,
+        "order": 3
+      },
+      {
+        "group": "Health, education & religion",
+        "label": "4%",
+        "xmin": 0.48694,
+        "xmax": 0.52995,
+        "mid": 0.50845,
+        "pct": 0.04301,
+        "order": 4
+      },
+      {
+        "group": "Arts & entertainment",
+        "label": "2%",
+        "xmin": 0.52995,
+        "xmax": 0.55146,
+        "mid": 0.54071,
+        "pct": 0.02151,
+        "order": 5
+      },
+      {
+        "group": "Grocery, food & liquor",
+        "label": "6%",
+        "xmin": 0.55146,
+        "xmax": 0.60676,
+        "mid": 0.57911,
+        "pct": 0.0553,
+        "order": 6
+      },
+      {
+        "group": "Retail",
+        "label": "23%",
+        "xmin": 0.60676,
+        "xmax": 0.83871,
+        "mid": 0.72273,
+        "pct": 0.23195,
+        "order": 7
+      },
+      {
+        "group": "Other",
+        "label": "1%",
+        "xmin": 0.83871,
+        "xmax": 0.84946,
+        "mid": 0.84409,
+        "pct": 0.01075,
+        "order": 8
+      },
+      {
+        "group": "Unclassified",
+        "label": "6%",
+        "xmin": 0.84946,
+        "xmax": 0.9063,
+        "mid": 0.87788,
+        "pct": 0.05684,
+        "order": 9
+      },
+      {
+        "group": "Vacant",
+        "label": "9%",
+        "xmin": 0.9063,
+        "xmax": 1,
+        "mid": 0.95315,
+        "pct": 0.0937,
+        "order": 10
+      }
+    ]
+  },
+  {
+    "year": 2015,
+    "segments": [
+      {
+        "group": "Restaurants, cafes & bars",
+        "label": "34%",
+        "xmin": 0,
+        "xmax": 0.34112,
+        "mid": 0.17056,
+        "pct": 0.34112,
+        "order": 1
+      },
+      {
+        "group": "Personal services",
+        "label": "11%",
+        "xmin": 0.34112,
+        "xmax": 0.45016,
+        "mid": 0.39564,
+        "pct": 0.10903,
+        "order": 2
+      },
+      {
+        "group": "Finance & professional",
+        "label": "3%",
+        "xmin": 0.45016,
+        "xmax": 0.48131,
+        "mid": 0.46573,
+        "pct": 0.03115,
+        "order": 3
+      },
+      {
+        "group": "Health, education & religion",
+        "label": "5%",
+        "xmin": 0.48131,
+        "xmax": 0.52648,
+        "mid": 0.50389,
+        "pct": 0.04517,
+        "order": 4
+      },
+      {
+        "group": "Arts & entertainment",
+        "label": "2%",
+        "xmin": 0.52648,
+        "xmax": 0.54984,
+        "mid": 0.53816,
+        "pct": 0.02336,
+        "order": 5
+      },
+      {
+        "group": "Grocery, food & liquor",
+        "label": "7%",
+        "xmin": 0.54984,
+        "xmax": 0.61526,
+        "mid": 0.58255,
+        "pct": 0.06542,
+        "order": 6
+      },
+      {
+        "group": "Retail",
+        "label": "21%",
+        "xmin": 0.61526,
+        "xmax": 0.82866,
+        "mid": 0.72196,
+        "pct": 0.2134,
+        "order": 7
+      },
+      {
+        "group": "Other",
+        "label": "1%",
+        "xmin": 0.82866,
+        "xmax": 0.83645,
+        "mid": 0.83255,
+        "pct": 0.00779,
+        "order": 8
+      },
+      {
+        "group": "Unclassified",
+        "label": "4%",
+        "xmin": 0.83645,
+        "xmax": 0.88006,
+        "mid": 0.85826,
+        "pct": 0.04361,
+        "order": 9
+      },
+      {
+        "group": "Vacant",
+        "label": "12%",
+        "xmin": 0.88006,
+        "xmax": 1,
+        "mid": 0.94003,
+        "pct": 0.11994,
+        "order": 10
+      }
+    ]
+  },
+  {
+    "year": 2020,
+    "segments": [
+      {
+        "group": "Restaurants, cafes & bars",
+        "label": "36%",
+        "xmin": 0,
+        "xmax": 0.35962,
+        "mid": 0.17981,
+        "pct": 0.35962,
+        "order": 1
+      },
+      {
+        "group": "Personal services",
+        "label": "10%",
+        "xmin": 0.35962,
+        "xmax": 0.46057,
+        "mid": 0.41009,
+        "pct": 0.10095,
+        "order": 2
+      },
+      {
+        "group": "Finance & professional",
+        "label": "2%",
+        "xmin": 0.46057,
+        "xmax": 0.48265,
+        "mid": 0.47161,
+        "pct": 0.02208,
+        "order": 3
+      },
+      {
+        "group": "Health, education & religion",
+        "label": "5%",
+        "xmin": 0.48265,
+        "xmax": 0.53155,
+        "mid": 0.5071,
+        "pct": 0.0489,
+        "order": 4
+      },
+      {
+        "group": "Arts & entertainment",
+        "label": "2%",
+        "xmin": 0.53155,
+        "xmax": 0.55521,
+        "mid": 0.54338,
+        "pct": 0.02366,
+        "order": 5
+      },
+      {
+        "group": "Grocery, food & liquor",
+        "label": "7%",
+        "xmin": 0.55521,
+        "xmax": 0.62776,
+        "mid": 0.59148,
+        "pct": 0.07256,
+        "order": 6
+      },
+      {
+        "group": "Retail",
+        "label": "17%",
+        "xmin": 0.62776,
+        "xmax": 0.79338,
+        "mid": 0.71057,
+        "pct": 0.16562,
+        "order": 7
+      },
+      {
+        "group": "Other",
+        "label": "1%",
+        "xmin": 0.79338,
+        "xmax": 0.80599,
+        "mid": 0.79968,
+        "pct": 0.01262,
+        "order": 8
+      },
+      {
+        "group": "Unclassified",
+        "label": "6%",
+        "xmin": 0.80599,
+        "xmax": 0.86751,
+        "mid": 0.83675,
+        "pct": 0.06151,
+        "order": 9
+      },
+      {
+        "group": "Vacant",
+        "label": "13%",
+        "xmin": 0.86751,
+        "xmax": 1,
+        "mid": 0.93375,
+        "pct": 0.13249,
+        "order": 10
+      }
+    ]
+  },
+  {
+    "year": 2026,
+    "segments": [
+      {
+        "group": "Restaurants, cafes & bars",
+        "label": "38%",
+        "xmin": 0,
+        "xmax": 0.3775,
+        "mid": 0.18875,
+        "pct": 0.3775,
+        "order": 1
+      },
+      {
+        "group": "Personal services",
+        "label": "9%",
+        "xmin": 0.3775,
+        "xmax": 0.46687,
+        "mid": 0.42219,
+        "pct": 0.08937,
+        "order": 2
+      },
+      {
+        "group": "Finance & professional",
+        "label": "2%",
+        "xmin": 0.46687,
+        "xmax": 0.48844,
+        "mid": 0.47766,
+        "pct": 0.02157,
+        "order": 3
+      },
+      {
+        "group": "Health, education & religion",
+        "label": "5%",
+        "xmin": 0.48844,
+        "xmax": 0.54237,
+        "mid": 0.51541,
+        "pct": 0.05393,
+        "order": 4
+      },
+      {
+        "group": "Arts & entertainment",
+        "label": "3%",
+        "xmin": 0.54237,
+        "xmax": 0.57473,
+        "mid": 0.55855,
+        "pct": 0.03236,
+        "order": 5
+      },
+      {
+        "group": "Grocery, food & liquor",
+        "label": "8%",
+        "xmin": 0.57473,
+        "xmax": 0.65794,
+        "mid": 0.61633,
+        "pct": 0.0832,
+        "order": 6
+      },
+      {
+        "group": "Retail",
+        "label": "13%",
+        "xmin": 0.65794,
+        "xmax": 0.79199,
+        "mid": 0.72496,
+        "pct": 0.13405,
+        "order": 7
+      },
+      {
+        "group": "Other",
+        "label": "1%",
+        "xmin": 0.79199,
+        "xmax": 0.80431,
+        "mid": 0.79815,
+        "pct": 0.01233,
+        "order": 8
+      },
+      {
+        "group": "Unclassified",
+        "label": "7%",
+        "xmin": 0.80431,
+        "xmax": 0.87057,
+        "mid": 0.83744,
+        "pct": 0.06626,
+        "order": 9
+      },
+      {
+        "group": "Vacant",
+        "label": "13%",
+        "xmin": 0.87057,
+        "xmax": 1,
+        "mid": 0.93529,
+        "pct": 0.12943,
+        "order": 10
+      }
+    ]
+  }
+]

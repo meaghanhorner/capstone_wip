@@ -8,7 +8,7 @@
 ## Commercial Space Available
 On a brisk October morning in Greenwich Village, Caffe Reggio, at 119 MacDougal Street, who claim to have served the first cappuccino in America in 1927, is still serving them 99 years later. It's still early in the morning and the street is quiet. Across the street, at 128 MacDougal, a metal gate covers the street-level windows. A sign advertises "Commercial Space Available". It has been vacant since at least April, according to Google's Streetview. 
 <!-- svg: -->
-128 MacDougal is just one of dozens of vacant storefronts in Greenwich Village, many of which have been vacant for more than six consecutive quarters - a year and a half. Though New York City had a commercial vacancy rate of under 4% in 2007, storefront vacancies are now considered a big enough problem that the city comptroller's office issued a report, titled *Who's Minding the Storefronts? An Analysis of Storefront Vacancies in New York City* in June 2026. This follows a 2017 report by then-State Senator Brad Hoylman, titled *Bleaker on Bleecker*, which focused on storefront vacancies in Greenwich Village and Chelsea in particular. While media outlets, politicians and economists have debated the exact causes, the physical reality is undisputed. As artist Symbol, quoted on Jeremiah Moss's blog *Vanishing New York* said,
+128 MacDougal is just one of dozens of vacant storefronts in Greenwich Village, many of which have been vacant for more than six consecutive quarters - a year and a half. Though New York City had a commercial vacancy rate of under 4% in 2007, storefront vacancies are now considered a big enough problem that the city comptroller's office issued a report, titled *Who's Minding the Storefronts? An Analysis of Storefront Vacancies in New York City* in June 2026. This follows a 2017 report by then-State Senator Brad Hoylman, titled *Bleaker on Bleecker*, which focused on storefront vacancies in Greenwich Village and Chelsea in particular. While media outlets, politicians and economists have debated the exact causes, the physical reality is undisputed. When artist Symbol started pasting oversized Monopoly cards onto empty Manhattan storefronts, he explained his inspiration on Jeremiah Moss's blog *Vanishing New York*:
 > "Everywhere I walked in Manhattan there were empty storefronts, and it seemed like one big game between landlords and tenants... Is there a better analogy for that than the game of Monopoly?"—*[Vanishing New York](https://vanishingnewyork.blogspot.com/2018/06/high-rent-blight-monopoly.html)*
 
 Symbol's Monopoly cards featured a quote from Jane Jacobs's *The Death and Life of Great American Cities*:
@@ -23,7 +23,7 @@ So if storefronts are so important to a neighborhood, why do so many sit vacant 
 
 ##### Section Context
 ## The Death and Life of Great American Cities
-2026 marks the 65th anniversary of the 1961 publication of Jane Jacobs's *The Death and Life of Great American Cities*. Her first book, it remains Jacobs's most widely read and most influential. Its thesis was that cities were problems of "organized complexity" which thrived on the unplanned variety of street life. It challenged existing city planning orthodoxy, which held that cities must be carefully planned to keep homes far from dirty, unsafe business and industry.
+2026 marks the 65th anniversary of the 1961 publication of Jane Jacobs's *The Death and Life of Great American Cities*. Her first book, it remains Jacobs's most widely read and most influential. Its thesis was that cities were problems of "organized complexity", that is, that they were more like a living organism than like a machine which could be engineered and built. Each aspect of a city was interconnected with every other aspect, and a change to one part would cause unpredicted effects to the others. It challenged existing city planning orthodoxy, which held that cities must be carefully planned to keep homes far from dirty, unsafe business and industry.
 <!-- svg: -->
 The city planners of the early 20th century criticized urban spaces as dirty and crowded - and rightly so. The slums of New York, Boston and London, centered around polluting factories, were unsanitary and unpleasant. The air and water were polluted, and tuberculosis, typhoid and cholera spread quickly. The streets were often filled with manure from horse-drawn carriages. People slept six or more to a room in crowded tenements. Reformers like Jacob Riis documented these conditions, and cities responded with tenement laws, sanitation systems, and eventually zoning codes to separate land uses.
 <!-- svg: -->
@@ -82,10 +82,11 @@ This includes dense concentration in the case of people who are there because of
 <!-- svg: map-a-zoom-out -->
 We will start with the factor that has changed the least in 65 years: short blocks. 
 <!-- svg: -->
-Jacobs writes that short blocks give pedestrians frequent opportunities to turn corners, which means more possible routes any person can take to a given destination. A resident who goes to the same place regularly (whether it's their subway stop or favorite grocery store) will often take different routes to get there on different days, if the short blocks allow it, giving them more opportunities to see different parts of the neighborhood. Long blocks do the opposite, funneling people onto a few streets and leaving the rest quiet.
+Jacobs writes that short blocks give pedestrians frequent opportunities to turn corners, which means more possible routes any person can take to a given destination. A resident who goes to the same place regularly (whether it's their subway stop or favorite grocery store) will often take different routes to get there on different days, if the short blocks allow it, giving them more opportunities to see different parts of the neighborhood. 
 <!-- svg: map-a-zoom-in -->
-Built before the standard 1811 Manhattan grid of widely spaced avenues (approx. 600-900 feet apart) and closely-spaced streets (approx 200-260 feet apart), blocks in Greenwich Village range between 150 - 500 feet and average 290 feet, among the shortest of all neighborhoods in Manhattan.
+Long blocks do the opposite, funneling people onto a few streets and leaving the rest quiet.
 <!-- svg: chart-b -->
+Built before the standard 1811 Manhattan grid of widely spaced avenues (approx. 600-900 feet apart) and closely-spaced streets (approx 200-260 feet apart), blocks in Greenwich Village range between 150 - 500 feet and average 290 feet, among the shortest of all neighborhoods in Manhattan.
 In addition to providing more opportunities for pedestrians to turn corners, the short, irregular blocks of Greenwich Village provide 
 >"visual interruptions, cutting off the indefinite distant view and at the same time visually heightening and celebrating intense street use by giving it a hint of enclosure and entity".
 <!-- svg: -->
@@ -113,17 +114,20 @@ Jacobs expected old buildings to supply the lower end of the rent range. In the 
 Although Greenwich Village is still a place with both old and new buildings, the buildings now do not vary in the economic yield they must produce. There is little difference between the cheapest and most expensive storefronts, leaving small and less profitable businesses priced out entirely.
 
 <!-- svg: chart-e e3 -->
-Looking at old business records, I found many instances in the 1960s and 1970s when a business moved but stayed in Greenwich Village. Murray's Cheese started out at a different location than where it is now. Matt Umanov Guitars moved when the pizzeria John's of Bleecker Street expanded into his former location. Costos Exotic Garden, which was forced to move in 1969 to accomodate a Nathan's location, reopened a few blocks away. In fact, xx% of businesses that closed in one location reopened in another. Today, when businesses close, they reopen outside Greenwich Village - or don't reopen at all. Only xx% of businesses that closed at one location in 20015 or 2020 are still open in Greenwich Village today.   
+Looking at old business records, I found many instances in the 1960s and 1970s when a business moved but stayed in Greenwich Village. Murray's Cheese started out at a different location than where it is now. Matt Umanov Guitars moved when the pizzeria John's of Bleecker Street expanded into his former location. Costos Exotic Garden, which was forced to move in 1969 to accommodate a Nathan's location, reopened a few blocks away. In fact, xx% of businesses that closed in one location reopened in another. Today, when businesses close, they reopen outside Greenwich Village - or don't reopen at all. Only xx% of businesses that closed at one location in 20015 or 2020 are still open in Greenwich Village today.   
 
 ##### Dense Concentration Header
 ## A Dense Concentration of People, Including Residents
+The district must have a sufficiently dense concentration of people, for whatever purpose they may be there. This includes people there because of residence.
 ##### A Dense Concentration of People, Including Residents
-
-## The disctrict must have a sufficiently dense concentration of people, for whatever purpose they may be there. This includes people there because of residence.
 <!-- svg: chart-h1-->
 According to Jacobs, 
->"dense concentrations of people are one of the necessary conditions for flourishing city diversity". In suburbs, 
+>"dense concentrations of people are one of the necessary conditions for flourishing city diversity". 
+
+In suburbs, 
+
 >"The only goods and cultural activities available will be those that the majority requires"(Professor Henry Denton, as reported in The New York Times, p. 262).
+
 Cities, however, could have enough population density to support even niche interests. For Jacobs, this meant at least 100 dwellings per acre. Jacobs chose dwellings per acre as her metric rather than population because she needed a metric that wouldn't confuse an overcrowded slum with a dense and vibrant neighborhood, both of which could have high populations. 
 
 <!-- svg: chart-h1-->
@@ -188,22 +192,19 @@ In examining storefront vacancy in New York City, economists Erica Moszkowski an
 
 After examining all these factors, we can put together a timeline and a hypothesis.
 
-Commercial Rents in Greenwich Village and Bleecker Street, as we've seen, moved in tandem with Manhattan rents as a whole between 1961 and 2001.
+Between 1961 and 2001, commercial rents on Bleecker Street and across Greenwich Village moved in tandem with commercial rents in Manhattan as a whole.
 
-In July of 2000, Carrie Bradshaw and Miranda Hobbes eat cupcakes outside the original Magnolia Bakery at 401 Bleecker Street on "Sex and the City", making Magnolia Bakery an overnight sensation and drawing huge crowds to Bleecker Street.
+In July of 2000, Carrie Bradshaw and Miranda Hobbes eat cupcakes outside the original Magnolia Bakery at 401 Bleecker Street on "Sex and the City", turning it into an overnight sensation that drew massive crowds to Bleecker Street.
 
-In 2001, Marc Jacobs begins opening boutiques on Bleecker Street. The brand would have 6 by xxxx.
-Soon other brands followed, like Ralph Lauren and Cynthia Rowley.
+In 2001, Marc Jacobs begins opening boutiques on Bleecker Street, soon followed by Ralph Lauren and Cynthia Rowley. In response to Bleecker Street's new popularity and rising rents, REBNY (The Real Estate Board of New York) added Bleecker Street to the commercial corridors they tracked, putting it in the company of Madison Avenue and 5th Avenue, among others. At this point mean asking rent on Bleecker Street was between $265 and $600 per square foot per year, with a mean of $397.
 
-In Spring 2008, REBNY added Bleecker Street between 7th Avenue South and Houston to the commercial corridors it tracked. The mean rent on Bleecker Street was already $397/square foot/year, with a rent range between $265-$600.
+As older leases expired, landlords raised rents to keep up with the going market rate in the neighborhood, leaving stores vacant if there was no high-rent tenant willing to immediately take over the lease.  
 
-As leases ended, landlords raised rents to keep up with the going rate in the neighborhood.  
+The profits the high-fashion brands expected to see never materialized, though, and they began to pull out of the neighborhood.
 
-High-fashion brands did not see the return they expected from their Greenwich Village stores, and began to close them.
+By 2010, 5 of 6 Bleecker Street Marc Jacobs stores were closed. 
 
-By 2010, 5 of the 6 Marc Jacobs stores were closed. 
-
-Landlords 
+Landlords, still holding out for that $600 rent, were slow to realize that that number might be unrealistic. Asking rents tumbled between 2013 and 2024 from a mean of $xxxx in 2009 to a mean of $xxxx in 2021, their storefronts sitting vacant in many cases for months or years on end. 
 
 
 ##### Putting Everything Together
@@ -211,10 +212,10 @@ Landlords
 So now that we've looked at all 4 conditions, what can we say about the changes in Greenwich Village over the last 65 years?
 
 ### Fewer types of businesses
-First of all, there are fewer different types of businesses than there were in 1961. In 1961 there were plentiful bookstores, musical instrument stores, record stores, arts and craft supply stores, and specialty food stores. The number of businesses has decreased in all of these categories. What is increasing?(xxxx),(xxxx) and (xxxx), the types of businesses that are unlikely to substantially drive foot traffic from other neighborhoods. 
+Independent bookstores, record stores, musical instrument stores, and specialty food stores have all declined, replaced by the types of businesses that do little to drive cross-neighborhood foot traffic. 
 
 ### Dramatically higher rents
-Second, the rents are much higher. Between 1961 and 2001, commercial rents on Bleecker Street and in Greenwich Village as a whole moved in tandem with Manhattan rents. Sometime between 2001 and 2008, that changed. Whether it was Carrie Bradshaw eating cupcakes in front of Magnolia Bakery on "Sex and the City" or something else entirely, Bleecker Street became a sought-after neighborhood for high-end brands. The traditional retail meccas of the Upper East and Upper West Sides had gotten a bit too staid; these brands wanted locations in a neighborhood that reflected a youthful energy. By 2010 there were six Marc Jacobs boutiques in Greenwich Village, and two Ralph Lauren boutiques. It wasn't long before landlords noticed the change in who was renting in the neighborhood, and started raising the rent on their longtime tenants. Though I don't have systematic data on this, Jeremiah Moss's blog "Vanishing New York" chronicles many of the rent raises that lead to closures, and the New York Times interviewed several other business owners, giving us a few more data points. Commercial leases are usually ten years long, so in all these cases the previous lease reneal would most likely have happened between 1998 and 2006, before the neighborhood really took off.
+Sparked by the 2000s retail boom, landlords raised storefront rents past what independent businesses could bear. Because commercial leases are most often 10 years long, many businesses who had last renewed their leases before 20000 faced huge increases when their next renewal rolled around. Though I don't have systematic data on this, Jeremiah Moss's blog "Vanishing New York" chronicles many of the rent raises that lead to closures, and the New York Times interviewed several other business owners, giving us a few more data points. 
 
 Second Childhood, a store specializing in antique toys, closed in 2008 after a rent raise from $7,000/month to $15,000/month.(source)
 Nusraty Afghan Imports moved from Bleecker Street to Christopher Street in 2008 after the rent was raised from $7,000 to $45,000/month.(NYTimes). The store closed for good in 2020.
@@ -224,8 +225,7 @@ Arleen Bowman closed in 2012 after the rent was raised from $2,500 to $35,000.(N
 Da'Vinci Shoes closed in 2016, after the rent was raised from $6,000/month to nearly $40,000/month(source)
 
 ### More vacancies
-Third, more vacancies.
-We don't have concrete vacancy data from before 2007, but several data points that suggest that there are likely more empty storefronts now than there were in 1961. Firstly, we have no documentation that vacancy in Greenwich Village was considered a problem before the mid-2000s. Second, the ground-floor commercial vacancy rate in Greenwich Village was around 1.9% in 2007, and there are no indications that this was a deviation from long-term trends. Third, the data we do have shows storefront vacancy rising from roughly 1.9 percent in 2007 to roughly 13 percent today. 
+While I don't have concrete vacancy data from before 2007, historical context shows that commercial vacancy was not a notable issue before then.  Firstly, we have no documentation that vacancy in Greenwich Village was considered a problem before the mid-2000s. Second, the ground-floor commercial vacancy rate in the West Village was around 1.9% in 2007(https://comptroller.nyc.gov/reports/retail-vacancy-in-new-york-city/), less than the citywide average of 4%, and there are no indications that this was a deviation from long-term trends. Third, the data we do have shows storefront vacancy rising from roughly 1.9 percent in 2007 to roughly 13 percent today. 
 
 The rise in vacancies follows the rise in rents. The businesses listed above closed after their rents went up, and the spaces they left have been harder to fill than they used to be, often staying vacant more than 18 months. Taken together, the three changes point the same way. There are fewer types of business, the rents are much higher, and more storefronts are empty. Though the physical conditions of Greenwich Village have not changed, the economic conditions that made it possible for small, independent, and unique businesses to thrive have disappeared.
 
@@ -265,16 +265,29 @@ Follow progress on the New York City Small Business Rent Stabilization Act and l
 When I embarked on this project I was ready to say that the gentrification and high-rent blight of Greenwich Village was something that Jacobs could never have predicted.Yet, in "The Death and Life of Great American Cities", she maps out the exact feedback loop currently playing out in the neighborhood. In a chapter called "The Self-Destruction of Diversity", Jacobs writes,
 "Whichever form the self-destruction takes, this, in broad strokes, is what happens: A diversified mixture of uses at some place in the city becomes outstandingly popular and successful as a whole. Because of the location's success, which is invariably based on flourishing and magnetic diversity, ardent competition for space in this locality develops. It is taken up in what amounts to the economic equivalent of a fad. The winners in the competition for space will represent only a narrow segment of the many uses that together created success...Thus, from this process, one or few dominating uses finally emerge triumphant. But the triumph is hollow. A most intricate and successful organism of economic mutual support and social mutual support has been destroyed by this process... In time, a place that was once so successful and once the object of such ardent competition, wanes and becomes marginal."
 
-Decades later, the experiences of local business owners echo her warning. When Richard Geist closed Uncle Sam's Army/Navy Store on West 8th street after decades in business, he blamed reduced foot traffic rather than high rents. As chronicled by Jeremiah Moss on Vanishing New York: "Geist told me the closure is by choice, mostly, and that 8th Street just isn't 8th Street anymore... High rents wiped out the shoe businesses here, leaving a blighted ghost town about 10 years ago... Geist says there's no foot traffic. The street is dead." (https://vanishingnewyork.blogspot.com/2018/12/uncle-sams-armynavy.html). The year before, Geist had told the New York Times, "Gentrification is killing us. Eighth Street has lost the magic" (as cited in Moss, [2018]).
+Decades later, the experiences of local business owners echo her warning. When Richard Geist closed Uncle Sam's Army/Navy Store on West 8th street after decades in business, he blamed reduced foot traffic rather than high rents. As chronicled by Jeremiah Moss on Vanishing New York: 
+>"Geist told me the closure is by choice, mostly, and that 8th Street just isn't 8th Street anymore... High rents wiped out the shoe businesses here, leaving a blighted ghost town about 10 years ago... Geist says there's no foot traffic. The street is dead." (https://vanishingnewyork.blogspot.com/2018/12/uncle-sams-armynavy.html). 
 
-The lost magic is not unique to 8th Street or to Greenwich Village. Across walkable, mixed-use neighborhoods in New York and beyond, independent storefronts are being displaced by capital-backed chains: fast-casual salad and burrito places, corporate coffee shops, and cookie-cutter retail. When financial speculation and monoculture strip away the fine-grained variety of the street, they destroy the mechanism that made the neighborhood resilient in the first place. And we can all make a difference in choosing how we show up in our neighborhoods - where we shop, how we interact with our community, and how we come together when our neighbors need us.
+The year before, Geist had told the New York Times, 
+>"Gentrification is killing us. Eighth Street has lost the magic" (as cited in Moss, [2018]).
+
+The lost magic is not unique to 8th Street or to Greenwich Village. Across walkable, mixed-use neighborhoods in New York and beyond, independent storefronts are being displaced by capital-backed chains: fast-casual salad and burrito places, corporate coffee shops, and cookie-cutter retail. When financial speculation and monoculture strip away the fine-grained variety of the street, they destroy the very diversity that made the neighborhood resilient in the first place. But we can all play a part in bringing that magic back - by choosing to make a difference in our choices of where we shop, how we interact with our community, and how we come together when our neighbors need us.
 
 As Jacobs observed,
 >"Cities have the capability of providing something for everybody, only because, and only when, they are created by everybody."
 
 ##### Sources
 ## Sources
+
+Cole Publications, *Cole’s Cross Reference Directory: Manhattan*. (Elmhurst, NY: Cole Publications, 1971, 1975, 1980, 1985, 1990, 2000, 2005).
+
+Google. “Google Street View.” Imagery dates 2009-2026. Accessed August-November 2026. https://www.google.com/streetview/.
+
+Jacobs, Jane. *The Death and Life of Great American Cities*. 1961; repr., New York:Modern Library,2011.
+
+
 New York City Department of City Planning. 2026. "LION Single Line Street Base Map" (Version 26A) and "MapPLUTO" (Version 26v2). Accessed via NYC Open Data. https://data.cityofnewyork.us/.
+
 
 
 
