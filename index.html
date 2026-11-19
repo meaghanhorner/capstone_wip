@@ -9,38 +9,50 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://use.typekit.net/tfi2apx.css">
-<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Special+Elite&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@400,500,600%display=swap&family=Libre+Franklin:ital,wght@0,100..900;1,100..900&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Special+Elite&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@400;500;600&family=Libre+Franklin:ital,wght@0,100..900;1,100..900&family=Reenie+Beanie&display=swap" rel="stylesheet">
 </head>
 <body>
+<nav id ="conditions-bar" aria-label="Jacobs's four conditions">
+ <ul>
+    <li data-condition="short-blocks"><span class="box" data-state="pending"></span>Short blocks</li>
+    <li data-condition="old-new"><span class="box" data-state="pending"></span>Old and new buildings</li>
+    <li data-condition="density"><span class="box" data-state="pending"></span>Dense population</li>
+    <li data-condition="mixed-use"><span class="box" data-state="pending"></span>Mixed uses</li>
+  </ul>
+</nav>
 
 <section class="centered-on-white">
-        <div class ="stage-wrap">
-            <div class ="graphic-stage">
-                <img id="cafe-busy"
-                src="media/images/cafe-busy-03.jpg"
-                alt="NEEDS AN ALT">
-                 <img id="cafe-vacant"
-                src="media/images/cafe-vacant-03.jpg"
-                alt="NEEDS AN ALT">
-            <div id ="logo">
+    <div class="stage-wrap">
+        <div class="graphic-stage">
+            <img id="cafe-busy" src="media/images/cafe-busy-03.jpg" alt="Cafe busy">
+            <img id="cafe-vacant" src="media/images/cafe-vacant-03.jpg" alt="Cafe vacant">
+            <div id="logo">
                 <img src="media/images/logo-v01.png" alt="The Death and Life of Greenwich Village">
             </div>
+            <img id="photo-fade" src="media/images/SeventhAveSouth-29A.jpg" alt="photo of 29A Seventh Avenue South, currently vacant">
             <p class="scroll-cue">scroll down</p>
-</div>
-</div>
-<div class="step" style="padding-top:0;" data-section="cafe"></div>
-<div class="logo-hold"></div>
+        </div>
+    </div>
+    
+    <div class="step-line" data-svg="cafe-busy" style="padding-top:0;" data-section="cafe"></div>
+    <div class="step-line" data-svg="cafe-vacant"></div>
+    <div class="step-line" data-svg="logo"></div>
+    <div class="step-line" data-svg="photo-fade" data-section="Section Intro"></div>
+    <div class="logo-hold"></div>
+
+    <div class="photo_fade_bg_steps">
+        <article class="step step--final" data-section="Section Intro"></article>
+        </div>
+    
+</section>
+<div class="curtain-wrap">
+<section class="curtain curtain--alt">
+    <div class="curtain_bg"></div>
+    <div class="curtain_steps">
+        <article class="step" data-section="Curtain Thesis"></article>
+    </div>
 </section>
 
-<section class = "curtain">
-            <div class ="curtain_bg">
-                <img src ="media/images/SeventhAveSouth-29A.jpg" alt = "photo of 29A Seventh Avenue South, currently vacant">
-            </div>
-            <div class ="curtain_steps">
-            <article class="step" data-section="Section Intro"></article>
-                </article>
-                </div>
-            </section>
 <section class = "curtain">
     <div class = "curtain_bg">
         <img src ="media/images/DSC_6168-sm.jpg" alt = "photo of book, The Death and Life of Great American Cities">
@@ -50,15 +62,8 @@
                 </article>
                 </div>
             </section>
-<section class ="centered-on-white">
-    <section class = "writing-left-image-right-white">
-            <article class="step" data-section="Sidewalk Ballet">
-                </article>
-                <div class = "svg-stage">
-                    <img id ="frame-1" class="frame active" src="media/images/isometric-background.jpg"></img>
-                </div>
-            </section>
-            </section>
+            </div>
+
             <section class = "narration-no-image">
             <article class="step flyer" data-section="Four Conditions">
             </article>
@@ -116,9 +121,17 @@
                 <figure class="chart-block" id="block-chart-e">
                     <div class="hdc-head">
                     <h2 class="hdc-title">Commercial Rents in Greenwich Village tracked closely with Manhattan rents for 40 years</h2>
-                        <h4 class="hdc-subtitle">Commercial Rents per square foot per year, 1961-2001</h4>
+                        <h4 class="hdc-subtitle">Commercial Rents per square foot per year, 1961-2001, in 2025 dollars</h4>
                         </div>
                         <div id="chart-e"></div>
+                        <h5 class="hdc-source">Source: New York Times classified ads 1961-2001; see methodology for details</h5>
+                        </figure>
+                        <figure class="chart-block" id="block-chart-k">
+                    <div class="hdc-head">
+                    <h2 class="hdc-title">Commercial Rents in Greenwich Village tracked closely with Manhattan rents for 40 years</h2>
+                        <h4 class="hdc-subtitle">Commercial Rents per square foot per year, 1961-2001, in 2025 dollars</h4>
+                        </div>
+                        <div id="chart-k"></div>
                         <h5 class="hdc-source">Source: New York Times classified ads 1961-2001; see methodology for details</h5>
                 </figure>
             </div>
@@ -130,7 +143,15 @@
             <article class="step" data-section="A Dense Concentration of People, Including Residents">
                 </article></div>
             <div class ="graphic-stage">
-            <div id ="chart-h1"></div>
+                <figure class="chart-block" id="block-chart-h">
+                    <div class="hdc-head">
+                        <h2 class="hdc-title">Greenwich Village's population shrank, while Manhattan's grew</h2>
+                        <h4 class="hdc-subtitle">Residents counted in decennial census, 1970-2020</h4>
+                    </div>
+                    <div id ="chart-h1"></div>
+                    <h5 class="hdc-source">Source: U.S. Census Bureau via NHGIS</h5>
+                </figure>
+            
             </div>
             </section>
 
@@ -139,6 +160,22 @@
                 <div class ="narrative-steps">
             <article class="step" data-section="Mixed Uses">
             </article></div>
+             <div class ="graphic-stage">
+                <figure class="chart-block" id="block-chart-j">
+                    <div class="hdc-head">
+                        <h2 class="hdc-title">Many categories of businesses have declined in Greenwich Village</h2>
+                        <h4 class="hdc-subtitle">Number of businesses 1971-2026</h4>
+                    </div>
+                    <div id ="chart-j"></div>
+                    <h5 class="hdc-source">Cole's Directory, Google Street View (captured 2026)</h5>
+                    </figure>
+                <figure class="chart-block" id="block-map-g">
+                    <div class="hdc-head">
+                        <h2 class="hdc-title">Greenwich Village has a high number of vacant storefronts</h2>
+                        <h4 class="hdc-subtitle">Vacant and Occupied Storefronts, 2026</h4>
+                    </div>
+                    <div id ="map-g"></div>
+                    <h5 class="hdc-source">Source: Google Street View, Google (captured 2026)</h5>
             </section>
             <section class="narration-no-image">
             <div class ="graphic-stage" style="width:100%; height:100%">
@@ -192,8 +229,16 @@
          <section class ="writing-left-image-right">
             <div class="narrative-steps">
                 <article class ="step" data-section="Conclusion">
-                    
                 </article>
+<section class ="centered-on-white">
+    <section class = "writing-left-image-right-white">
+            <article class="step" data-section="Sidewalk Ballet">
+                </article>
+                <div class = "svg-stage">
+                    <img id ="frame-1" class="frame active" src="media/images/isometric-background.jpg"></img>
+                </div>
+            </section>
+            </section>
             </div>
         </section>
          <section class ="narration-no-image">
@@ -211,20 +256,6 @@
                 </article>
             </div>
         </section>
-        <div style="padding:100">
-  <h1>Typography</h1>
-  <h2 style="line-height:1.2; margin:10 0 10 0">Section Heading - Special Elite 3 rem</h2>
-  <h3 style="line-height:1.2;margin:10 0 10 0">Small Headings - used instead of section heading - Newshound Headline 2 rem</h3>
-  <p style="font-family: Libre Baskerville, serif; font-size:1.8rem; font-weight:700; font-style:italic; line-height:1.2;margin:10 0 10 0">Chart title - Libre Baskerville 1.8rem bold italic</p>
-  <h4 style="line-height:1.2;margin:10 0 10 0">Chart subtitle - Jost 1.5 rem</h4>
-  <p style="font-family: Jost, sans-serif; font-size:0.9rem">chart source - Jost 0.9 rem</p>
-  <p style="font-family: Jost, sans-serif; font-size:0.9rem; font-weight:600">chart labels - Jost 0.9 rem bold</p>
-  <p style="font-family: Jost, sans-serif; font-size:1rem; font-weight:600">chart legend heading - Jost 1 rem bold</p>
-  <p style="font-family: Jost, sans-serif; font-size:0.9rem; font-weight:400">chart legend - Jost 1 rem regular</p>
-    <p style ="font-family: courier prime, monospace;">Paragraph - Courier Prime 1 rem</p>
-    <blockquote style="font-family:'Libre Baskerville', serif; font-style: italic; font-weight:400; font-size:1.1rem; line-height:1.4;">Blockquote - "Libre Baskerville 1.1rem"</blockquote>
-    <p style="background-color:#fdfcf8; font-family: Jost,sans-serif; font-size:1rem; font-weight:600; padding:10px;"><a href="http://www.google.com">links jost 1rem bold #b25a3f on cream</a></p>
-</div>
 
 
 
@@ -232,6 +263,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Observer.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollToPlugin.min.js"></script>
     <script src="ink.js"></script>
     <script src="chart-bar.js"></script>
     <script src="chart-line.js"></script>

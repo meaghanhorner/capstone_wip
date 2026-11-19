@@ -6,77 +6,59 @@
 
 ##### Section Intro
 ## Commercial Space Available
-On a brisk October morning in Greenwich Village, Caffe Reggio, at 119 MacDougal Street, who claim to have served the first cappuccino in America in 1927, is still serving them 99 years later. It's still early in the morning and the street is quiet. Across the street, at 128 MacDougal, a metal gate covers the street-level windows. A sign advertises "Commercial Space Available". It has been vacant since at least April, according to Google's Streetview. 
+Caffe Reggio, at 119 MacDougal Street, served the first cappuccino in America 1927. Though the 1902 imported espresso machine that made that first cappuncino is now just a display piece, the cafe is still serving them 99 years later. It's still early in the morning and the street is quiet. Across the street, at 128 MacDougal, a metal gate covers the street-level windows. A sign advertises "Commercial Space Available". It has been vacant since at least April, according to Google's Streetview. 
 <!-- svg: -->
-128 MacDougal is just one of dozens of vacant storefronts in Greenwich Village, many of which have been vacant for more than six consecutive quarters - a year and a half. Though New York City had a commercial vacancy rate of under 4% in 2007, storefront vacancies are now considered a big enough problem that the city comptroller's office issued a report, titled *Who's Minding the Storefronts? An Analysis of Storefront Vacancies in New York City* in June 2026. This follows a 2017 report by then-State Senator Brad Hoylman, titled *Bleaker on Bleecker*, which focused on storefront vacancies in Greenwich Village and Chelsea in particular. While media outlets, politicians and economists have debated the exact causes, the physical reality is undisputed. When artist Symbol started pasting oversized Monopoly cards onto empty Manhattan storefronts, he explained his inspiration on Jeremiah Moss's blog *Vanishing New York*:
+128 MacDougal is just one of dozens of vacant storefronts in Greenwich Village, many of which have been vacant for more than a year and a half — six consecutive quarters. The problem is now big enough that in June 2026, the city comptroller's office issued a report, titled *Who's Minding the storefronts? An Analysis of Storefront Vacancies in New York City*. This follows a 2017 report by then-State Senator Brad Hoylman, titled *Bleaker on Bleecker*, focusing particularly on storefront vacancies in Greenwich Village and Chelsea. The citywide storefront vacancy rate, a modest 4 percent in 2017 and comparable to the nationwide 4.08 percent, has been over 11 percent since 2023.(Office of the New York City Comptroller 2026)
+<!-- svg: -->
+While media outlets, politicians and economists have debated the exact cause, the reality of the problem is undisputed. When asked on Jeremiah Moss's blog *Vanishing New York* about pasting oversized Monopoly cards onto empty Manhattan storefronts, the street artist known as Symbol explained:
 > "Everywhere I walked in Manhattan there were empty storefronts, and it seemed like one big game between landlords and tenants... Is there a better analogy for that than the game of Monopoly?"—*[Vanishing New York](https://vanishingnewyork.blogspot.com/2018/06/high-rent-blight-monopoly.html)*
 
-Symbol's Monopoly cards featured a quote from Jane Jacobs's *The Death and Life of Great American Cities*:
+One such Monopoly card had this to say:
  >"There are only two ultimate public powers in shaping and running American cities: votes and control of the money. To sound nicer, we may call these "public opinion" and "disbursement of funds," but they are still votes and money."
 
 <!-- svg: -->
-Jane Jacobs, who wrote about her beloved neighborhood in the late 1950s and early 1960s, recognized the importance of storefront businesses to the vitality of a neighborhood. 
+The text is not the artist’s own. It’s a quotation from Jane Jacobs's *The Death and Life of Great American Cities*.
+
+Jacobs, who wrote about her beloved neighborhood in the late 1950s and early 1960s, recognized the importance of storefront businesses to the vitality of a neighborhood. 
 
 >"The trust of a city street is formed over time from many, many little public sidewalk contacts. It grows out of people stopping by at the bar for a beer, getting advice from the grocer and giving advice to the newsstand man, comparing opinions with other customers at the bakery and nodding hello to the two boys drinking pop on the stoop; eying the girls while waiting to be called for dinner, admonishing the children, hearing about a job from the hardware man and borrowing a dollar from the druggist, admiring the new babies and sympathizing over the way a coat faded."(73)
-<!-- svg: -->
-So if storefronts are so important to a neighborhood, why do so many sit vacant in Greenwich Village today? 
+
+
+##### Curtain Thesis
+Greenwich Village incubated the '60s folk music boom, the East Coast beat movement, and the Stonewall uprising. It was businesses like the Gaslight Cafe, Kettle of Fish, and the Oscar Wilde Memorial Bookshop that provided space and opportunity for these movements to take hold.
+
+If storefronts are so important to a neighborhood, why do so many sit vacant in Greenwich Village today? 
+
 
 ##### Section Context
 ## The Death and Life of Great American Cities
-2026 marks the 65th anniversary of the 1961 publication of Jane Jacobs's *The Death and Life of Great American Cities*. Her first book, it remains Jacobs's most widely read and most influential. Its thesis was that cities were problems of "organized complexity", that is, that they were more like a living organism than like a machine which could be engineered and built. Each aspect of a city was interconnected with every other aspect, and a change to one part would cause unpredicted effects to the others. It challenged existing city planning orthodoxy, which held that cities must be carefully planned to keep homes far from dirty, unsafe business and industry.
-<!-- svg: -->
-The city planners of the early 20th century criticized urban spaces as dirty and crowded - and rightly so. The slums of New York, Boston and London, centered around polluting factories, were unsanitary and unpleasant. The air and water were polluted, and tuberculosis, typhoid and cholera spread quickly. The streets were often filled with manure from horse-drawn carriages. People slept six or more to a room in crowded tenements. Reformers like Jacob Riis documented these conditions, and cities responded with tenement laws, sanitation systems, and eventually zoning codes to separate land uses.
-<!-- svg: -->
-From these conditions, a new movement towards city planning began to take shape. Ebenezer Howard's "Garden City", Daniel Burnham's "City Beautiful" and Le Corbusier's "Radiant City" all imagined that cities could be planned to reduce overcrowding and pollution. Le Corbusier, in particular, envisioned widely-spaced high-rise towers in parks where residents would live, separate from the business towers and factories where they worked, with people traveling between them by car or mass transit. 
-<!-- svg: -->
-Following World War II, housing shortages led to a building boom that took up many of these principles. In Manhattan, huge complexes like Stuyvesant Town and Peter Cooper Village, and public housing like the Lillian Wald Houses and Jacob Riis houses followed Le Corbusier's tower-in-a-park model, though unlike in Le Corbusier's vision, they stood within the city. Working-class neighborhoods were demolished to build these, and existing residents were displaced. The Housing Act of 1949 funded "slum clearance", later called urban renewal, which in New York was run by Robert Moses. Manhattan's San Juan Hill, on the Upper West Side, another working-class neighborhood made up primarily of African-American, Afro-Caribbean and Puerto Rican residents, was cleared to make way for Lincoln Center.
-<!-- svg: -->
-Jacobs, who was raised in Scranton, Pennsylvania, moved to Greenwich Village in 1935 at 19. Through the 1950s she was a writer for Architectural Forum, where she saw this work up close and began to question the mainstream consensus on urban planning. Her neighborhood, parts of which had been labeled a slum and marked for clearance, was, to her, no slum at all. Instead, it was a working-class neighborhood where the streets were always full of people, where neighbors kept each other safe and where homes, shops and workplaces sat side by side, keeping the sidewalks busy from morning to night. In her book she described that daily rhythm in close detail, and it became her most enduring image: the sidewalk ballet.
+2026 marks the 65th anniversary of the 1961 publication of Jane Jacobs's *The Death and Life of Great American Cities*. Jacobs,who was raised in Scranton, Pennsylvania, moved to Greenwich Village in 1935 at 19. Through the 1950s she was a writer for Architectural Forum, where she began to question the mainstream consensus on urban planning. When she saw her vibrant, working class neighborhood marked for slum clearance, she turned her eye to the workings of the city. What made a district thrive? She came up with four conditions. 
 
-##### Sidewalk Ballet
-<!-- svg: frame-1 -->
-## The Sidewalk Ballet
-Watching the street from her window on Hudson Street, Jacobs saw the dozens of different, daily activities that kept the street alive.
-
-<!-- svg: frame-2 -->
-
-Fruit sellers selling their fruit on the street.
-
-<!-- svg: frame-3 -->
-Office workers walking to get lunch.
-<!-- svg: -->
-Dog walkers walking their - or other people's - dogs.
-<!-- svg: -->
-Parents pushing strollers. 
-<!-- svg: -->
-Kids on their way to school, or running home in the afternoons.
-<!-- svg: -->
-Two friends grabbing a cup of coffee.
-<!-- svg: -->
-From the moment the florist got his first delivery until the bartender closed up their bar, the streets were never deserted.
-<!-- svg: -->
-That density of overlapping, uncoordinated activity is what keeps a neighborhood both safe and fun to live in.
-<!-- svg: -->
-This all-hours vitality was dependent, according to Jacobs, on four primary conditions:
-        
 ##### Four Conditions	
 
-### 1:  The district... must serve more than one primary function; preferably more than two
+### 1: Short Blocks
+Most blocks must be short That is, streets and opportunities to turn corners must be frequent.
+
+### 2: A mix of old and new buildings
+The district must mingle buildings that vary in age and condition, including a good proportion of old ones so that they may vary the economic yield they must produce.
+
+### 3: High Density
+There must be a sufficiently dense concentration of people, for whatever purposes they may be there. This includes dense concentration in the case of people who are there because of residence.(196)
+
+### 4:  Mixed Uses
+The district... must serve more than one primary function; preferably more than two
 These must insure the presence of people who go outdoors on different schedules and are in the place for different purposes, but who are able to use many facilities in common.
 
-### 2: Most blocks must be short
-That is, streets and opportunities to turn corners must be frequent.
-
-### 3: The district must mingle buildings that vary in age and condition
-Including a good proportion of old ones so that they may vary the economic yield they must produce.
-
-### 4: There must be a sufficiently dense concentration of people, for whatever purposes they may be there 
-This includes dense concentration in the case of people who are there because of residence.(196)
 
 
 ##### Short Blocks Header
 
 ## Short Blocks
+
+@bar
+
+@condition short-blocks
+
 >"Long blocks, in their nature, thwart the potential advantages that cities offer to incubation, experimentation, and many small or special enterprises, insofar as these depend upon drawing their customers or clients from among much larger cross-sections of passing public."(238)
 ##### Short Blocks
 <!-- svg: map-a-zoom-out -->
@@ -92,33 +74,50 @@ In addition to providing more opportunities for pedestrians to turn corners, the
 <!-- svg: -->
 Short blocks can also help a pedestrian's feeling of safety. A person walking on a short block who gets a feeling of being unsafe, either because of a person or their physical surroundings, can find somewhere to turn within a couple hundred feet, whereas a person walking on a long avenue might have no choice but to turn in the opposite direction.
 
+@verdict short-blocks yes
+
 ##### Old New Buildings Header
 
 ## A Mixture of Old and New Buildings
+
+@condition old-new
+
 >"If a city area has only new buildings, the enterprises that can exist there are automatically limited to those that can support the high costs of new construction."(244) 
 
 ##### A Mixture of Old and New Buildings 
 <!-- svg: map-c -->
 Following Dutch and English colonization of Lenape land, Greenwich Village grew from farmland into a built-up neighborhood in the early 1800s, which left it some of Manhattan's oldest surviving buildings. Much of that early construction is still standing. Although parts of the neighborhood were threatened with 'urban renewal' in the 1950s and 1960s, which would have demolished many older buildings, residents defeated those plans. In 1969 the city designated the Greenwich Village Historic District, protecting many of the neighborhood's older buildings from demolition.
 <!-- svg: chart-d -->
-Roughly 40 percent of the buildings in Greenwich Village were built before 1861. Another 50 percent were built between 1861 and 1929. Only about 10 percent of Greenwich Village's buildings were built after 1929. This lends the neighborhood a wide range of architectural styles, which makes it a pleasant and interesting place in which to walk around.
+Roughly 40 percent of the buildings in Greenwich Village were built before 1861. Another 50 percent were built between 1861 and 1929. Only about 10 percent of Greenwich Village's buildings were built after 1929. This lends the neighborhood a wide range of architectural styles.
 When Jacobs writes about a mixture of old and new buildings, though, it isn’t only for the purpose of visual diversity. Primarily, she writes that the buildings should 
 >“vary in age and condition, including a good proportion of old ones so that they vary in the economic yield they must produce.” (197)
 
 Just as there was a large variation in age of buildings, there was also a large variation in asking rents, with per square foot prices ranging from $2.33 per square foot per year to $9.68, according to New York Times Classified ads. Add in the fact that would-be renters could choose a larger or smaller storefront, depending on their needs, and you find that a prospective renter could pay as little as $68 per month in 1961 for a 350 square foot space, or as much as $350 per month for a larger, possibly nicer space. 
 
-<!-- svg: chart-e e3 -->
-Jacobs expected old buildings to supply the lower end of the rent range. In the first half of 2024, according to REBNY, asking rents for storefronts on Bleecker Street between 7th Avenue South and Houston ranged from $160 to $195 per square foot, with the most expensive space costing only 22% more than the least expensive one. This is despite almost all the buildings on that stretch being built before 1930.
+<!-- svg: chart-e e1 -->
+Jacobs expected old buildings to supply the lower end of the rent range. In the first half of 2024, according to REBNY, The Real Estate Board of New York, asking rents for storefronts on Bleecker Street between 7th Avenue South and Houston ranged from $160 to $195 per square foot, with the most expensive space costing only 22% more than the least expensive one. This is despite almost all the buildings on that stretch having been built before 1930.
 
-<!-- svg: chart-e e2 -->
+<!-- svg: chart-e e1a -->
 Although Greenwich Village is still a place with both old and new buildings, the buildings now do not vary in the economic yield they must produce. There is little difference between the cheapest and most expensive storefronts, leaving small and less profitable businesses priced out entirely.
 
-<!-- svg: chart-e e3 -->
-Looking at old business records, I found many instances in the 1960s and 1970s when a business moved but stayed in Greenwich Village. Murray's Cheese started out at a different location than where it is now. Matt Umanov Guitars moved when the pizzeria John's of Bleecker Street expanded into his former location. Costos Exotic Garden, which was forced to move in 1969 to accommodate a Nathan's location, reopened a few blocks away. In fact, xx% of businesses that closed in one location reopened in another. Today, when businesses close, they reopen outside Greenwich Village - or don't reopen at all. Only xx% of businesses that closed at one location in 20015 or 2020 are still open in Greenwich Village today.   
+<!-- svg: chart-e e2 -->
+Though rents are not public record, several have been documented on Vanishing New York and in articles in the New York Times, establishing a link between businesses that have closed and the surge in rents.
+
+<!-- svg: chart-k -->
+Second Childhood, a store specializing in antique toys, closed in 2008 after a rent raise from $7,000/month to $15,000/month.(source)
+Nusraty Afghan Imports moved from Bleecker Street to Christopher Street in 2008 after the rent was raised from $7,000 to $45,000/month.(NYTimes). The store closed for good in 2020.
+Rocco Ristorante closed in 2012, after the rent was raised from $8,000/month to $18,000/month(source)
+Arleen Bowman, a local designer's boutique, closed in 2012 after the rent was raised from $2,500 to $35,000.(NYTimes)
+Cafe Angelique closed in 2014 after the rent was raised from $16,000/month to $42,000/month(source)
+Da'Vinci Shoes closed in 2016, after the rent was raised from $6,000/month to nearly $40,000/month(source)
+
+Looking at old business records, I found many instances in the 1960s and 1970s when a business moved but stayed in Greenwich Village. Murray's Cheese started out at a different location than where it is now. Matt Umanov Guitars moved when the pizzeria John's of Bleecker Street expanded into his former location. Costos Exotic Garden, which was forced to move in 1969 to accommodate a Nathan's location, reopened a few blocks away. In fact, xx% of businesses that closed in one location reopened in another. Today, when businesses close, they reopen outside Greenwich Village - or don't reopen at all. Only xx% of businesses that closed at one location in 2015 or 2020 are still open in Greenwich Village today.   
+
+@verdict old-new partial
 
 ##### Dense Concentration Header
 ## A Dense Concentration of People, Including Residents
-The district must have a sufficiently dense concentration of people, for whatever purpose they may be there. This includes people there because of residence.
+>"The district must have a sufficiently dense concentration of people, for whatever purpose they may be there. This includes people there because of residence."
 ##### A Dense Concentration of People, Including Residents
 <!-- svg: chart-h1-->
 According to Jacobs, 
@@ -145,23 +144,42 @@ Though the shrinking households story doesn't map cleanly onto Jacobs's 100 dwel
 ##### Mixed Uses Header
 
 ## Mixed Uses
-Jacobs's last condition for a vital neighborhood is mixed primary uses. She thought for a neighborhood to work well, it needed to have more than one primary function, and preferably more than two. A mix of uses meant that people would be using the streets at all times of the day, bringing money into the district. 
+>"On successful city streets, people must appear at different times... If consumer enterprises lie idle for much of the day they may disappear. Or, to be more accurate, in most such cases they never appear in the first place. Stores, like parks, need users."(199) 
 ##### Mixed Uses
-<!-- svg: map-g -->
-
->"On successful city streets, people must appear at different times... Most consumer enterprises are just as dependent as parks on people going to and fro throughout the day, but with this difference: if parks lie idle, it is bad for them and their neighborhoods but they do not disappear as a consequence. If consumer enterprises lie idle for much of the day they may disappear. Or, to be more accurate, in most such cases they never appear in the first place. Stores, like parks, need users."(199) 
+<!-- svg: chart-j -->
 Jacobs compared Greenwich Village, whose streets were used by residents, workers and visitors alike, giving it a wide variety of uses, to a single-use district, the Financial District, which mostly was used for work. 
 >"... the district is miserable at providing services and amenities proportional to the need. Its eating places and clothing shops are pitifully inadequate in number and variety for the demands on them. The district used to have one of the best hardware stores in New York, but a few years ago it could no longer make ends meet, and closed."(201) Without all-day use from residents and visitors, interesting shops and restaurants could not sustain themselves.
-<!-- svg: strip-plot-->
+Jacobs's last condition for a vital neighborhood is mixed primary uses. She thought for a neighborhood to work well, it needed to have more than one primary function, and preferably more than two. A mix of uses meant that people would be using the streets at all times of the day, bringing money into the district. 
 Of Greenwich Village, Jacobs wrote, 
 >"The workers from the laboratories, meat-packing plants, warehouses, plus those from a bewildering variety of small manufacturers, printers and other little industries and offices, give all the eating places and much of the other commerce support at midday. We residents on the street and on its more purely residential tributaries could and would support a modicum of commerce by ourselves, but relatively little. We possess more convenience, liveliness, variety and choice than we 'deserve' in our own right... We support these things together by unconsciously cooperating economically."(199). 
 This is backed up by the listings from Cole's Cross-Reference Directory. The 1971 volume, the first I could access, lists dozens of types of shops, from XX to XX. We also know from the density data that Greenwich Village was densely populated, and its volume of restaurants and other amenities suggest that the neighborhood was popular with visitors.
-<!-- svg: -->
+<!-- svg: map-g -->
 The Greenwich Village of the 1960s and 1970s was a residential neighborhood, but also a neighborhood people worked in, a neighborhood people shopped in, and a neighborhood people ate and drank in. It had restaurants and bars, clothing stores and shoe stores, grocery stores and drugstores, laundromats and beauty parlors. It had small stores that catered to niche interests, and art galleries that were destinations for people outside the neighborhood. These different uses gave the residents reasons to leave their homes and explore the neighborhood, and they gave people living outside the neighborhood reasons to visit. As a result, the streets were lively and filled with people most of the day. 
 <!-- svg: -->
 In 2026, many storefronts sit vacant. Others are occupied by the types of chains that residents of other neighborhoods would have no reason to travel to go to visit. Only a couple art galleries remain. Restaurants and bars still line the streets but few stay open long-term - xx% of restaurants that opened in 2010 were still open 15 years later, a contrast from the xx% of restaurants open in 1975 that were still open in 1990.
+
+
 <!-- svg: -->
 The contrast between the two eras show why Jacobs considered mixed primary uses essential. In the 1960s and 1970s, Greenwich Village's variety of uses drew residents out of their homes, kept workers in the neighborhood, and drew visitors from other neighborhoods. Today, vacant storefronts, chains, and a high rate of restaurant turnover suggest that the Village may no longer support the "unconscious cooperation" Jacobs described. Stores, like parks, need users, and the Village's changing streetscape suggests it may have lost some of the users it once had. 
+<!-- svg: strip-plot-->
+
+##### Conditions Scorecard
+
+Does Greenwich Village still meet the four conditions Jane Jacobs outlined?
+
+### 1: Short Blocks
+Yes - Greenwich Village still has its short blocks.
+
+### 2: A mix of old and new buildings
+Mixed - There are still a mix of old and new buildings, but now there is little variation in the rent they must produce, and shops that failed to earn the needed rent have closed.
+
+### 3: High Density
+Mixed - Greenwich Village is still almost as dense as it used to be, but the density is declining.
+
+### 4:  Mixed Uses
+Mixed - Almost half of businesses in 2026 are either restaurants of some type or clothing retail, leaving little room for other uses.
+
+
 
 ##### What Has Been Lost
 ## What Has Been Lost
@@ -217,12 +235,7 @@ Independent bookstores, record stores, musical instrument stores, and specialty 
 ### Dramatically higher rents
 Sparked by the 2000s retail boom, landlords raised storefront rents past what independent businesses could bear. Because commercial leases are most often 10 years long, many businesses who had last renewed their leases before 20000 faced huge increases when their next renewal rolled around. Though I don't have systematic data on this, Jeremiah Moss's blog "Vanishing New York" chronicles many of the rent raises that lead to closures, and the New York Times interviewed several other business owners, giving us a few more data points. 
 
-Second Childhood, a store specializing in antique toys, closed in 2008 after a rent raise from $7,000/month to $15,000/month.(source)
-Nusraty Afghan Imports moved from Bleecker Street to Christopher Street in 2008 after the rent was raised from $7,000 to $45,000/month.(NYTimes). The store closed for good in 2020.
-Rocco Ristorante closed in 2012, after the rent was raised from $8,000/month to $18,000/month(source)
-Cafe Angelique closed in 2014 after the rent was raised from $16,000/month to $42,000/month(source)
-Arleen Bowman closed in 2012 after the rent was raised from $2,500 to $35,000.(NYTimes)
-Da'Vinci Shoes closed in 2016, after the rent was raised from $6,000/month to nearly $40,000/month(source)
+
 
 ### More vacancies
 While I don't have concrete vacancy data from before 2007, historical context shows that commercial vacancy was not a notable issue before then.  Firstly, we have no documentation that vacancy in Greenwich Village was considered a problem before the mid-2000s. Second, the ground-floor commercial vacancy rate in the West Village was around 1.9% in 2007(https://comptroller.nyc.gov/reports/retail-vacancy-in-new-york-city/), less than the citywide average of 4%, and there are no indications that this was a deviation from long-term trends. Third, the data we do have shows storefront vacancy rising from roughly 1.9 percent in 2007 to roughly 13 percent today. 
@@ -276,6 +289,33 @@ The lost magic is not unique to 8th Street or to Greenwich Village. Across walka
 As Jacobs observed,
 >"Cities have the capability of providing something for everybody, only because, and only when, they are created by everybody."
 
+##### Sidewalk Ballet
+<!-- svg: frame-1 -->
+## The Sidewalk Ballet
+Watching the street from her window on Hudson Street, Jacobs saw the dozens of different, daily activities that kept the street alive.
+
+<!-- svg: frame-2 -->
+
+Fruit sellers selling their fruit on the street.
+
+<!-- svg: frame-3 -->
+Office workers walking to get lunch.
+<!-- svg: -->
+Dog walkers walking their - or other people's - dogs.
+<!-- svg: -->
+Parents pushing strollers. 
+<!-- svg: -->
+Kids on their way to school, or running home in the afternoons.
+<!-- svg: -->
+Two friends grabbing a cup of coffee.
+<!-- svg: -->
+From the moment the florist got his first delivery until the bartender closed up their bar, the streets were never deserted.
+<!-- svg: -->
+That density of overlapping, uncoordinated activity is what keeps a neighborhood both safe and fun to live in.
+<!-- svg: -->
+This all-hours vitality was dependent, according to Jacobs, on four primary conditions:
+        
+
 ##### Sources
 ## Sources
 
@@ -285,10 +325,13 @@ Google. “Google Street View.” Imagery dates 2009-2026. Accessed August-Novem
 
 Jacobs, Jane. *The Death and Life of Great American Cities*. 1961; repr., New York:Modern Library,2011.
 
+Moss, Jeremiah. *Jeremiah’s Vanishing New York* (blog). Accessed November 19, 2026. https://blogspot.com.
 
 New York City Department of City Planning. 2026. "LION Single Line Street Base Map" (Version 26A) and "MapPLUTO" (Version 26v2). Accessed via NYC Open Data. https://data.cityofnewyork.us/.
 
+Office of the New York City Comptroller. *Who’s Minding the Storefronts? An Analysis of Storefront Vacancies in New York City*. New York: Office of the New York City Comptroller, June 4, 2026. https://comptroller.nyc.gov/reports/whos-minding-the-storefronts/.
 
+Schroeder, Jonathan, David Van Riper, Steven Manson, Grace Cooper, Zachary Krause, Tracy Kugler, Tsu Zhu, and Steven Ruggles. 2026. *IPUMS National Historical Geographic Information System: Version 21.0* [dataset]. Minneapolis, MN: IPUMS. http://doi.org/10.18128/D050.V21.0.
 
 
 ##### Methodology

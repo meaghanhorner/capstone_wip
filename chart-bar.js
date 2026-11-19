@@ -54,6 +54,33 @@ function inkBarPath(x, y, w, h, seed, wobble = 1.6) {
   return d + "Z";
 }
 
+function inkBarPathDense(x, y, w, h, seed, wobble = 1.6, step = 28) {
+  const r = barRng(seed);
+  const j = (a) => (r() - 0.5) * 2 * a;
+  const corners = [[x, y], [x + w, y], [x + w, y + h], [x, y + h]];
+  const pts = [];
+
+  for (let i = 0; i < 4; i++) {
+    const a = corners[i];
+    const b = corners[(i + 1) % 4];
+    const dx = b[0] - a[0], dy = b[1] - a[1];
+    const len = Math.hypot(dx, dy);
+    if (len < 0.5) continue;
+    const nx = -dy / len, ny = dx / len;
+    const n = Math.max(1, Math.round(len / step));
+    for (let k = 0; k < n; k++) {
+      const t = k / n;
+      const off = j(wobble);
+      pts.push([a[0] + dx * t + nx * off, a[1] + dy * t + ny * off]);
+    }
+  }
+
+  if (pts.length < 3) return "";
+  return "M" + pts.map((p) => p.join(",")).join(" L") + "Z";
+}
+
+
+
 function isMissingBar(v) {
   return v.y === null || v.y === undefined || Number.isNaN(v.y);
 }
@@ -81,9 +108,12 @@ function createHandDrawnBarChart(opts) {
     responsive = false,
     barPadding = 0.2,
     strokeDarken = 0.4,
+    handScale = 1,
+    denseWobble = false,
     categoryAxisLine = true,
   } = opts;
   const boldKeys = new Set(boldKeysOpt);
+  
 
   const instanceId = inkNextId("hdc-bar");
   const root = d3.select(typeof container === "string" ? container : container);
@@ -256,9 +286,12 @@ if (valueAxisLabel) {
 
     const seedFor = (r) => r.key.length * 31 + String(r.x).length * 7 + (typeof r.x === "number" ? r.x : 0);
     const pathFor = (r) => {
-      const b = geom(r);
-      return inkBarPath(b.x, b.y, b.w, b.h, seedFor(r));
-    };
+  const b = geom(r);
+  if (denseWobble) {
+    return inkBarPathDense(b.x, b.y, b.w, b.h, seedFor(r), 1.6 * handScale);
+  }
+  return inkBarPath(b.x, b.y, b.w, b.h, seedFor(r));
+};
 
     const bars = barsLayer.selectAll("path.hdc-bar").data(rows, (d) => d.id);
 
@@ -315,8 +348,8 @@ if (valueAxisLabel) {
       .style("cursor", "pointer")
       .on("mouseenter", (event, d) => {
         tooltip
-          .html(`<strong>${catByKey[d.key].label}</strong><br>${xFormat(d.x)}: ${yFormat(d.y)}`)
-          .style("opacity", 1);
+  .html(`${d.x}: ${Math.round(d.y)} feet`)
+  .style("opacity", 1);
         moveTooltip(event);
       })
       .on("mousemove", moveTooltip)

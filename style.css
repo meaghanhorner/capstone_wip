@@ -1,9 +1,16 @@
+
+
 :root {
   --grid-max: 1440px;
   --grid-margin: 20px;   
   --grid-gutter: 20px;   
   --grid-columns: 4;
   --card-pad: var(--grid-gutter); 
+  :root {
+  --accent: #e8735a;                 /* swap for your coral */
+  --accent-soft: rgba(232,115,90,.16);
+  --check-green: #2e9e4f;
+}
 
  
   --ratio: 1.272;
@@ -49,6 +56,10 @@ text-decoration:none;
 font-weight:600;}
 
 p {margin:0;}
+
+.curtain .step-line, .photo_fade_bg_steps .step-line {
+  transition: opacity 0.15s ease-out;
+}
 
 .curtain .step-line blockquote p {
   font-family:'Libre Baskerville', serif; font-style: italic; font-weight:400; font-size:1.1rem; line-height:1.4; fill: var(--ink);
@@ -118,9 +129,8 @@ section {
   pointer-events: none;
   padding: 0.4rem 0.65rem;
   background: #f3f3e7;
-  border: 1.5px solid #33302a;
-  border-radius: 3px;
-  font-family: 'Libre Baskerville', serif;
+  border-radius: 5px;
+  font-family: 'Jost', sans-serif;
   font-size: 0.8rem;
   line-height: 1.35;
   color: #33302a;
@@ -190,16 +200,52 @@ body {
   grid-column: 2;
   grid-row: 1 / -1;
   position: sticky;
-  top: 0;
+  top: 48px;
   box-sizing: border-box;
-  height: 95vh;
-  padding: 2rem 0 2rem;               
+  height: calc(90vh - 48px);
+  padding: 2rem 0;               
   align-self: start;
   display: grid;
   grid-template-rows: minmax(0, 1fr);   
   grid-template-columns: minmax(0, 1fr);
   place-items: stretch;
   pointer-events: none;
+  --graphic-max-h: calc(85vh -1rem);
+}
+
+/* 1. Make the figure inside the grid cell fit the available row height */
+.graphic-stage .chart-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  height: auto;
+  max-height: 100%;
+}
+
+.graphic-stage .hdc-head,
+.graphic-stage .hdc-source {
+  position: relative;
+  z-index: 1;
+  margin: 0; /* prevents default h2/h4/h5 margins from colliding unpredictably */
+}
+
+.graphic-stage > .chart-block {
+  grid-area: 1 / 1;
+}
+
+.graphic-stage .chart-block > div:not(.hdc-head) {
+  min-height: 0;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.graphic-stage .chart-block svg {
+  max-height: 100%;
+  max-width: 100%;
+  width: auto;
+  height: auto;
 }
 
 .graphic-stage > * {
@@ -252,16 +298,25 @@ body {
   background-color:#ffffff;
   display:block;
   padding:0;
+  position:relative;
 }
 
 
-.centered-on-white .stage-wrap { position: sticky; top: 0; height: 100vh; z-index: 1; }
+.centered-on-white .stage-wrap { position: sticky; top: 0; height: 100vh; z-index: 1; margin-bottom:-50vh; }
 .centered-on-white .graphic-stage,
 .centered-on-white .graphic-stage > * {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
 }
 .centered-on-white .step { position: relative; z-index: 2; }
-.centered-on-white .step-line { min-height: 80vh; background: none; box-shadow:none; }
+.centered-on-white .step-line { 
+  min-height: 20vh; 
+  background: none; 
+  box-shadow:none;
+  }
+
+  .centered-on-white .step-line[data-svg="logo"] { min-height: 60vh; }
+
+
 .centered-on-white #logo {
   display:grid;
   place-items:center;
@@ -294,12 +349,48 @@ body {
 }
 
 .centered-on-white .logo-hold {
-  height: 200vh;
+  height: 10vh;
 }
 
 .centered-on-white .graphic-stage {
   padding: 0;
 }
+
+.centered-on-white .photo_fade_bg_steps {
+  position: relative;
+  z-index: 2;
+  height: auto;
+  min-height: 0;        /* was 300vh; it left blank space after the last step, so the card unpinned early */
+  --pin-top: 20vh;      /* where the last card locks in the viewport */
+  --hold: 100vh;        /* how far the curtain overlaps */
+}
+
+.photo_fade_bg_steps .step.step--final {
+  padding-bottom: 0;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+
+
+
+.photo_fade_bg_steps .step--final > .step-line:last-of-type {
+  position: sticky;
+  top: var(--pin-top);
+  align-self: start;
+  grid-row: span 2;
+  margin-bottom: 0;
+}
+
+/* the spacer in the second row; this height is the extra room the card can stay pinned */
+.photo_fade_bg_steps .step--final::after {
+  content: "";
+  grid-column: 1;       /* column 1, so it lands in the row below the card, not beside it */
+  height: calc(var(--hold) + 100vh - var(--pin-top));
+  pointer-events: none;
+}
+
+
 
 .narration-no-image {
   display: grid;
@@ -309,6 +400,9 @@ body {
   margin: 0 auto;
   padding-inline: var(--grid-margin);
   box-sizing: border-box;
+  position: relative;
+  z-index:3;
+  background-color:#dbc398;
 }
 
 .narration-no-image > * { grid-column: 1 / -1; }
@@ -351,6 +445,10 @@ body {
   align-items: start;
 }
 
+
+
+
+
 .writing-left-image-right-white {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -363,18 +461,19 @@ body {
 }
 
 .writing-left-image-right-white > .narrative-steps,
-.writing-left-image-right-largeimage > .narrative-steps { grid-column: 1 / span 3 !important; }
+.writing-left-image-right-largeimage > .narrative-steps { grid-column: 1 / span 4 !important; }
 .writing-left-image-right-white .svg-stage,
 .writing-left-image-right-largeimage .svg-stage,
 .writing-left-image-right-largeimage > .graphic-column,
 .writing-left-image-right-largeimage > .graphic-stage,
 .writing-left-image-right-white > .pin-spacer,
-.writing-left-image-right-largeimage > .pin-spacer { grid-column: 5 / span 8 !important; }
+.writing-left-image-right-largeimage > .pin-spacer { grid-column: 6 / -1 !important; }
 
 .writing-left-image-right > .step.section-intro,
 .writing-left-image-right-largeimage > .step.section-intro {
   grid-column: 3 / span 8;   /* ≈ 927px, centered */
   max-width: none;
+  grid-row: 1;
 }
 
 .writing-left-image-right-white > .step {
@@ -392,11 +491,11 @@ body {
 }
 
 
-.writing-left-image-right > .narrative-steps { grid-column: 1 / span 6; }
+.writing-left-image-right > .narrative-steps { grid-column: 1 / span 6; grid-row:2;}
 
 .writing-left-image-right > .graphic-stage,
 .writing-left-image-right .svg-stage,
-.writing-left-image-right > .pin-spacer { grid-column: 7 / span 6 !important; }
+.writing-left-image-right > .pin-spacer { grid-column: 8 / -1 !important; grid-row:2; align-self: start;}
 
 
 .writing-left-image-right-largeimage {
@@ -462,13 +561,26 @@ body {
   position: relative;
   width: 100%;
   padding: 0;
-  z-index: 3;
-  margin-top:-100vh;
+  z-index: 2;
+  margin-top:0vh;
 }
 
+
 .curtain + .curtain {
-  margin-top: -100svh;
+  position: relative;
+  z-index: 4; /* Higher than curtain--alt so it slides over it */
+  margin-top: 0; /* Flows naturally after the sticky 100vh alt curtain releases, or use -100svh if pinned */
+  margin-bottom: 0;
+  width: 100%;
+  padding:0;
 }
+
+section:not(.curtain):not(.centered-on-white) {
+  position: relative;
+  z-index: 5; /* Sits cleanly above the curtain stacking context once unpinned */
+  background-color: #dbc398; /* Or your page background color so it doesn't render transparently over old layers */
+}
+
 
 /* A gets 100svh of extra tail to make up for the overlap */
 .curtain:has(+ .curtain) .step {
@@ -495,6 +607,10 @@ body {
   display: block;
 }
 
+
+
+
+
 /* The .step article is the column that holds the boxes, pulled up over the photo */
 .curtain .step {
   display: grid;
@@ -512,6 +628,60 @@ body {
   box-shadow: none;
   opacity: 1;
 }
+
+.graphic-stage img#photo-fade {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+.photo_fade_bg_steps {
+  position: relative;
+  z-index: 5;
+  pointer-events: none;
+  min-height:300vh;
+}
+
+.photo_fade_bg_steps .step {
+  pointer-events: auto;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--grid-gutter, 20px);
+  max-width: var(--grid-max, 1440px);
+  margin: 0 auto;
+  box-sizing: border-box;
+  position: relative;
+  z-index:6;
+  min-height:auto !important;
+  padding-bottom: 20vh;
+}
+
+.photo_fade_bg_steps .step > * {
+  grid-column: 3 / 6;
+  background-color: var(--cream, #fdfcf8);
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+
+.photo_fade_bg_steps .step-line {
+  grid-column: 2 / span 6;
+    width: auto;
+    max-width: none;
+    min-height: 0;
+    margin: 2rem 0 25rem;
+    box-sizing: border-box;
+    --card-pad: clamp(1.5rem, 4vw, 2.75rem);
+    padding: var(--card-pad);
+    margin-inline: calc(-1 * var(--card-pad));
+    background: #fdfcf8;
+    color: var(--curtain-ink);
+    box-shadow: var(--curtain-shadow);
+    opacity: 0;
+    will-change: opacity;
+}
+
 
 /* Each .step-line is one cream box */
 .curtain .step-line {
@@ -543,6 +713,20 @@ body {
   min-width: 0;
   max-width: none; 
 }
+
+.photo_fade_bg_steps .step-line > :first-child { margin-top: 0; }
+.photo_fade_bg_steps .step-line > :last-child  { margin-bottom: 0; }
+.photo_fade_bg_steps .step-line p  { line-height: 1.4; margin: 0 0 1em; }
+.photo_fade_bg_steps .step-line h1,
+.photo_fade_bg_steps .step-line h2,
+.photo_fade_bg_steps .step-line h3 { line-height: 1.2; margin: 0 0 0em; }
+
+.photo_fade_bg_steps .step p,
+.photo_fade_bg_steps .step li {
+  min-width: 0;
+  max-width: none; 
+}
+
 
 
 .step.section-intro {
@@ -696,12 +880,16 @@ img {
   --chart-text-axis: 15px;    
   --chart-text-axis-title: 14px;
   --chart-text-label: 14px;   
-  padding: 12px;
+  padding: 0px;
 }
 
-.hdc-legend-swatch { opacity: 0.6; }
+.hdc-legend-swatch { opacity: 1; 
+  border: 1px solid #000000;
+  box-sizing: border-box; }
 
 
+
+  
 #chart-rents-over-time {
   min-height: 10vh;
   display: flex;
@@ -718,6 +906,120 @@ img {
   font-family: "Courier Prime", monospace;
 }
 
+.curtain-wrap {
+  margin-top: calc(-1 * 100vh);   /* keep equal to --hold */
+}
+
+
+
+.curtain.curtain--alt {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  margin-top: 0;
+  margin-bottom:90vh;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 -12px 30px rgba(0, 0, 0, 0.35);
+  background-color: #33302a;
+}
+
+.curtain.curtain--alt .step {
+  margin: 0 auto;
+  padding: 0 var(--grid-margin);
+  width: 100%;
+  max-width: var(--grid-max);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.curtain.curtain--alt .step-line {
+  grid-column: auto !important;
+  width:100%;
+  padding:0;
+  margin: 0;
+  max-width:1440px;
+  text-align: center;
+  box-sizing: border-box;
+  margin-inline:auto;
+  background: none;
+  box-shadow: none;
+}
+
+.curtain.curtain--alt .step p {
+  font-family: "Special Elite", monospace;
+  font-size: 3rem;
+  color: #fff;
+  
+}
+
+/*conditions bar*/
+
+#conditions-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: var(--bg, #fdfcf8);
+  border-bottom: 1px solid rgba(0,0,0,.15);
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+  transition: box-shadow .35s ease;
+  padding: 10px 20px;
+  font-family: "Jost", sans-serif;
+  font-size:1.2rem;
+}
+#conditions-bar[hidden] { display: block; visibility: hidden; }
+#conditions-bar.is-visible {
+  box-shadow: 0 6px 14px rgba(0,0,0,.18);   /* your shadow values here */
+}
+
+#conditions-bar ul {
+  list-style: none; margin: 0 auto; padding: 0; max-width: 1440px;
+  display: grid; grid-template-columns: repeat(12, 1fr); gap: 8px 20px;
+}
+#conditions-bar li {
+  grid-column: span 3;
+  display: flex; align-items: center; gap: 12px;
+  padding: 6px 10px; border-radius: 6px;
+  font-size: .95rem; opacity: .5;
+  box-shadow: inset 0 -3px 0 transparent;
+  transition: opacity .25s, background .25s, box-shadow .25s;
+}
+
+#conditions-bar li.is-active {
+  opacity: 1; font-weight: 700;
+  background: var(--accent-soft);
+  box-shadow: inset 0 -3px 0 var(--accent);
+}
+
+#conditions-bar li.is-active .box { border-color: var(--accent); }
+@media (max-width: 700px) { #conditions-bar li { grid-column: span 6; font-size: .85rem; } }
+
+
+.box {
+  position: relative; flex: none; width: 20px; height: 20px;
+  border: 2px solid currentColor; border-radius: 3px;
+  overflow: visible; transition: border-color .25s;
+}
+.box svg {
+  position: absolute; left: 50%; top: 50%;
+  width: 44px; height: 44px; transform: translate(-50%, -50%);
+  overflow: visible; pointer-events: none;
+}
+
+
+/* sources */
+
+.narration-no-image .narrative-steps {
+  grid-column: 3 / -3;
+}
+
+.step[data-section="Sources"] p + p { margin-top: 0.75em; max-width: 150ch; }
+
+
+/* chart specific */
 
 
 #map-a,
@@ -738,7 +1040,7 @@ img {
 #map-a :is(img, svg, canvas),
 #chart-b :is(img, svg, canvas) {
   max-width: 100%;
-  max-height: 80vh;
+  max-height: 70vh;
   width: auto;
   height: auto;
   object-fit: contain;
@@ -768,9 +1070,14 @@ img {
   font-size: 1rem;
   font-family: "Jost", sans-serif;
   line-height: 1.4;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  align-items: flex-start;
 }
 
 .hdc-legend-title {
+  column-span: all;
   font-weight: 600;
   margin-bottom: 4px;
 }
@@ -802,14 +1109,28 @@ img {
 }
 
 #map-c .hdc-legend {
-  flex: 0 0 auto;            /* keeps its natural size */
-  position: static;          /* in case it was positioned absolutely */
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  z-index: 2;
   display: flex;
-  flex-wrap: wrap;           /* lays the four rows out across, not in a tall stack */
-  gap: 4px 16px;
-  padding: 8px 12px;
+  flex-direction: column;
+  gap:0.35rem;
+  align-items: flex-start;
 }
 
+#chart-d text {
+  font-family: "Jost", sans-serif;
+  font-size: .8rem;
+}
+
+#chart-e .hdc-swatch {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: 0.4rem;
+  vertical-align: middle;
+}
 
 #map-g {
   display: flex;
@@ -824,6 +1145,20 @@ img {
   height: 100%;
 }
 
+#chart-j {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#chart-j svg {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
 #map-g .hdc-legend {
   flex: 0 0 auto;            /* keeps its natural size */
   position: static;          /* in case it was positioned absolutely */
@@ -837,9 +1172,7 @@ img {
   --bg:#faf8f4; --fg:#1d1d1f; --muted:#6b6b70; --wall:#b9b1a4; --wall2:#a79f92; --win:#232c3b;
   --c1:#f2a900; --c2:#2a9d8f; --c3:#e0603f;
 }
-@media (prefers-color-scheme: dark){
-  .chart-h{--bg:#15171c;--fg:#f1efe9;--muted:#a3a3aa;--wall:#4a4f5a;--wall2:#3d424c;--win:#10131a;}
-}
+
 .chart-h-legend{display:flex;gap:22px;flex-wrap:wrap;font:14px system-ui,sans-serif;margin:8px 0 24px;align-items:center}
 .chart-h-legend span{display:inline-flex;align-items:center;gap:6px}
 .chart-h-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px}
@@ -847,3 +1180,34 @@ img {
 .chart-h-bld svg{width:100%;height:auto;display:block}
 .chart-h-stats{display:flex;gap:18px;font:14px system-ui,sans-serif;margin-top:10px;flex-wrap:wrap}
 .chart-h-stats b{font-size:22px;display:block}
+
+.chart-j .cj-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.chart-j .cj-btn {
+  font: inherit; padding: 6px 14px; cursor: pointer;
+  border: 2px solid currentColor; border-radius: 999px;
+  background: transparent; color: inherit;
+}
+.chart-j .cj-btn.is-active {
+  background: var(--accent, #e8735a); border-color: var(--accent, #e8735a); color: #1a1a1a;
+}
+.chart-j .cj-btn:focus-visible { outline: 3px solid var(--accent, #e8735a); outline-offset: 2px; }
+.chart-j .cj-readout { font-weight: 700; margin: 8px 0 0; }
+.chart-j .cj-caption { font-size: .85rem; opacity: .7; margin-top: 4px; }
+
+/* the helper's own legend, hint and empty brush strip aren't wanted here */
+.chart-j .hdc-legend,
+.chart-j .hdc-hint,
+.chart-j .hdc-brush { display: none; }
+
+#chart-k {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#chart-k svg {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+}

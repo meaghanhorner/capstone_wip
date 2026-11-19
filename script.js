@@ -1,4 +1,142 @@
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, Observer, ScrollToPlugin);
+
+
+//conditions bar
+
+const MARKS = {
+  yes: { color: '#509464', width: 2.6, paths: [{ d: 'M9.5 9.5 L13 15 L22.5 3.5', len: 24, delay: 0 }] },
+  no:      { color: '#c8372d', width: 2.6, paths: [{ d: 'M7.5 7.5 L16.5 16.5', len: 13, delay: 0 },
+                                                   { d: 'M16.5 7.5 L7.5 16.5', len: 13, delay: 0.25 }] },
+  partial: { color: '#d5861e', width: 2.6, paths: [{ d: 'M8.5 13.5 L22.5 8.5', len: 12, delay: 0 }] }
+};
+
+function buildMarks(box) {
+  box.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none"
+      stroke-linecap="round" stroke-linejoin="round">` +
+    Object.entries(MARKS).map(([k, m]) =>
+      m.paths.map(p => `<path class="m-${k}" d="${p.d}" style="opacity:0"/>`).join('')
+    ).join('') + `</svg>`;
+}
+
+function drawMark(box, v) {
+  console.log('drawMark', v);   // proves this version of the script is the one running
+  Object.entries(MARKS).forEach(([k, m]) => {
+    box.querySelectorAll('.m-' + k).forEach((p, i) => {
+      gsap.killTweensOf(p);
+      if (k === v) {
+        const len = m.paths[i].len;
+        gsap.set(p, { stroke: m.color, strokeWidth: m.width, strokeDasharray: len, strokeDashoffset: len, opacity: 1 });
+        gsap.to(p, { strokeDashoffset: 0, duration: 0.35, delay: m.paths[i].delay, ease: 'power2.out' });
+      } else {
+        gsap.to(p, { opacity: 0, duration: 0.15 });
+      }
+    });
+  });
+}
+
+function initConditionsBar() {
+  const bar = document.getElementById('conditions-bar');
+  const labels = {
+    yes: 'meets the condition',
+    no: 'does not meet the condition',
+    partial: 'partly meets the condition',
+    pending: 'not yet assessed'
+  };
+  const toEnd = () => ScrollTrigger.maxScroll(window);
+  
+
+  // 1. build the SVG marks inside each box
+  bar.querySelectorAll('.box').forEach(buildMarks);
+
+  // 2. swap marker paragraphs for invisible anchors
+  const anchors = [];
+  const re = /^@(bar|condition|verdict)(?:\s+([\w-]+))?(?:\s+(yes|no|partial))?$/i;
+
+  document.querySelectorAll('.step-line p').forEach(p => {
+    const lines = p.innerHTML
+      .split(/<br\s*\/?>|\n/i)
+      .map(s => s.replace(/<[^>]+>/g, '').trim())
+      .filter(Boolean);
+    if (!lines.length || !lines.every(l => re.test(l))) return;
+
+    const frag = document.createDocumentFragment();
+    lines.forEach(l => {
+      const m = l.match(re);
+      const a = document.createElement('div');
+      a.className = 'cond-anchor';
+      a.dataset.type = m[1].toLowerCase();
+      if (m[2]) a.dataset.condition = m[2].toLowerCase();
+      if (m[3]) a.dataset.verdict = m[3].toLowerCase();
+      frag.appendChild(a);
+      anchors.push(a);
+    });
+    p.replaceWith(frag);
+  });
+
+  console.log('conditions-bar anchors found:', anchors.length);
+
+  // 3. bar slides in at @bar
+  gsap.set(bar, { yPercent: -100 });
+  const barAnchor = anchors.find(a => a.dataset.type === 'bar');
+  if (barAnchor) {
+    ScrollTrigger.create({
+      trigger: barAnchor,
+      start: 'top 40%',
+      end: toEnd,
+      onToggle: self => gsap.to(bar, {
+        yPercent: self.isActive ? 0 : -100,
+        duration: 0.35, ease: 'power2.out', overwrite: true
+      })
+    });
+  }
+
+  // 4. one trigger per condition/verdict anchor
+  const reached = new Set();
+  anchors.filter(a => a.dataset.type !== 'bar').forEach(a => {
+    ScrollTrigger.create({
+      trigger: a,
+      start: 'top 40%',
+      end: toEnd,
+      onToggle: self => {
+        self.isActive ? reached.add(a) : reached.delete(a);
+        update();
+      }
+    });
+  });
+
+  // 5. derive the bar's state from the reached anchors
+  function update() {
+    const state = {};
+    let current = null;
+    anchors.forEach(a => {
+      if (!reached.has(a)) return;
+      if (a.dataset.type === 'condition') current = a.dataset.condition;
+      if (a.dataset.type === 'verdict') state[a.dataset.condition] = a.dataset.verdict;
+    });
+
+    bar.querySelectorAll('li').forEach(li => {
+      const c = li.dataset.condition;
+      const box = li.querySelector('.box');
+      const v = state[c] || 'pending';
+
+      if (box.dataset.state !== v) {
+        box.dataset.state = v;
+        box.setAttribute('role', 'img');
+        box.setAttribute('aria-label', labels[v]);
+        drawMark(box, v);
+      }
+
+      li.classList.toggle('is-active', c === current);
+    });
+  }
+
+  // 6. recalc trigger positions after layout settles
+  ScrollTrigger.refresh();
+  window.addEventListener('load', () => ScrollTrigger.refresh());
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => ScrollTrigger.refresh());
+}
+
+
 
 async function loadSections(mdPath) {
   const res = await fetch(mdPath);
@@ -50,21 +188,55 @@ async function renderSteps() {
       el.appendChild(line);
     });
   });
+  initConditionsBar();
 }
 
 
 
+//
 
+
+/* =========================================================
+   CONFIG
+   ========================================================= */
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+// text fades
 const CURTAIN_FADE_ZONE = 0.25;
-const CURTAIN_EXIT_MARGIN = 0.25;
-const curtainReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+// graphic crossfades
+const FADE_OUT  = 0.9;
+const FADE_IN   = 1.4;
+const FADE_EASE = "power1.inOut";
+
+// photo fade (time-based)
+const PHOTO_FADE_DURATION = 1.6;
+
+// scroll stops
+const DEBUG_STOPS   = false;  // true: logs + trigger markers
+const CARD_HOLD_MS  = 1000;   // brief hold on each curtain / photo_fade card
+const GATE_MOVE_S   = 0.9;    // image section: travel time between images (= min time each image shows)
+const GATE_COOLDOWN = 150;    // ms of ignored input after each move, soaks up trackpad inertia
+
+// register plugins (skips any whose script tag is missing, and says so)
+const plugins = [window.ScrollTrigger, window.Observer, window.ScrollToPlugin];
+if (plugins.some((p) => !p)) {
+  console.warn("[gsap] a plugin script is missing (ScrollTrigger / Observer / ScrollToPlugin)");
+}
+gsap.registerPlugin(...plugins.filter(Boolean));
+
+const log = (...a) => DEBUG_STOPS && console.log("[stops]", ...a);
+
+
+/* =========================================================
+   CURTAIN TEXT FADES
+   ========================================================= */
 function updateCurtainFades() {
   const vh = window.innerHeight;
   const zone = vh * CURTAIN_FADE_ZONE;
-  const exit = vh * CURTAIN_EXIT_MARGIN;
-  document.querySelectorAll('.curtain .step-line').forEach(box => {
-    if (curtainReduceMotion.matches) { box.style.opacity = 1; return; }
+
+  document.querySelectorAll(".curtain .step-line").forEach((box) => {
+    if (reduceMotion.matches) { box.style.opacity = 1; return; }
     const b = box.getBoundingClientRect();
     const fadeIn  = Math.max(0, Math.min(1, (vh - b.top) / zone));
     const fadeOut = Math.max(0, Math.min(1, b.bottom / zone));
@@ -72,11 +244,18 @@ function updateCurtainFades() {
   });
 }
 
-window.addEventListener('scroll', () => requestAnimationFrame(updateCurtainFades), { passive: true });
-window.addEventListener('resize', updateCurtainFades);
+window.addEventListener("scroll", () => requestAnimationFrame(updateCurtainFades), { passive: true });
+window.addEventListener("resize", updateCurtainFades);
 
 
+/* =========================================================
+   GRAPHICS (swap / crossfade)
+   ========================================================= */
 const zoomHandlers = {};
+
+// children of a stage that are graphics (not the scroll cue)
+const graphicKids = (stage) =>
+  gsap.utils.toArray(stage.children).filter((c) => !c.classList.contains("scroll-cue"));
 
 function updateGraphic(id) {
   let zoomIn = null;
@@ -87,9 +266,7 @@ function updateGraphic(id) {
   const stage = target?.closest(".graphic-stage");
   if (!stage) return;
 
-  // the stage's direct child that is, or wraps, the target (the <figure> now)
-  const panel = gsap.utils.toArray(stage.children)
-    .find((c) => c === target || c.contains(target));
+  const panel = graphicKids(stage).find((c) => c === target || c.contains(target));
   if (!panel) return;
 
   if (zoomIn !== null && zoomHandlers[id]) zoomHandlers[id](zoomIn);
@@ -97,11 +274,11 @@ function updateGraphic(id) {
   if (stage.dataset.current === id) return;
   stage.dataset.current = id;
 
-  gsap.utils.toArray(stage.children).forEach((g) => {
+  graphicKids(stage).forEach((g) => {
     if (g === panel) {
-      gsap.fromTo(g, { y: 20 }, { autoAlpha: 1, y: 0, duration: 0.6, overwrite: true });
+      gsap.fromTo(g, { y: 20 }, { autoAlpha: 1, y: 0, duration: 1.2, ease: FADE_EASE, overwrite: true });
     } else {
-      gsap.to(g, { autoAlpha: 0, y: -20, duration: 0.4, overwrite: true });
+      gsap.to(g, { autoAlpha: 0, y: -20, duration: 0.8, ease: FADE_EASE, overwrite: true });
     }
   });
 }
@@ -112,24 +289,20 @@ function crossfadeOnly(stage, id) {
   const prev = stage.querySelector("#" + CSS.escape(stage.dataset.current));
   if (!next) return;
 
-  gsap.to(prev, { autoAlpha: 0, duration: 1, overwrite: true, y: id === "logo" ? 100 : 0 });
+  if (prev) {
+    gsap.to(prev, { autoAlpha: 0, duration: FADE_OUT, ease: FADE_EASE, overwrite: true, y: 0 });
+  }
   gsap.fromTo(
     next,
-    { y: id === "logo" ? 100 : 0 },
-    { autoAlpha: 1, y: 0, duration: 0.5, overwrite: true }
+    { y: 0 },
+    { autoAlpha: 1, y: 0, duration: FADE_IN, ease: FADE_EASE, delay: 0.15, overwrite: true }
   );
-
-  // fade the scroll cue out when the logo comes on, back in otherwise
-  const cue = stage.querySelector(".scroll-cue");
-  if (cue) {
-    gsap.to(cue, { autoAlpha: id === "logo" ? 0 : 1, duration: 0.5, overwrite: true });
-  }
 
   stage.dataset.current = id;
 }
 
-function initScrollTriggers() {
-  // No pin: CSS sticky holds the stage. GSAP only swaps graphics.
+// each step-line swaps its graphic as it crosses mid-screen (CSS sticky holds the stage; no pin)
+function initGraphicTriggers() {
   gsap.utils.toArray(".step-line").forEach((line) => {
     const go = () => {
       const stage = line
@@ -137,7 +310,7 @@ function initScrollTriggers() {
         ?.querySelector(".graphic-stage");
 
       if (stage) return crossfadeOnly(stage, line.dataset.svg);
-      updateGraphic(line.dataset.svg); // your original call, unchanged
+      updateGraphic(line.dataset.svg);
     };
 
     ScrollTrigger.create({
@@ -150,45 +323,309 @@ function initScrollTriggers() {
   });
 }
 
-renderSteps().then(() => {
-  // For each stage, show only its first child to start
-  document.querySelectorAll(".graphic-stage").forEach((stage) => {
-    const kids = gsap.utils.toArray(stage.children);
-    gsap.set(kids, { autoAlpha: 0 });
-    gsap.set(kids[0], { autoAlpha: 1 });
-    stage.dataset.current = kids[0].querySelector("[id]:not([id^='block-'])")?.id ?? kids[0].id;
+
+/* =========================================================
+   PHOTO FADE
+   ========================================================= */
+function initPhotoFade() {
+  const section = document.querySelector(".photo_fade");
+  const bg = section?.querySelector(".photo_fade_bg");
+  if (!bg) return;
+
+  gsap.set(bg, { autoAlpha: 0 });
+
+  gsap.to(bg, {
+    autoAlpha: 1,
+    duration: PHOTO_FADE_DURATION,
+    ease: "power1.inOut",
+    paused: true,
+    scrollTrigger: {
+      trigger: section,
+      start: "top 60%",
+      toggleActions: "play none none reverse",
+    },
+  });
+}
+
+// photo_fade intro steps: fade/slide in as they enter (scrubbed)
+function initPhotoFadeSteps() {
+  gsap.utils.toArray(".photo_fade_bg_steps .step-line").forEach((step) => {
+    gsap.set(step, { autoAlpha: 0, y: 30 });
+    gsap.to(step, {
+      autoAlpha: 1,
+      y: 0,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: step,
+        start: "top 75%",
+        end: "top 45%",
+        scrub: true,
+      },
+    });
+  });
+}
+
+
+/* =========================================================
+   SCROLL STOPS
+   1) initCardPauses: curtain / photo_fade cards hold scrolling briefly
+   2) initImageGate:  image section moves exactly one image per gesture
+   Neither one moves the page except the gate's own scrollTo.
+   ========================================================= */
+
+// y that puts an element's center at the viewport center
+const centerY = (el) => {
+  const r = el.getBoundingClientRect();
+  return window.scrollY + r.top + r.height / 2 - window.innerHeight / 2;
+};
+
+/* ---- 1) brief hold on each card ---- */
+function initCardPauses() {
+  if (reduceMotion.matches) return;
+
+  // skip the sticky ones: the last photo_fade card and the alt curtain pin themselves
+  const cards = gsap.utils.toArray(
+    ".photo_fade_bg_steps .step-line:not(:last-of-type), .curtain:not(.curtain--alt) .step-line"
+  );
+  log("card pauses:", cards.length, "cards");
+  if (!cards.length) return;
+
+  let holding = null;
+
+  function hold() {
+    if (holding) return;
+    log("hold");
+    // swallows wheel/touch input without moving the page
+    holding = Observer.create({
+      target: window,
+      type: "wheel,touch",
+      preventDefault: true,
+      allowClicks: true,
+      onChange: () => {},          // a handler must exist for preventDefault to apply
+    });
+    gsap.delayedCall(CARD_HOLD_MS / 1000, () => {
+      holding.kill();
+      holding = null;
+    });
+  }
+
+  cards.forEach((el) =>
+    ScrollTrigger.create({
+      trigger: el,
+      start: "center center",
+      end: "center center",
+      markers: DEBUG_STOPS,
+      onEnter: hold,
+      onEnterBack: hold,
+    })
+  );
+}
+
+/* ---- 2) one image per gesture ---- */
+function initGraphicGates() {
+  if (reduceMotion.matches) return;
+  if (!window.ScrollToPlugin) { console.warn("[stops] ScrollToPlugin missing; gates disabled"); return; }
+
+  gsap.utils.toArray(".centered-on-white, .narration-no-image").forEach((section) => {
+    const steps = gsap.utils.toArray(".step-line", section);   // this section only
+    if (!steps.length || !section.querySelector(".graphic-stage")) return;
+    buildGate(section, steps);
+  });
+}
+
+function buildGate(section, steps) {
+  const last = steps.length - 1;
+  const holdEl = section.querySelector(".logo-hold");   // optional
+  let idx = 0;
+  let busy = false;
+  let readyAt = 0;   // ignore input until this timestamp (soaks up trackpad inertia)
+
+  const zoneStart = () => centerY(steps[0]) - window.innerHeight * 0.5;
+  const zoneEnd   = () => centerY(steps[last]) + window.innerHeight * 0.5;
+
+  log("gate built:", section.className, steps.length, "steps");
+
+  function scrollToY(y) {
+    busy = true;
+    gsap.to(window, {
+      scrollTo: { y, autoKill: false },
+      duration: GATE_MOVE_S,
+      ease: "power2.inOut",
+      onComplete: () => { busy = false; readyAt = Date.now() + GATE_COOLDOWN; },
+    });
+  }
+
+  function goTo(i) {
+    idx = i;
+    log("gate ->", section.className, i);
+    scrollToY(centerY(steps[i]));
+  }
+
+  function step(dir) {            // +1 down the page, -1 up
+    if (busy || Date.now() < readyAt) return;
+    const next = idx + dir;
+    if (next < 0)    return release("up");
+    if (next > last) return release("down");
+    goTo(next);
+  }
+
+  function release(dir) {
+    log("gate release", section.className, dir);
+    gate.disable();
+    // land just outside the zone so scrolling back re-engages
+    const y = dir === "down"
+      ? Math.max(holdEl ? centerY(holdEl) : 0, zoneEnd() + 2)
+      : Math.max(0, zoneStart() - 2);
+    scrollToY(y);
+  }
+
+  // wheelSpeed -1: onUp = scrolling down the page (swap if yours feels reversed)
+  const gate = Observer.create({
+    target: window,
+    type: "wheel,touch",
+    wheelSpeed: -1,
+    tolerance: 10,
+    preventDefault: true,
+    allowClicks: true,
+    onUp:   () => step(+1),
+    onDown: () => step(-1),
+  });
+  gate.disable();
+
+  const engage = (i) => { if (!gate.isEnabled) { gate.enable(); goTo(i); } };
+
+  ScrollTrigger.create({
+    start: zoneStart,
+    end: zoneEnd,
+    markers: DEBUG_STOPS,
+    onEnter:     () => engage(0),
+    onEnterBack: () => engage(last),
+    onLeave:     () => gate.disable(),
+    onLeaveBack: () => gate.disable(),
   });
 
-  initScrollTriggers();
+  window.addEventListener("keydown", (e) => {
+    if (!gate.isEnabled) return;
+    const down = [" ", "PageDown", "ArrowDown"].includes(e.key);
+    const up   = ["PageUp", "ArrowUp"].includes(e.key);
+    if (!down && !up) return;
+    e.preventDefault();
+    step(down ? +1 : -1);
+  });
+}
 
-  // chart-e: each step that names a state switches the plot (e1 / e2 / e3)
+
+/* =========================================================
+   CHART STATE SWITCHES
+   ========================================================= */
+
+// chart-e: each step that names a state switches the plot (e1 / e2 / e3)
+function initChartE() {
   document.querySelectorAll('.step-line[data-svg="chart-e"]').forEach((el) => {
     if (!el.dataset.state) return;
     ScrollTrigger.create({
       trigger: el,
       start: "top 60%",
-      onEnter:     () => window.chartE.show(el.dataset.state),
-      onEnterBack: () => window.chartE.show(el.dataset.state),
+      onEnter:     () => window.chartE?.show(el.dataset.state),
+      onEnterBack: () => window.chartE?.show(el.dataset.state),
     });
   });
+}
 
-  // chart-h: each step that names a state switches the plot (h1 / h2 / h3)
+// chart-h: steps switch the plot AND its title/subtitle/source (population / density / household)
+function initChartH() {
+  const hStates = ["population", "density", "household"]; // step 1, 2, 3
 
-const hStates = ["population", "density", "household"]; // step 1, 2, 3
+  const hText = {
+    population: {
+      title: "Greenwich Village's population shrank, while Manhattan's grew",
+      subtitle: "Residents counted in decennial census, 1970-2020",
+      source: "Source: U.S. Census Bureau via NHGIS",
+    },
+    density: {
+      title: "Manhattan became more dense; Greenwich Village less",
+      subtitle: "Residents per acre of land, 1970-2020",
+      source: "Source: U.S. Census Bureau via NHGIS;",
+    },
+    household: {
+      title: "Household size shrank in Greenwich Village and Manhattan",
+      subtitle: "Average Household Size, 1970-2020",
+      source: "Source: U.S. Census Bureau via NHGIS",
+    },
+  };
 
-document.querySelectorAll('.step-line[data-svg="chart-h1"]').forEach((hl, i) => {
-  const state = hl.dataset.state || hStates[i];
-  if (!state) return;
-  ScrollTrigger.create({
-    trigger: hl,
-    start: "top 60%",
-    onEnter:     () => window.chartH1.show(state),
-    onEnterBack: () => window.chartH1.show(state),
+  const block = document.querySelector("#block-chart-h");
+  if (!block) return;
+
+  const els = {
+    title:    block.querySelector(".hdc-title"),
+    subtitle: block.querySelector(".hdc-subtitle"),
+    source:   block.querySelector(".hdc-source"),
+  };
+  let current = "population";   // matches the text already in the HTML
+
+  function showH(state) {
+    window.chartH1?.show(state);
+    if (state === current || !hText[state]) return;
+    current = state;
+
+    const all = Object.values(els);
+    gsap.killTweensOf(all);
+    gsap.timeline()
+      .to(all, { opacity: 0, duration: 0.2, ease: "power1.out" })
+      .add(() => {
+        els.title.textContent    = hText[state].title;
+        els.subtitle.textContent = hText[state].subtitle;
+        els.source.textContent   = hText[state].source;
+      })
+      .to(all, { opacity: 1, duration: 0.3, ease: "power1.in" });
+  }
+
+  document.querySelectorAll('.step-line[data-svg="chart-h1"]').forEach((el, i) => {
+    const state = el.dataset.state || hStates[i];
+    if (!state) return;
+    ScrollTrigger.create({
+      trigger: el,
+      start: "top 60%",
+      onEnter:     () => showH(state),
+      onEnterBack: () => showH(state),
+    });
   });
-});
+}
 
+
+/* =========================================================
+   INIT
+   ========================================================= */
+renderSteps().then(() => {
+  // each stage starts showing only its first graphic (cue stays visible)
+  document.querySelectorAll(".graphic-stage").forEach((stage) => {
+    const kids = graphicKids(stage);
+    if (!kids.length) return;
+    gsap.set(kids, { autoAlpha: 0 });
+    gsap.set(kids[0], { autoAlpha: 1 });
+
+    const cue = stage.querySelector(".scroll-cue");
+    if (cue) gsap.set(cue, { autoAlpha: 1 });
+
+    stage.dataset.current = kids[0].querySelector("[id]:not([id^='block-'])")?.id ?? kids[0].id;
+  });
+
+  initGraphicTriggers();
+  initPhotoFade();
+  initPhotoFadeSteps();
+  initChartE();
+  initChartH();
+
+  initCardPauses();
+  initGraphicGates();
+
+  updateCurtainFades();
   ScrollTrigger.refresh();
 });
+
+window.addEventListener("load", () => ScrollTrigger.refresh());
+document.fonts?.ready.then(() => ScrollTrigger.refresh());
 
 //START HAND DRAWN CHART GENERATOR 
 
@@ -600,22 +1037,17 @@ Promise.all([
 
   const nGroups = thresholds.length + 1;
 
-  const colorDark  = "#6e2107";
-  const colorMid   = "#ca5223";
-  const colorLight = "#fe7e4f";
+  const colorDark  = "#6a2238";
+  const colorMid   = "#e08558";
+  const colorLight = "#f9eac0";
 
   const ramp = d3.scaleLinear()
     .domain([0, 0.5, 1])
     .range([colorDark, colorMid, colorLight])
     .interpolate(d3.interpolateLab);
 
-  const WHITE_MIX = 0.15;   // 15% white
-
   const groupColors = d3.range(nGroups).map((i) =>
-    d3.interpolateLab(
-      ramp(nGroups === 1 ? 0 : i / (nGroups - 1)),
-      "#ffffff"
-    )(WHITE_MIX)
+    ramp(nGroups === 1 ? 0 : i / (nGroups - 1))
   );
 
   const neighborhoodColorScale = d3.scaleThreshold()
@@ -694,7 +1126,7 @@ Promise.all([
     .attr("font-family", "'Jost', sans-serif")
     .attr("font-style", "italic")
     .attr("font-weight", 500)
-    .attr("fill", "#000000")
+    .attr("fill", "#ffffff")
     .style("pointer-events", "none")
     .text((d) => d.properties.ntaname);
 
@@ -726,7 +1158,7 @@ Promise.all([
       tooltip
         .html(
           `<strong>${d.properties.ntaname}</strong><br>` +
-          (len != null ? `Mean block length: ${Math.round(len)} ft` : "No data")
+          (len != null ? `Average block length: ${Math.round(len)} ft` : "No data")
         )
         .style("opacity", 1);
       moveTooltip(event);
@@ -964,116 +1396,73 @@ svg.attr("viewBox", `${bx0 - 10} ${by0 - 10} ${bx1 - bx0 + 20} ${by1 - by0 + 20}
 
 //CHART D: BAR CHART OF BUILDING AGE IN GREENWICH VILLAGE
 
+//CHART D: BAR CHART OF BUILDING AGE IN GREENWICH VILLAGE
+
 fetch("data/gv_buildingsage.geojson")
   .then((r) => r.json())
   .then((lots) => {
 
     // same eras and colors as Chart C
     const thresholds = [1830, 1860, 1900, 1930, 1960, 2000];
-  const eras = [
-{ label: "Before 1830", color: "#6a2238" },
-{ label: "1830–1859",   color: "#a03640" },
-{ label: "1860–1899",   color: "#d05c4a" },
-{ label: "1900–1929",   color: "#e08558" },
-{ label: "1930–1959",   color: "#eba762" },
-{ label: "1960–1999",   color: "#f6d995" },
-{ label: "2000 +",      color: "#f9eac0" },
-];
+    const eras = [
+      { key: "e0", label: "Before 1830", color: "#6a2238" },
+      { key: "e1", label: "1830–1859",   color: "#a03640" },
+      { key: "e2", label: "1860–1899",   color: "#d05c4a" },
+      { key: "e3", label: "1900–1929",   color: "#e08558" },
+      { key: "e4", label: "1930–1959",   color: "#eba762" },
+      { key: "e5", label: "1960–1999",   color: "#f6d995" },
+      { key: "e6", label: "2000 +",      color: "#f9eac0" },
+    ];
 
-    // count lots per era (lots with no year are left out, as in the R version)
+    // count lots per era (lots with no year are left out)
     const counts = new Array(eras.length).fill(0);
-    let known = 0, unknown = 0;
+    let known = 0;
 
     lots.features.forEach((f) => {
       const y = f.properties.yearbuilt;
-      if (y == null || !isFinite(y) || y <= 0) { unknown++; return; }
+      if (y == null || !isFinite(y) || y <= 0) return;
       counts[d3.bisect(thresholds, y)]++;
       known++;
     });
 
-    const data = eras.map((e, i) => ({
-      label: e.label,
-      color: e.color,
-      value: counts[i],
-      share: known ? counts[i] / known : 0,
+    // one series per era; each has a value only at its own label
+    const series = eras.map((e, i) => ({
+      key: e.key,
+      values: eras.map((e2, j) => ({ x: e2.label, y: i === j ? counts[i] : null })),
     }));
 
+    // label above each bar: "count (percent%)"
+    // looked up by count, which is safe because equal counts have equal shares
+    const labelByCount = new Map(
+      counts.map((c) => [c, `${c.toLocaleString()} (${Math.round((known ? c / known : 0) * 100)}%)`])
+    );
+
     const margin = { top: 80, right: 20, bottom: 70, left: 55 };
-    const width  = 720;
-    const height = 460;
 
-    const svg = d3.select("#chart-d")
-      .append("svg")
-      .attr("viewBox", `0 0 ${width} ${height}`)
-      .attr("width", "100%")
-      .style("height", "auto");
+    createHandDrawnBarChart({
+      container: "#chart-d",
+      categories: eras.map((e) => ({ key: e.key, label: e.label, color: e.color })),
+      data: series,
+      width: 720,
+      mainHeight: 460,
+      margin,
+      horizontal: false,
+      stacked: true,
+      responsive: true,
+      showLegend: false,
+      gridlines: false,
+      barPadding: 0.2,
+      strokeDarken: 0.4,
+      handScale: .5,
+      denseWobble: true,
+      valueAxisLabel: "Number of buildings",
+      valueLabels: (v) => labelByCount.get(v) ?? `${v.toLocaleString()}`,
+      yFormat: d3.format(",.0f"),
+    });
 
-    const x = d3.scaleBand()
-      .domain(data.map((d) => d.label))
-      .range([margin.left, width - margin.right])
-      .padding(0.2);
-
-    const y = d3.scaleLinear()
-      .domain([0, d3.max(data, (d) => d.value)])
-      .nice()
-      .range([height - margin.bottom, margin.top]);
-
-    // gridlines + y axis
-    svg.append("g")
-      .attr("transform", `translate(${margin.left},0)`)
-      .call(d3.axisLeft(y).ticks(5).tickSize(-(width - margin.left - margin.right)))
-      .call((g) => g.select(".domain").remove())
-      .call((g) => g.selectAll(".tick line").attr("stroke", "#33302a").attr("stroke-opacity", 0))
-      .call((g) => g.selectAll("text").attr("font-size", 10).attr("fill", "#33302a").attr("font-family", "'Jost',sans-serif"));
-
-    svg.append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("x", -(margin.top + height - margin.bottom) / 2)
-      .attr("y", 14)
-      .attr("text-anchor", "middle")
-      .attr("font-size", 16).attr("fill", "#33302a")
-      .attr("font-family", "'Jost', sans-serif")
-      .text("Number of buildings");
-
-    // bars
-    svg.append("g")
-      .selectAll("rect")
-      .data(data)
-      .join("rect")
-      .attr("x", (d) => x(d.label))
-      .attr("y", (d) => y(d.value))
-      .attr("width", x.bandwidth())
-      .attr("height", (d) => y(0) - y(d.value))
-      .attr("fill", (d) => d.color)
-      .append("title")
-      .text((d) => `${d.label}: ${d.value.toLocaleString()} lots (${Math.round(d.share * 100)}%)`);
-
-    // count + percent labels above the bars
-    svg.append("g")
-      .selectAll("text")
-      .data(data)
-      .join("text")
-      .attr("x", (d) => x(d.label) + x.bandwidth() / 2)
-      .attr("y", (d) => y(d.value) - 6)
-      .attr("text-anchor", "middle")
-      .attr("font-family", "'Jost', sans-serif")
-      .attr("font-size", 16)
-      .attr("fill", "#33302a")
-      .text((d) => `${d.value.toLocaleString()} (${Math.round(d.share * 100)}%)`);
-
-    // era labels
-    svg.append("g")
-      .attr("transform", `translate(0,${height - margin.bottom})`)
-      .call(d3.axisBottom(x).tickSize(0))
-      .call((g) => g.select(".domain").attr("stroke", "#33302a").attr("stroke-opacity", 0.4))
-      .call((g) => g.selectAll("text").attr("dy", "1em").attr("font-size", 14).attr("fill", "#33302a").attr("font-family", "'Jost', sans-serif"));
-      
+    ScrollTrigger.refresh();   // moved inside, so it runs after the chart exists
 
   }).catch((err) => console.error("Chart D failed:", err));
-
-
-
-  ScrollTrigger.refresh();
 
 
 //CHART E
@@ -1105,17 +1494,19 @@ Promise.all([
   const rebnyRows2 = rows2.filter((d) => d.source === "rebny");
 
   // ---------- colors (edit keys to match your series names) ----------
-  const colorByName = {
-    "Manhattan (NYT)":          "#87aa8b",
-    "Manhattan":                "#87aa8b",
+    const colorByName = {
+    "Manhattan (NYT)":          "#4f8363",
+    "Manhattan":                "#4f8363",
     "Greenwich Village":        "#b25a3f",
-    "Bleecker Street":          "#e0a638",
-    "Bleecker":                 "#e0a638",
-    "Manhattan (REBNY)":        "#87aa8b",
-    "Bleecker Street (REBNY)":  "#e0a638",
+    "Bleecker Street":          "#b8801a",
+    "Bleecker":                 "#b8801a",
+    "Manhattan (REBNY)":        "#4f8363",
+    "Bleecker Street (REBNY)":  "#b8801a",
   };
   const fallback = d3.scaleOrdinal(d3.schemeTableau10);
   const colorOf = (name) => colorByName[name] || fallback(name);
+
+  
 
   // rows -> [{key, color, values}] sorted by year
   const toSeries = (rows) =>
@@ -1128,6 +1519,8 @@ Promise.all([
   const s1 = toSeries(rows1);
   const sNyt = toSeries(nytRows2);
   const sRebny = toSeries(rebnyRows2);
+  const sRebnyMan = sRebny.filter((s) => /manhattan/i.test(s.key));
+  const sRebnyBlk = sRebny.filter((s) => !/manhattan/i.test(s.key));
 
   // ---------- fixed scales shared by both states ----------
   const allRows = [...rows1, ...rows2];
@@ -1135,13 +1528,16 @@ Promise.all([
   const yMax = d3.max(allRows, (d) => d.value) || 1;
 
   const width = 860;
-  const height = 400;
+  const height = 760;
   const margin = { top: 34, right: 24, bottom: 30, left: 48 };
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
 
-  const x = d3.scaleLinear().domain([minYear, maxYear]).range([0, innerWidth]);
+  const x = d3.scaleLinear().domain([d3.min(rows1, (d) => d.year), 2001]).range([0, innerWidth]);
   const y = d3.scaleLinear().domain([0, yMax * 1.15]).nice().range([innerHeight, 0]);
+  const fullDomain = [minYear, maxYear];
+  const e1Domain = [d3.min(rows1, (d) => d.year), 2001];
+  const view = { d0: e1Domain[0], d1: e1Domain[1] };   // what's currently on screen
 
   
  
@@ -1162,7 +1558,13 @@ Promise.all([
     .attr("class", "hdc-legend-btn")
     .style("cursor", "default")
     .style("pointer-events", "none")
-    .html((n) => `<span class="hdc-swatch" style="background:${colorOf(n)}"></span>${n}`);
+    .html((n) => {
+      const c = colorOf(n);
+      const bg = /rebny/i.test(n)
+        ? c
+        : `repeating-linear-gradient(90deg, ${c} 0 7px, transparent 7px 11px)`;
+      return `<span class="hdc-swatch" style="display:inline-block;width:34px;height:3px;margin-right:0.4rem;vertical-align:middle;background:${bg}"></span>${n}`;
+    });
 
   const svg = root.append("svg")
     .attr("class", "hdc-main")
@@ -1180,11 +1582,21 @@ Promise.all([
 
   const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
 
-  g.append("g").attr("class", "hdc-axis")
-    .attr("transform", `translate(0,${innerHeight})`)
-    .call(d3.axisBottom(x)
-      .tickValues(d3.range(minYear, maxYear + 1, 5))
+     const clipId = instanceId + "-plotclip";
+  defs.append("clipPath").attr("id", clipId)
+    .append("rect")
+    .attr("x", -6).attr("y", -6)
+    .attr("width", innerWidth + 12).attr("height", innerHeight + 12);
+
+  const xAxisG = g.append("g").attr("class", "hdc-axis")
+    .attr("transform", `translate(0,${innerHeight})`);
+
+  function drawAxis() {
+    const start = Math.ceil(view.d0 / 5) * 5;
+    xAxisG.call(d3.axisBottom(x)
+      .tickValues(d3.range(start, view.d1 + 0.01, 5))
       .tickFormat(d3.format("d")));
+  }
 
   g.append("g").attr("class", "hdc-axis")
     .call(d3.axisLeft(y).ticks(5).tickFormat((d) => "$" + d3.format(",.0f")(d)));
@@ -1195,65 +1607,141 @@ Promise.all([
     .text("Annual rent per sq ft");
 
   // ---------- layers: one lines group + one points group per dataset ----------
-  function makeLayer(seriesList, cls) {
-    const lines = g.append("g").attr("class", `${cls}-lines`).style("opacity", 0);
-    const pts = g.append("g").attr("class", `${cls}-pts`).style("opacity", 0);
+    function makeLayer(seriesList, cls, dashed = false) {
+    const lines = g.append("g").attr("class", `${cls}-lines`)
+      .attr("clip-path", `url(#${clipId})`).style("opacity", 0);
+    const pts = g.append("g").attr("class", `${cls}-pts`)
+      .attr("clip-path", `url(#${clipId})`).style("opacity", 0);
 
-    lines.selectAll("path")
+    const paths = lines.selectAll("path")
       .data(seriesList, (d) => d.key)
       .join("path")
       .attr("fill", "none")
       .attr("stroke", (d) => d.color)
       .attr("stroke-width", 3)
-      .attr("stroke-linecap", "round")
-      .attr("filter", inkFilter)
-      .attr("d", (d) => inkPath(d.values.map((v) => [x(v.year), y(v.value)]), d.key.length));
+      .attr("stroke-linecap", dashed ? "butt" : "round")
+      .attr("stroke-dasharray", dashed ? "10 8" : null)
+      .attr("filter", dashed ? null : inkFilter);
 
-    pts.selectAll("g")
+    const groups = pts.selectAll("g")
       .data(seriesList, (d) => d.key)
       .join("g")
-      .style("fill", (d) => d.color)
-      .each(function (s) {
-        d3.select(this).selectAll("circle")
-          .data(s.values)
-          .join("circle")
-          .attr("cx", (v) => x(v.year))
-          .attr("cy", (v) => y(v.value))
-          .attr("r", 4)
-          .attr("filter", inkFilter);
-      });
+      .style("fill", (d) => d.color);
 
-    return { lines: lines.node(), pts: pts.node() };
+    groups.each(function (s) {
+      d3.select(this).selectAll("circle")
+        .data(s.values)
+        .join("circle")
+        .attr("r", 4)
+        .attr("filter", inkFilter);
+    });
+
+    function update() {
+      paths.attr("d", (d) => inkPath(d.values.map((v) => [x(v.year), y(v.value)]), d.key.length));
+      groups.each(function () {
+        d3.select(this).selectAll("circle")
+          .attr("cx", (v) => x(v.year))
+          .attr("cy", (v) => y(v.value));
+      });
+    }
+
+    return { lines: lines.node(), pts: pts.node(), update };
   }
 
+ 
+
+
   // draw order: faded NYT underneath, REBNY on top, e1 version separate
-  const L = {
-    nyt:   makeLayer(sNyt, "chart-e-nyt"),
-    rebny: makeLayer(sRebny, "chart-e-rebny"),
-    e1:    makeLayer(s1, "chart-e-e1"),
+    const L = {
+    nyt:      makeLayer(sNyt, "chart-e-nyt", true),
+    rebnyMan: makeLayer(sRebnyMan, "chart-e-rebny-man"),
+    rebnyBlk: makeLayer(sRebnyBlk, "chart-e-rebny-blk"),
+    e1:       makeLayer(s1, "chart-e-e1", true),
   };
 
+ // ---------- 2001 line + annotations (hidden until their state) ----------
+  const refLine = g.append("line")
+    .attr("x1", x(2001)).attr("x2", x(2001))
+    .attr("y1", 0).attr("y2", innerHeight)
+    .attr("stroke", "#000").attr("stroke-width", 1)
+    .style("opacity", 0);
+
+  function makeNote(lines, px, py, anchor) {
+    const t = g.append("text")
+      .attr("x", px).attr("y", py)
+      .attr("text-anchor", anchor)
+      .attr("font-family", "'Jost', sans-serif")
+      .attr("font-size", 14).attr("fill", "#33302a")
+      .style("opacity", 0);
+    lines.forEach((ln, i) => {
+      t.append("tspan").attr("x", px).attr("dy", i ? "1.25em" : 0).text(ln);
+    });
+    return t.node();
+  }
+
+  // left of the 2001 line, near the top where the chart is empty
+  const note2001 = makeNote(
+    ["Manhattan rents as a whole kept climbing",
+     "after 2001 at about the same pace",
+     "as in the decades before."],
+    x(2001) - 10, 14, "end");
+
+  // beside the end of the REBNY Bleecker line
+  let noteBleecker = null;
+  if (sRebnyBlk.length) {
+    const last = sRebnyBlk[0].values[sRebnyBlk[0].values.length - 1];
+    noteBleecker = makeNote(
+      ["Meanwhile, rents on", "Bleecker Street surged."],
+      x(last.year) - 12, y(last.value) - 8, "end");
+  }
+
+
   // opacities taken from v01 / v02 (lines, points)
+    const noteTargets = (a, b, c) => [
+    [refLine, a], [note2001, a], ...(noteBleecker ? [[noteBleecker, c]] : []),
+  ];
+
   const states = {
     e1: {
       targets: [
         [L.e1.lines, 0.5], [L.e1.pts, 0.8],
-        [L.nyt.lines, 0],  [L.nyt.pts, 0],
-        [L.rebny.lines, 0], [L.rebny.pts, 0],
+        [L.nyt.lines, 0], [L.nyt.pts, 0],
+        [L.rebnyMan.lines, 0], [L.rebnyMan.pts, 0],
+        [L.rebnyBlk.lines, 0], [L.rebnyBlk.pts, 0],
+        ...noteTargets(0, 0, 0),
       ],
       legend: new Set(s1.map((s) => s.key)),
     },
+    e1a: {
+      targets: [
+        [L.e1.lines, 0.15], [L.e1.pts, 0.25],
+        [L.nyt.lines, 0], [L.nyt.pts, 0],
+        [L.rebnyMan.lines, 0.5], [L.rebnyMan.pts, 0.8],
+        [L.rebnyBlk.lines, 0], [L.rebnyBlk.pts, 0],
+        ...noteTargets(1, 1, 0),
+      ],
+      legend: new Set(sRebnyMan.map((s) => s.key)),
+    },
     e2: {
       targets: [
-        [L.e1.lines, 0],   [L.e1.pts, 0],
+        [L.e1.lines, 0], [L.e1.pts, 0],
         [L.nyt.lines, 0.15], [L.nyt.pts, 0.25],
-        [L.rebny.lines, 0.5], [L.rebny.pts, 0.8],
+        [L.rebnyMan.lines, 0.5], [L.rebnyMan.pts, 0.8],
+        [L.rebnyBlk.lines, 0.5], [L.rebnyBlk.pts, 0.8],
+        ...noteTargets(1, 1, 1),
       ],
       legend: new Set([...sNyt, ...sRebny].map((s) => s.key)),
     },
   };
 
   // fade a text element out, swap its text, fade back in
+  const subtitleEl = root.insert("p", "svg").attr("class", "hdc-subtitle");
+  const texts = {
+    e1:  { subtitle: "", caption: "" },
+    e1a: { subtitle: "", caption: "" },
+    e2:  { subtitle: "", caption: "" },
+  };
+
   function swapText(el, text, dur, instant) {
     const node = el.node();
     gsap.killTweensOf(node);
@@ -1273,6 +1761,17 @@ Promise.all([
     current = name;
 
     const dur = instant ? 0 : 0.9;
+    const target = name === "e1" ? e1Domain : fullDomain;
+    if (instant) {
+      view.d0 = target[0]; view.d1 = target[1];
+      render();
+    } else {
+      gsap.to(view, {
+        d0: target[0], d1: target[1],
+        duration: dur, ease: "power1.inOut",
+        overwrite: true, onUpdate: render,
+      });
+    }
 
     st.targets.forEach(([el, op]) => {
       gsap.to(el, { opacity: op, duration: dur, ease: "power1.inOut", overwrite: true });
@@ -1286,9 +1785,29 @@ Promise.all([
     swapText(captionEl, texts[name].caption, dur, instant);
   }
 
+  function moveNote(node, px, py) {
+    const t = d3.select(node).attr("x", px);
+    if (py != null) t.attr("y", py);
+    t.selectAll("tspan").attr("x", px);
+  }
+
+  function render() {
+    x.domain([view.d0, view.d1]);
+    drawAxis();
+    Object.values(L).forEach((l) => l.update());
+    refLine.attr("x1", x(2001)).attr("x2", x(2001));
+    moveNote(note2001, x(2001) - 10);
+    if (noteBleecker) {
+      const last = sRebnyBlk[0].values[sRebnyBlk[0].values.length - 1];
+      moveNote(noteBleecker, x(last.year) - 12, y(last.value) - 8);
+    }
+  }
+  render();   // draws the initial e1 view
+
+
   // hand the real function to the public handle and draw whatever was requested
   window.chartE.show = show;
-  show(window.chartE.requested, true);
+  show("e1", true);
 
 }).catch((err) => console.error("Chart E failed:", err));
 
@@ -1331,8 +1850,6 @@ Promise.all([
   const vacancyMap = createHandDrawnMap({
     container: "#map-g",
     geojson: allLots,
-    title: "Commercial vacancy in Greenwich Village, 2026",       // swap for a finding once you've checked the data
-    subtitle: "Tax lots by storefront status",
     valueByFeature: (d) => d.properties.category,
     colorScale: colorScale,
     strokeOnly: false,
@@ -1401,6 +1918,7 @@ d3.select("#map-g svg").attr(
 const displayName = {
   "Ave of the Americas" : "Avenue of the Americas",
   "7th Ave South" : "7th Avenue South",
+  "Mac Dougal St" : "MacDougal St",
 };
 
 // give each label a key; Bleecker gets two copies
@@ -1566,10 +2084,6 @@ fetch("data/metrics_comparison.json")
     const root = d3.select("#chart-h1");
     root.html("").classed("hand-drawn-chart", true).attr("data-instance", instanceId);
 
-    const head = root.append("div").attr("class", "hdc-head");
-    const titleEl = head.append("h2").attr("class", "hdc-title");
-    const subtitleEl = head.append("p").attr("class", "hdc-subtitle");
-
     root.append("div").attr("class", "hdc-legend")
       .selectAll("span")
       .data(seriesDefs)
@@ -1585,16 +2099,16 @@ fetch("data/metrics_comparison.json")
       .attr("width", "100%")
       .style("height", "auto");
 
-    const sourceEl = root.append("p").attr("class", "hdc-source");
-
     const defs = svg.append("defs");
     const ink = typeof installInkFilters === "function" ? installInkFilters(defs, instanceId) : null;
     const inkFilter = ink ? `url(#${ink.filterId})` : null;
     const inkPath = (pts, seed) => (typeof inkLinePath === "function" ? inkLinePath(pts, seed) : d3.line()(pts));
 
     const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
-    const xL = 0, xR = innerWidth;
-    const GAP = 16; // minimum px between end labels
+
+    const xL = 0;              // x of the 1970 side, inside g
+    const xR = innerWidth;     // x of the 2020 side
+    const GAP = 16;            // minimum vertical gap between direct labels
 
     // keep labels from overlapping
     const spread = (items) => {
@@ -1682,13 +2196,6 @@ fetch("data/metrics_comparison.json")
 
     let current = null;
 
-    function setText(name) {
-      const st = states[name];
-      titleEl.text(st.title);
-      subtitleEl.text(st.subtitle);
-      sourceEl.text(st.source);
-    }
-
     function show(name, instant) {
       if (!states[name]) { console.warn(`Chart H1: unknown state "${name}"`); return; }
       if (name === current && !instant) return;
@@ -1712,21 +2219,10 @@ fetch("data/metrics_comparison.json")
         .transition("layer").duration(dur).ease(d3.easeCubicInOut)
         .style("opacity", 1)
         .attr("transform", "translate(0,0)");
-
-      const textEls = [head, sourceEl];
-      if (instant || !prev) {
-        setText(name);
-        textEls.forEach((el) => el.style("opacity", 1));
-      } else {
-        textEls.forEach((el, i) => {
-          el.transition("text").duration(dur / 2).style("opacity", 0)
-            .on("end", () => {
-              if (i === 0) setText(name);
-              el.transition("text").duration(dur / 2).style("opacity", 1);
-            });
-        });
-      }
     }
+
+
+
 
     window.chartH1.show = show;
     show(window.chartH1.requested, true);
@@ -1736,7 +2232,7 @@ fetch("data/metrics_comparison.json")
 //END CHART H1 POPULATION
 
 
-//START CHART H2 DENSITY
+/* //START CHART H2 DENSITY
 
 function chartH(selector, dataURL) {
   const root = d3.select(selector).classed("chart-h", true).html("");
@@ -1831,7 +2327,7 @@ function chartH(selector, dataURL) {
   });
 }
 
-chartH("#chart-h", "data/hh_size.json");
+chartH("#chart-h", "data/hh_size.json"); */
 
 //END CHART H
 
@@ -2151,6 +2647,394 @@ chartH("#chart-h", "data/hh_size.json");
 })();
 //END CHART I
 
+// CHART J FOCUS CHARTS FOR SPECIFIC TYPES OF BUSINESSES 
+
+function createChartJ(dataPath = "data/focus_small_multiples.json") {
+  const metric    = "n";          // "n" = counts, "share" = share of surveyed entries
+  const sharedY   = true;         // same y-axis for every button (needs the small helper patch below)
+  const lineColor = "#E4572E";    // one color for every series
+  const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const fmt  = metric === "share" ? d3.format(".1%") : d3.format("d");
+
+  return d3.json(dataPath).then(raw => {
+    // reshape the R export into the helper's data shape
+    const series = raw.series.map(s => ({
+      key:    slug(s.name),
+      label:  s.name,
+      values: s.points.map(p => ({ x: p.year, y: p[metric] }))
+    }));
+    const globalMax = d3.max(series, s => d3.max(s.values, v => v.y));
+
+    const root = d3.select("#chart-j").classed("chart-j", true).html("");
+    const buttons = root.append("div").attr("class", "cj-buttons")
+      .attr("role", "group").attr("aria-label", "Business type");
+    const plot    = root.append("div").attr("class", "cj-plot");
+    const readout = root.append("p").attr("class", "cj-readout").attr("aria-live", "polite");
+    root.append("p").attr("class", "cj-caption").text(
+      (metric === "share" ? "Share of surveyed entries" : "Number of businesses") +
+      ` at the surveyed addresses. Surveyed entries per year: ${raw.entries_min}–${raw.entries_max}.`);
+
+    let current = null;
+
+    function setSeries(name) {
+      const s = series.find(d => d.key === slug(String(name)));
+      if (!s) return;
+      current = s.key;
+
+      createHandDrawnLineChart({
+        container: plot.node(),
+        categories: [{ key: s.key, label: s.label, color: lineColor }],
+        data: [{ key: s.key, values: s.values }],
+        width: 860,
+        mainHeight: 380,
+        brush: false,
+        yMax: sharedY ? globalMax : null     // ignored unless you add the patch below
+      });
+
+      const first = s.values[0], last = s.values[s.values.length - 1];
+      readout.text(`${s.label}: ${fmt(first.y)} in ${first.x}, ${fmt(last.y)} in ${last.x}`);
+
+      buttons.selectAll("button")
+        .classed("is-active", d => d.key === current)
+        .attr("aria-pressed", d => d.key === current);
+    }
+
+    buttons.selectAll("button").data(series).join("button")
+      .attr("type", "button").attr("class", "cj-btn")
+      .text(d => d.label)
+      .on("click", (event, d) => setSeries(d.key));
+
+    window.chartJ = { setSeries, names: series.map(d => d.label) };
+    setSeries(series[0].key);
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
+    return window.chartJ;
+  });
+}
+
+// END CHART J
+
+// CHART K individual store closures
+
+// CHART K REPORTED COMMERCIAL RENT HIKES (NOMINAL DOLLARS)
+
+function createChartK(data = null) {
+  const defaultData = [
+    {
+      name: "Second Childhood",
+      detail: "Antique toys",
+      year: 2008,
+      prevRent: 7000,
+      newRent: 15000,
+      outcome: "closed",
+      source: "Press report"
+    },
+    {
+      name: "Nusraty Afghan Imports",
+      detail: "Moved Bleecker St. to Christopher St. (closed 2020)",
+      year: 2008,
+      prevRent: 7000,
+      newRent: 45000,
+      outcome: "moved",
+      source: "The New York Times"
+    },
+    {
+      name: "Rocco Ristorante",
+      detail: "Italian restaurant",
+      year: 2012,
+      prevRent: 8000,
+      newRent: 18000,
+      outcome: "closed",
+      source: "Press report"
+    },
+    {
+      name: "Arleen Bowman",
+      detail: "Local designer boutique",
+      year: 2012,
+      prevRent: 2500,
+      newRent: 35000,
+      outcome: "closed",
+      source: "The New York Times"
+    },
+    {
+      name: "Cafe Angelique",
+      detail: "Café",
+      year: 2014,
+      prevRent: 16000,
+      newRent: 42000,
+      outcome: "closed",
+      source: "Press report"
+    },
+    {
+      name: "Da'Vinci Shoes",
+      detail: "Shoe store",
+      year: 2016,
+      prevRent: 6000,
+      newRent: 40000,
+      approx: true,
+      outcome: "closed",
+      source: "Press report"
+    }
+  ];
+
+  const accentColor = "#E4572E";
+  const mutedColor  = "#9AA0A6";
+  const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const fmtCurrency = d3.format("$,.0f");
+  const fmtK = d => `$${Math.round(d / 1000)}k`;
+
+  const render = (raw) => {
+    const stores = raw.map(d => ({
+      ...d,
+      key: slug(d.name),
+      startYear: d.year - 5,
+      mult: (d.newRent / d.prevRent).toFixed(1)
+    }));
+
+    const root = d3.select("#chart-k").classed("chart-k", true).html("");
+    const buttons = root.append("div").attr("class", "ck-buttons")
+      .attr("role", "group").attr("aria-label", "Store case study");
+    const plot    = root.append("div").attr("class", "ck-plot");
+    const readout = root.append("p").attr("class", "ck-readout").attr("aria-live", "polite");
+    root.append("p").attr("class", "ck-caption").text(
+      "Reported monthly commercial rents in nominal dollars (not adjusted for inflation). " +
+      "Horizontal lines fade in from 5 years prior to renewal; vertical jumps mark the proposed rent in the year each business closed or relocated. " +
+      "Sources: The New York Times and local press reports."
+    );
+
+    const width = 860;
+    const height = 700;
+    const margin = { top: 28, right: 175, bottom: 42, left: 64 };
+    const innerW = width - margin.left - margin.right;
+    const innerH = height - margin.top - margin.bottom;
+
+    const svg = plot.append("svg")
+      .attr("viewBox", `0 0 ${width} ${height}`)
+      .attr("width", "100%")
+      .style("max-width", `${width}px`)
+      .style("overflow", "visible");
+
+    const defs = svg.append("defs");
+    const g = svg.append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    const xMin = d3.min(stores, d => d.startYear); // 2003
+    const xMax = d3.max(stores, d => d.year);      // 2016
+    const yMax = 50000;
+
+    const x = d3.scaleLinear().domain([xMin, xMax]).range([0, innerW]);
+    const y = d3.scaleLinear().domain([0, yMax]).range([innerH, 0]);
+
+    // Gridlines & Axes
+    g.append("g")
+      .attr("class", "ck-grid")
+      .call(d3.axisLeft(y).ticks(5).tickSize(-innerW).tickFormat(""))
+      .call(sel => sel.select(".domain").remove())
+      .call(sel => sel.selectAll("line")
+        .attr("stroke", "#E5E5E5")
+        .attr("stroke-dasharray", "2,2"));
+
+    g.append("g")
+      .attr("class", "ck-axis ck-axis-x")
+      .attr("transform", `translate(0,${innerH})`)
+      .call(d3.axisBottom(x).ticks(7).tickFormat(d3.format("d")))
+      .call(sel => sel.select(".domain").attr("stroke", "#666"));
+
+    g.append("g")
+      .attr("class", "ck-axis ck-axis-y")
+      .call(d3.axisLeft(y).ticks(5).tickFormat(fmtK))
+      .call(sel => sel.select(".domain").remove());
+
+    g.append("text")
+      .attr("x", 0)
+      .attr("y", -10)
+      .attr("fill", "#555")
+      .attr("font-size", "12px")
+      .text("Monthly rent (nominal $)");
+
+    // Left-to-right fade gradients (userSpaceOnUse so horizontal lines render cleanly)
+    stores.forEach(d => {
+      const grad = defs.append("linearGradient")
+        .attr("id", `ck-fade-${d.key}`)
+        .attr("gradientUnits", "userSpaceOnUse")
+        .attr("x1", x(d.startYear))
+        .attr("y1", 0)
+        .attr("x2", x(d.year))
+        .attr("y2", 0);
+
+      grad.append("stop")
+        .attr("offset", "0%")
+        .attr("stop-color", accentColor)
+        .attr("stop-opacity", 0);
+
+      grad.append("stop")
+        .attr("offset", "35%")
+        .attr("stop-color", accentColor)
+        .attr("stop-opacity", 0.35);
+
+      grad.append("stop")
+        .attr("offset", "100%")
+        .attr("stop-color", accentColor)
+        .attr("stop-opacity", 1);
+    });
+
+    // Small vertical label nudges so overlapping 2008 / 2012 endpoints don't collide
+    const labelOffsets = {
+      "nusraty-afghan-imports": -4,
+      "cafe-angelique": -2,
+      "da-vinci-shoes": 4,
+      "arleen-bowman": 4,
+      "rocco-ristorante": 2,
+      "second-childhood": 4
+    };
+
+    const storeGroups = g.selectAll(".ck-series")
+      .data(stores, d => d.key)
+      .join("g")
+      .attr("class", "ck-series")
+      .style("cursor", "pointer")
+      .on("click", (event, d) => {
+        setSeries(current === d.key ? "all" : d.key);
+      });
+
+    // 1. Horizontal 5-year fading baseline
+    storeGroups.append("line")
+      .attr("class", "ck-baseline")
+      .attr("x1", d => x(d.startYear))
+      .attr("x2", d => x(d.year))
+      .attr("y1", d => y(d.prevRent))
+      .attr("y2", d => y(d.prevRent))
+      .attr("stroke", d => `url(#ck-fade-${d.key})`)
+      .attr("stroke-width", 2.5)
+      .attr("stroke-linecap", "round");
+
+    // 2. Vertical renewal jump
+    storeGroups.append("line")
+      .attr("class", "ck-cliff")
+      .attr("x1", d => x(d.year))
+      .attr("x2", d => x(d.year))
+      .attr("y1", d => y(d.prevRent))
+      .attr("y2", d => y(d.newRent))
+      .attr("stroke", accentColor)
+      .attr("stroke-width", 2.5);
+
+    // 3. Anchor dot at renewal knee
+    storeGroups.append("circle")
+      .attr("class", "ck-knee")
+      .attr("cx", d => x(d.year))
+      .attr("cy", d => y(d.prevRent))
+      .attr("r", 3)
+      .attr("fill", "#fff")
+      .attr("stroke", accentColor)
+      .attr("stroke-width", 2);
+
+    // 4. Top endpoint marker (filled = closed, hollow = moved)
+    storeGroups.append("circle")
+      .attr("class", "ck-peak")
+      .attr("cx", d => x(d.year))
+      .attr("cy", d => y(d.newRent))
+      .attr("r", 4.5)
+      .attr("fill", d => d.outcome === "moved" ? "#fff" : accentColor)
+      .attr("stroke", accentColor)
+      .attr("stroke-width", 2.2);
+
+    // 5. Direct end labels
+    storeGroups.append("text")
+      .attr("class", "ck-label")
+      .attr("x", d => x(d.year) + 8)
+      .attr("y", d => y(d.newRent) + (labelOffsets[d.key] || 0))
+      .attr("dominant-baseline", "middle")
+      .attr("font-size", "12px")
+      .attr("font-weight", "600")
+      .attr("fill", "#222")
+      .text(d => `${d.name} (${d.year})`);
+
+    // Subtle legend in top-left for closed vs. moved
+    const legend = g.append("g")
+      .attr("class", "ck-legend")
+      .attr("transform", "translate(8, 6)");
+
+    legend.append("circle")
+      .attr("cx", 0).attr("cy", 0).attr("r", 4)
+      .attr("fill", accentColor);
+    legend.append("text")
+      .attr("x", 9).attr("y", 0).attr("dominant-baseline", "middle")
+      .attr("font-size", "11px").attr("fill", "#555")
+      .text("Closed at renewal");
+
+    legend.append("circle")
+      .attr("cx", 118).attr("cy", 0).attr("r", 4)
+      .attr("fill", "#fff").attr("stroke", accentColor).attr("stroke-width", 2);
+    legend.append("text")
+      .attr("x", 127).attr("y", 0).attr("dominant-baseline", "middle")
+      .attr("font-size", "11px").attr("fill", "#555")
+      .text("Relocated (closed 2020)");
+
+    let current = "all";
+
+    function setSeries(name) {
+      const targetKey = slug(String(name));
+      const isAll = targetKey === "all";
+      const match = isAll ? null : stores.find(d => d.key === targetKey);
+      if (!isAll && !match) return;
+
+      current = isAll ? "all" : match.key;
+
+      storeGroups
+        .transition().duration(180)
+        .style("opacity", d => (isAll || d.key === current) ? 1 : 0.16);
+
+      storeGroups.filter(d => d.key === current).raise();
+
+      if (isAll) {
+        readout.text(
+          "All 6 cases: proposed renewal rents jumped 2.1× to 14× above prior lease rates (nominal dollars). Click a store to isolate."
+        );
+      } else {
+        const prefix = match.approx ? "nearly " : "";
+        const verb = match.outcome === "moved" ? "relocated in" : "closed in";
+        readout.text(
+          `${match.name} (${match.detail}): ${fmtCurrency(match.prevRent)}/mo → ${prefix}${fmtCurrency(match.newRent)}/mo (${match.mult}×) — ${verb} ${match.year}.`
+        );
+      }
+
+      buttons.selectAll("button")
+        .classed("is-active", d => d.key === current)
+        .attr("aria-pressed", d => d.key === current);
+    }
+
+    const buttonItems = [{ key: "all", label: "All stores" }, ...stores.map(d => ({ key: d.key, label: d.name }))];
+
+    buttons.selectAll("button")
+      .data(buttonItems)
+      .join("button")
+      .attr("type", "button")
+      .attr("class", "ck-btn")
+      .text(d => d.label)
+      .on("click", (event, d) => setSeries(d.key));
+
+    window.chartK = { setSeries, names: stores.map(d => d.name) };
+    setSeries("all");
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
+    return window.chartK;
+  };
+
+  // Accepts either a JSON path string (like createChartJ) or an inline array
+  if (typeof data === "string") {
+    return d3.json(data).then(render);
+  }
+  return Promise.resolve(render(data || defaultData));
+}
+
+// END CHART K
+
+
+// end CHART K individual store closures
+
+
+
 
 //END CHARTS
 
+//necessary extra calls
+createChartJ();
+createChartK();
